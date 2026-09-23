@@ -1,0 +1,28 @@
+% MACH-2: the same four-socket node, but the HARP ASICs extend cache coherence
+% beyond the node, so many nodes together present one huge shared address
+% space. The arrows leaving the top and bottom go to the other nodes.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{numa.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \numanodebase
+
+  \node[container,minimum width=14mm,minimum height=7mm] (ht) at (4.32,4.80) {HARP};
+  \node[container,minimum width=14mm,minimum height=7mm] (hb) at (4.32,0.38) {HARP};
+
+  % anchored on the corners so the links read as diagonals, as in the original
+  \draw[link] (ht.south west) -- (c0.north east);
+  \draw[link] (ht.south east) -- (c1.north west);
+  \draw[link] (hb.north west) -- (c2.south east);
+  \draw[link] (hb.north east) -- (c3.south west);
+
+  % NUMAlink carries coherence traffic on to the neighbouring nodes
+  \draw[link,draw=blu,line width=1.3pt] (4.32,5.20) -- (4.32,5.85);
+  \draw[link,draw=blu,line width=1.3pt] (4.32,0.00) -- (4.32,-0.65);
+
+  \node[text=fg,font=\sffamily\small] at (4.3,-1.25) {SGI NUMAlink architecture};
+
+\end{tikzpicture}
+\end{document}

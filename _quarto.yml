@@ -1,0 +1,34 @@
+project:
+  type: default
+  # One directory per lecture; each renders to its own HTML next to its source.
+  render:
+    - "*/*.qmd"
+  # One shared copy of the reveal.js / MathJax / clipboard.js support files for
+  # all decks, instead of an identical ~5 MB tree inside every <deck>_files/.
+  lib-dir: _libs
+  # Regenerate any out-of-date figure (all decks) before rendering. Only
+  # figures whose source changed are recompiled, so this is cheap.
+  pre-render: python tools/build_figs.py
+
+# Settings shared by every deck. A deck's own .qmd only carries what is
+# genuinely specific to it: title, subtitle, footer.
+format:
+  revealjs:
+    # uibk.scss is the deck as presented (dark); uibk-light.scss overlays the
+    # light variant, which the viewer can switch to and which the PDF always
+    # uses. shared/theme.html is the switch itself -- see that file.
+    theme: [dark, shared/uibk.scss, shared/uibk-light.scss]
+    include-after-body: shared/theme.html
+    slide-number: c/t
+    width: 1280
+    height: 720
+    margin: 0.08
+    # reveal.js caps upscaling at maxScale (default 2.0), which leaves empty
+    # margins on large / high-res displays. Raise it so slides fill the screen.
+    max-scale: 5.0
+    code-line-numbers: false
+    code-copy: true
+    highlight-style: monokai
+    transition: none
+    incremental: false
+    link-external-newwindow: true

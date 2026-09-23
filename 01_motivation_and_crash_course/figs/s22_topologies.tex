@@ -1,0 +1,63 @@
+% Three interconnect topologies, all wiring up the same eight/sixteen nodes:
+% a fat tree (switched, hierarchical) and a 2D mesh vs. a 2D torus, which is
+% the same mesh with wrap-around links closing every row and column.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    n/.style  ={chip,minimum width=5.2mm,minimum height=5.2mm},
+    sw/.style ={container,minimum width=13mm,minimum height=5.6mm},
+    pan/.style={text=fg,font=\sffamily\small}]
+
+  % =================== (fat) tree =========================================
+  \begin{scope}[xshift=0cm]
+    \foreach \i in {0,...,7}{\node[n] (l\i) at ({\i*0.62},0) {N};}
+    \node[sw] (sa) at (0.93,1.15) {Switch};
+    \node[sw] (sb) at (3.41,1.15) {Switch};
+    \node[sw] (sr) at (2.17,2.35) {Switch};
+    \foreach \i in {0,...,3}{\draw[wire] (sa) -- (l\i);}
+    \foreach \i in {4,...,7}{\draw[wire] (sb) -- (l\i);}
+    % the upper stage is fatter: more bandwidth closer to the root
+    \draw[wire,line width=2.2pt] (sr) -- (sa);
+    \draw[wire,line width=2.2pt] (sr) -- (sb);
+    \node[pan] at (2.17,-0.85) {(Fat) Tree Topology};
+  \end{scope}
+
+  % =================== 2D mesh ============================================
+  \begin{scope}[xshift=6.1cm]
+    \foreach \c in {0,...,3}{\foreach \r in {0,...,3}{
+      \node[n] (m\c-\r) at ({\c*0.78},{-\r*0.78+2.34}) {N};}}
+    \foreach \c in {0,...,2}{\foreach \r in {0,...,3}{
+      \draw[wire] (m\c-\r) -- (m\the\numexpr\c+1\relax-\r);}}
+    \foreach \c in {0,...,3}{\foreach \r in {0,...,2}{
+      \draw[wire] (m\c-\r) -- (m\c-\the\numexpr\r+1\relax);}}
+    \node[pan] at (1.17,-0.85) {2D Mesh};
+  \end{scope}
+
+  % =================== 2D torus ===========================================
+  % Same grid; every row and every column additionally wraps around.
+  \begin{scope}[xshift=10.2cm]
+    \foreach \c in {0,...,3}{\foreach \r in {0,...,3}{
+      \node[n] (t\c-\r) at ({\c*0.95},{-\r*0.95+2.85}) {N};}}
+    \foreach \c in {0,...,2}{\foreach \r in {0,...,3}{
+      \draw[wire] (t\c-\r) -- (t\the\numexpr\c+1\relax-\r);}}
+    \foreach \c in {0,...,3}{\foreach \r in {0,...,2}{
+      \draw[wire] (t\c-\r) -- (t\c-\the\numexpr\r+1\relax);}}
+    % wrap-around: row r, last -> first, looping above its own row
+    \foreach \r in {0,...,3}{
+      \draw[wire,rounded corners=4pt]
+        (t3-\r.east) -- ++(0.30,0) -- ++(0,0.30)
+        -- ($(t0-\r.west)+(-0.30,0.30)$) -- ($(t0-\r.west)+(-0.30,0)$)
+        -- (t0-\r.west);}
+    % wrap-around: column c, last -> first, looping left of its own column
+    \foreach \c in {0,...,3}{
+      \draw[wire,rounded corners=4pt]
+        (t\c-3.south) -- ++(0,-0.30) -- ++(-0.30,0)
+        -- ($(t\c-0.north)+(-0.30,0.30)$) -- ($(t\c-0.north)+(0,0.30)$)
+        -- (t\c-0.north);}
+    \node[pan] at (1.43,-0.85) {2D Torus};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

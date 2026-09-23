@@ -1,0 +1,21 @@
+% Non-uniform memory access: every CPU can reach every RAM, but not at the
+% same cost -- a CPU's own RAM is one hop away, the diagonal neighbour's is
+% two. The dotted diagonals are the links that a 4-socket Skylake may or may
+% not have, depending on the UPI configuration.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{numa.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \numanodebase
+
+  % the diagonal hops: present on 3-UPI parts, absent on 2-UPI ones
+  \draw[link,dash pattern=on 2pt off 2.5pt] (c0) -- (c3);
+  \draw[link,dash pattern=on 2pt off 2.5pt] (c1) -- (c2);
+
+  \node[text=fg,font=\sffamily\small,align=center] at (4.3,-0.85)
+    {4-socket Intel Skylake configuration\\with 2 or 3 UPI links per CPU};
+
+\end{tikzpicture}
+\end{document}
