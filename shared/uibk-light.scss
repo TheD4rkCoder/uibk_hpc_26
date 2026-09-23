@@ -1,0 +1,74 @@
+/*-- scss:rules --*/
+// The light counterpart of uibk.scss.
+//
+// Quarto compiles one theme per render, so this cannot be a second `theme:`
+// entry to switch to -- it is an overlay on top of the dark one. reveal.js 5
+// drives its whole appearance from the --r-* custom properties, so switching
+// theme is mostly a matter of redefining those, plus the handful of places
+// where Quarto's own SASS writes a colour literally.
+//
+// It applies in two situations, and they are deliberately independent:
+//
+//   html.theme-light   the viewer picked the light theme (shared/theme.html)
+//   @media print       anything being printed, whatever the viewer picked --
+//                      the PDF handed out to students is always on white
+//
+// Code blocks stay dark in both themes. Monokai on navy is a card that reads
+// as code on a white slide just as well as on a black one, and swapping the
+// syntax highlighting would mean shipping a second highlight stylesheet.
+
+@mixin uibk-light {
+  --r-background-color: #ffffff;
+  --r-main-color: #14202b;
+  --r-heading-color: #{$uibk-navy};
+  // the CI orange is a fine accent on black but too pale for text on white
+  --r-link-color: #b66d00;
+  --r-link-color-hover: #{$uibk-orange};
+  --r-selection-background-color: #{rgba($uibk-orange, 0.35)};
+  --r-selection-color: #14202b;
+  // used by reveal's overlays (help, speaker view, ...)
+  --r-overlay-element-bg-color: 0, 0, 0;
+  --r-overlay-element-fg-color: 240, 240, 240;
+
+  --quarto-body-bg: #ffffff;
+  --quarto-body-color: #14202b;
+
+  // Read by the bits of generated HTML that carry their own colours: the
+  // heat-mapped table of lecture 02 (figs/scripts/make_table.py). The same
+  // names as the `Theme roles` block of shared/figs/preamble.tex.
+  --fig-fg: #14202b;
+  --fig-muted: #55657a;
+  --fig-rule: #c8d0da;
+
+  .reveal {
+    // inline code: the orange used on black is unreadable on white
+    code { color: #a05f00; }
+    .aside { color: #55657a; }
+    .footer, .footer a { color: #55657a; }
+    ul li::marker { color: #{$uibk-orange}; }
+    .slide-number { color: #a05f00; }
+
+    // The figures are drawn for a dark slide and third-party bitmaps for a
+    // light page, so on a white slide it is the bitmaps that need no help:
+    // the card would show up as a grey rectangle around them.
+    img.fig-card {
+      background: rgba(0, 0, 0, 0);
+      padding: 0;
+    }
+
+    // Graphviz diagrams are emitted inline by Quarto, with the deck's colours
+    // written into the SVG as presentation attributes. The lightened navy
+    // that carries the edges on black disappears on white; everything else in
+    // them sits on a navy fill and is fine as it is.
+    svg [stroke="#7fb0e0"] { stroke: #{$uibk-navy}; }
+    svg [fill="#7fb0e0"]   { fill: #{$uibk-navy}; }
+  }
+}
+
+html.theme-light { @include uibk-light; }
+
+// The handout is always on white, whichever theme the deck is being shown in.
+// shared/theme.html swaps the figures to their light variants to match.
+@media print {
+  :root { @include uibk-light; }
+}

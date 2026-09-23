@@ -1,0 +1,38 @@
+% Shared building block for the NUMA figures of lecture 01 (s24, s40) and the
+% motivation slide of lecture 07. It lives in shared/figs, which is on
+% TEXINPUTS and is never scanned for figures, so any deck can \input it.
+%
+% \numanodebase draws a four-socket node: CPUs 0-3 in a 2x2, each with its own
+% locally attached RAM, plus the horizontal and vertical CPU-to-CPU links that
+% both figures share. It leaves the nodes c0..c3 / r0..r3 defined so that each
+% figure can add whatever is specific to it.
+
+\newcommand{\numanodebase}{%
+  \node[nodebox,minimum width=86mm,minimum height=52mm,anchor=south west]
+    (nd) at (0,0) {};
+
+  \node[container,minimum width=19mm,minimum height=10.5mm] (c0) at (3.05,3.60) {CPU 0};
+  \node[container,minimum width=19mm,minimum height=10.5mm] (c1) at (5.60,3.60) {CPU 1};
+  \node[container,minimum width=19mm,minimum height=10.5mm] (c2) at (3.05,1.45) {CPU 2};
+  \node[container,minimum width=19mm,minimum height=10.5mm] (c3) at (5.60,1.45) {CPU 3};
+
+  \node[mem,minimum width=16mm,minimum height=6.2mm,rotate=90] (r0) at (1.15,3.60) {RAM 0};
+  \node[mem,minimum width=16mm,minimum height=6.2mm,rotate=90] (r1) at (7.50,3.60) {RAM 1};
+  \node[mem,minimum width=16mm,minimum height=6.2mm,rotate=90] (r2) at (1.15,1.45) {RAM 2};
+  \node[mem,minimum width=16mm,minimum height=6.2mm,rotate=90] (r3) at (7.50,1.45) {RAM 3};
+
+  % each CPU owns the memory next to it -- that locality is the whole point
+  \draw[link] (r0) -- (c0);
+  \draw[link] (c1) -- (r1);
+  \draw[link] (r2) -- (c2);
+  \draw[link] (c3) -- (r3);
+
+  % ... but every CPU can still reach every other one's memory
+  \draw[link] (c0) -- (c1);
+  \draw[link] (c2) -- (c3);
+  \draw[link] (c0) -- (c2);
+  \draw[link] (c1) -- (c3);
+
+  % the label sits inside the navy nodebox, so it keeps the light ink
+  \node[text=onfill,font=\sffamily\small,anchor=south west] at (0.28,0.24) {Node};
+}

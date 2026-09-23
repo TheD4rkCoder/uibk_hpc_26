@@ -1,0 +1,215 @@
+% ---------------------------------------------------------------------------
+% Shared preamble for all TikZ figures of the MPI basics deck.
+%
+% Every figure is a standalone document that does:
+%     \documentclass[dvisvgm,border=3pt]{standalone}
+%     \input{preamble.tex}
+% and is compiled to SVG by figs/build.py.
+%
+% Colours are defined once here, in the `Theme roles` block below, and every
+% figure is compiled twice from that one source: a dark variant for the deck
+% as shown on screen and a light one for the light viewer theme and the PDF.
+% ---------------------------------------------------------------------------
+% Match the deck's typography: Carlito is metric-compatible with Calibri and is
+% exactly what uibk.scss asks for; Inconsolata stands in for Consolas.
+\usepackage[T1]{fontenc}
+\usepackage{carlito}
+\usepackage[varqu,varl]{inconsolata}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{tikz}
+\usepackage{ifthen}
+\usetikzlibrary{arrows.meta,positioning,calc,patterns,decorations.pathreplacing,
+                decorations.pathmorphing,shapes.geometric,fit,backgrounds}
+
+% --- University of Innsbruck corporate identity ----------------------------
+\definecolor{uibknavy}{HTML}{003361}   % CI blue
+\definecolor{uibkorange}{HTML}{F39200} % CI orange
+\definecolor{uibkgreen}{HTML}{8BC74F}  % the memory/RAM accent of the originals
+
+% --- Theme roles -----------------------------------------------------------
+% Every figure is built twice: once for the dark deck (black slide) and once
+% for the light one (white slide, and therefore also the PDF). build_figs.py
+% prepends \def\figlight{} for the light pass, so both variants come out of
+% this one source -- and every derived colour (uibkorange!25, blu!60, ...) is
+% recomputed by xcolor rather than having to be mapped by hand.
+%
+% Only the roles that sit on the *slide background* flip. Ink that sits on a
+% fill does not: a navy fill is dark and an orange one is light in both decks.
+%
+%   fg      ink / neutral strokes on the slide background   flips
+%   blu     structural linework on the slide background     flips
+%   muted   secondary text                                  flips
+%   accent  CI orange used as a *line* (too pale on white)  flips
+%   onfill  ink and strokes on top of a navy fill           constant
+%   inkdark ink on top of an orange or green fill           constant
+\definecolor{onfill}{HTML}{F2F4F7}    % on navy
+\definecolor{inkdark}{HTML}{10243A}   % on orange / green
+\ifdefined\figlight
+  \definecolor{fg}{HTML}{14202B}      % near-black, a touch of the CI navy
+  \definecolor{blu}{HTML}{003361}     % the CI navy itself carries the linework
+  \definecolor{muted}{HTML}{55657A}
+  \colorlet{accent}{uibkorange!80!black}
+\else
+  \definecolor{fg}{HTML}{F2F4F7}      % primary text / neutral strokes
+  \definecolor{blu}{HTML}{7FB0E0}     % lightened navy: structural lines
+  \definecolor{muted}{HTML}{9FB0C3}   % secondary text
+  \colorlet{accent}{uibkorange}
+\fi
+
+% --- Geometry of a buffer cell ---------------------------------------------
+\newcommand{\cellw}{0.46}
+\newcommand{\cellh}{0.52}
+
+\tikzset{
+  every picture/.style={font=\sffamily},
+  >={Stealth[round]},
+  % --- ranks -------------------------------------------------------------
+  rank/.style   ={circle,draw=onfill,line width=0.7pt,fill=uibknavy,
+                  minimum size=9mm,inner sep=0pt,text=onfill},
+  % --- buffers -----------------------------------------------------------
+  buffull/.style ={draw=uibkorange!75!black,line width=0.5pt,fill=uibkorange},
+  bufempty/.style={draw=blu,line width=0.5pt,dashed},
+  cellnum/.style ={font=\sffamily\scriptsize,text=inkdark,inner sep=0pt},
+  % --- arrows ------------------------------------------------------------
+  flow/.style    ={->,draw=blu,line width=1.0pt},          % structural
+  msg/.style     ={->,draw=accent,line width=1.4pt},       % data / messages
+  tline/.style   ={->,draw=blu,line width=1.2pt},          % rank timelines
+  % --- text --------------------------------------------------------------
+  lbl/.style     ={text=fg,font=\sffamily\small},
+  lblsm/.style   ={text=fg,font=\sffamily\scriptsize},
+  subcap/.style     ={text=muted,font=\sffamily\scriptsize},
+  % --- misc --------------------------------------------------------------
+  nic/.style     ={draw=onfill,line width=0.6pt,fill=uibknavy,text=onfill,
+                   font=\sffamily\small,inner sep=4pt,minimum height=7mm},
+  wait/.style    ={draw=blu,line width=0.6pt,pattern=north east lines,
+                   pattern color=blu},
+  gridcell/.style={draw=blu,line width=0.6pt},
+  gridfull/.style={draw=uibkorange!75!black,line width=0.6pt,fill=uibkorange},
+  gridsoft/.style={draw=blu,line width=0.6pt,fill=uibkorange!25},
+  % --- hardware block diagrams (lecture 01) ------------------------------
+  % The originals nest an orange "container" (CPU / Core / Node) around navy
+  % component boxes; RAM is green. Kept, because the colours carry meaning.
+  container/.style={draw=uibkorange!70!black,line width=0.5pt,fill=uibkorange,
+                    text=inkdark,font=\sffamily\scriptsize,inner sep=2pt,
+                    align=center},
+  chip/.style     ={draw=blu,line width=0.5pt,fill=uibknavy,text=onfill,
+                    font=\sffamily\scriptsize,inner sep=2pt,align=center},
+  mem/.style      ={draw=uibkgreen!70!black,line width=0.5pt,fill=uibkgreen,
+                    text=inkdark,font=\sffamily\scriptsize,inner sep=2pt,
+                    align=center},
+  nodebox/.style  ={draw=blu,line width=0.6pt,fill=uibknavy},
+  link/.style     ={<->,draw=onfill,line width=1.0pt},   % inside a nodebox
+  wire/.style     ={draw=blu,line width=0.9pt},
+}
+
+% ---------------------------------------------------------------------------
+% \mpibuf{(x,y)}{list}
+%   Draws a horizontal run of buffer cells with its left edge at (x,y).
+%   Each list item is either "." for an empty (dashed) cell, or a label, which
+%   is drawn in a filled orange cell. This single macro backs the scatter,
+%   gather, broadcast, reduce and point-to-point figures.
+% ---------------------------------------------------------------------------
+\newcommand{\mpibuf}[2]{%
+  \begin{scope}[shift={#1}]
+    \foreach \v [count=\i from 0] in {#2}{%
+      \ifthenelse{\equal{\v}{.}}%
+        {\draw[bufempty] (\i*\cellw,0) rectangle ++(\cellw,\cellh);}%
+        {\draw[buffull]  (\i*\cellw,0) rectangle ++(\cellw,\cellh);
+         \node[cellnum] at ({\i*\cellw+0.5*\cellw},{0.5*\cellh}) {\v};}%
+    }%
+  \end{scope}%
+}
+
+% ---------------------------------------------------------------------------
+% \mpiranks{<root label>}  -- the 2x2 rank layout shared by the collective
+% figures. Ranks are numbered clockwise from the top left, matching the
+% original slides: TL=0, TR=1, BR=2, BL=3.  Defines nodes r0..r3.
+% ---------------------------------------------------------------------------
+% Column geometry: an 8-cell buffer is 8*\cellw wide; the two columns of the
+% 2x2 layout are \colgap apart. Rank circles sit centred under their buffer.
+\newcommand{\colb}{4.6}    % left edge of the right-hand column
+\newcommand{\colca}{1.84}  % centre of the left column  (= 4*\cellw)
+\newcommand{\colcb}{6.44}  % centre of the right column (= \colb + 4*\cellw)
+\newcommand{\rowb}{-3.1}   % y of the bottom rank row
+
+\newcommand{\mpiranks}{%
+  \node[rank] (r0) at (\colca,0)     {};
+  \node[rank] (r1) at (\colcb,0)     {};
+  \node[rank] (r3) at (\colca,\rowb) {};
+  \node[rank] (r2) at (\colcb,\rowb) {};
+}
+
+% \mpiflows -- root fans out to the other three ranks (scatter / bcast)
+\newcommand{\mpiflows}{%
+  \draw[flow] (r0) -- (r1);
+  \draw[flow] (r0) -- (r3);
+  \draw[flow] (r0) -- (r2);
+}
+
+% \mpiflowsin -- the other three ranks feed into the root (gather / reduce)
+\newcommand{\mpiflowsin}{%
+  \draw[flow] (r1) -- (r0);
+  \draw[flow] (r3) -- (r0);
+  \draw[flow] (r2) -- (r0);
+}
+
+% \mpiselfloop -- root's arrow to itself (root participates in the collective)
+\newcommand{\mpiselfloop}{%
+  \draw[flow] (r0.south west) to[out=200,in=160,looseness=5] (r0.north west);
+}
+
+% ---------------------------------------------------------------------------
+% \ranktimeline{x}{label} -- a vertical rank timeline with a 't' axis label.
+% Shared by the message-ordering, protocol and blocking figures.
+% ---------------------------------------------------------------------------
+% \ranktimeline{x}{label}{length} -- label on top, time running downwards.
+\newcommand{\ranktimeline}[3]{%
+  \node[lbl] at (#1,0.45) {#2};
+  \draw[tline] (#1,0) -- (#1,-#3);
+  \node[lblsm] at ({#1+0.32},{-#3+0.6}) {t};
+}
+
+% \wavebreak{(x,y)}{h}  -- vertical squiggle (a cut across a message arrow)
+% \wavebreakh{(x,y)}{w} -- horizontal squiggle (a cut across a timeline)
+% Both stand in for the doubleWave shapes of the originals: "time passes here".
+\newcommand{\wavebreak}[2]{%
+  \draw[draw=fg,line width=0.6pt,decorate,
+        decoration={snake,amplitude=1.8pt,segment length=7pt}]
+    ($#1+(0,{#2/2})$) -- ($#1-(0,{#2/2})$);%
+}
+\newcommand{\wavebreakh}[2]{%
+  \draw[draw=fg,line width=0.6pt,decorate,
+        decoration={snake,amplitude=1.8pt,segment length=7pt}]
+    ($#1-({#2/2},0)$) -- ($#1+({#2/2},0)$);%
+}
+
+% ---------------------------------------------------------------------------
+% \mpidoc{(x,y)}{w}{h} -- a "document" with a folded bottom-right corner,
+% standing in for PowerPoint's foldedCorner shape. (x,y) is the bottom left.
+% ---------------------------------------------------------------------------
+\newcommand{\mpidoc}[3]{%
+  \begin{scope}[shift={#1}]
+    \pgfmathsetmacro{\fold}{0.30*#2}
+    \fill[uibkorange]
+      (0,0) -- ({#2-\fold},0) -- (#2,\fold) -- (#2,#3) -- (0,#3) -- cycle;
+    \draw[draw=uibkorange!65!black,line width=0.5pt]
+      (0,0) -- ({#2-\fold},0) -- (#2,\fold) -- (#2,#3) -- (0,#3) -- cycle;
+    \draw[draw=uibkorange!55!black,line width=0.5pt]
+      ({#2-\fold},0) -- ({#2-\fold},\fold) -- (#2,\fold);
+  \end{scope}%
+}
+
+% ---------------------------------------------------------------------------
+% \mpigrid{(x,y)}{cols}{rows}{cellsize}{style}  -- a plain matrix grid.
+% \mpigridrow / \mpigridcol overlay a highlighted row or column.
+% ---------------------------------------------------------------------------
+\newcommand{\mpigrid}[5]{%
+  \begin{scope}[shift={#1}]
+    \foreach \c in {0,...,\the\numexpr#2-1\relax}{%
+      \foreach \r in {0,...,\the\numexpr#3-1\relax}{%
+        \draw[#5] (\c*#4,-\r*#4) rectangle ++(#4,-#4);%
+      }%
+    }%
+  \end{scope}%
+}

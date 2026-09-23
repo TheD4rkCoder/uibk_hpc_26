@@ -1,0 +1,71 @@
+% Shared building blocks for figures that draw memory: a linear run of
+% elements with some of them selected, or a 2D array with a sub-block
+% selected. Used by lecture 05 (derived datatypes) and lecture 06 (sparse
+% matrix storage). Lives in shared/figs, which is on TEXINPUTS and is never
+% scanned for figures, so any deck can \input it.
+%
+
+
+% cell styles, keyed by a single letter in the spec strings below
+\tikzset{
+  mo/.style={draw=uibkorange!70!black,line width=0.5pt,fill=uibkorange},  % selected
+  mn/.style={draw=blu,line width=0.5pt,fill=uibknavy},                    % other data
+  me/.style={draw=blu,line width=0.5pt},                                  % empty slot
+  md/.style={draw=blu,line width=0.5pt,dashed},                           % not written
+  mh/.style={draw=blu,line width=0.5pt,fill=uibknavy,
+             pattern=north east lines,pattern color=uibkorange},          % ghost cell
+  mlab/.style={font=\sffamily\scriptsize,inner sep=0pt},
+}
+
+\newcommand{\memw}{0.60}   % cell width
+\newcommand{\memh}{0.46}   % cell height
+
+% ---------------------------------------------------------------------------
+% \memstrip{(x,y)}{spec}
+%   A row of memory cells with its lower-left corner at (x,y). The spec is a
+%   comma list of "style/label" pairs, e.g.  o/min, n/max, e/, d/
+%   Styles: o selected, n other data, e empty, d not-written, h ghost cell.
+% ---------------------------------------------------------------------------
+\newcommand{\memstrip}[2]{%
+  \begin{scope}[shift={#1}]
+    \foreach \s/\l [count=\i from 0] in {#2}{%
+      \draw[m\s] (\i*\memw,0) rectangle ++(\memw,\memh);
+      % o is an orange cell, n and h are navy ones; only e/d leave the slide
+      % background showing through, so only those take the flipping ink
+      \ifthenelse{\equal{\l}{}}{}{%
+        \ifthenelse{\equal{\s}{o}}
+          {\node[mlab,text=inkdark] at ({\i*\memw+0.5*\memw},{0.5*\memh}) {\l};}
+          {\ifthenelse{\equal{\s}{n} \OR \equal{\s}{h}}
+            {\node[mlab,text=onfill] at ({\i*\memw+0.5*\memw},{0.5*\memh}) {\l};}
+            {\node[mlab,text=fg]     at ({\i*\memw+0.5*\memw},{0.5*\memh}) {\l};}}}%
+    }%
+  \end{scope}%
+}
+
+% ---------------------------------------------------------------------------
+% \memgrid{(x,y)}{cols}{rows}{cell}   -- outline of a 2D array, top-left at (x,y)
+% \memblock{(x,y)}{c0}{r0}{w}{h}{cell}-- fill a sub-block of that array
+%   Column/row indices count from 0 at the top left.
+% ---------------------------------------------------------------------------
+\newcommand{\memgrid}[4]{%
+  \begin{scope}[shift={#1}]
+    \foreach \c in {0,...,\the\numexpr#2-1\relax}{%
+      \foreach \r in {0,...,\the\numexpr#3-1\relax}{%
+        \draw[me] (\c*#4,-\r*#4) rectangle ++(#4,-#4);}}%
+  \end{scope}%
+}
+
+\newcommand{\memblock}[6]{%
+  \begin{scope}[shift={#1}]
+    \foreach \c in {0,...,\the\numexpr#4-1\relax}{%
+      \foreach \r in {0,...,\the\numexpr#5-1\relax}{%
+        \draw[mo] ({(#2+\c)*#6},{-(#3+\r)*#6}) rectangle ++(#6,-#6);}}%
+  \end{scope}%
+}
+
+% a horizontal brace with a label above it, used for "new size x" etc.
+\newcommand{\membrace}[4]{%
+  \draw[decorate,decoration={brace,amplitude=4pt},draw=blu,line width=0.7pt]
+    (#1,#3) -- (#2,#3);
+  \node[text=fg,font=\sffamily\scriptsize,anchor=south]
+    at ({(#1+#2)/2},{#3+0.16}) {#4};}

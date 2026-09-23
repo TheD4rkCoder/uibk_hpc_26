@@ -1,0 +1,75 @@
+/*-- scss:defaults --*/
+// University of Innsbruck corporate-identity dark theme.
+// Pure-black slide surface; navy #003361 and orange #f39200 as accents; monokai for code.
+$font-family-sans-serif: "Carlito", "Calibri", "Segoe UI", sans-serif;
+$font-family-monospace: "Consolas", "Cascadia Mono", "Fira Mono", monospace;
+
+// Brand colors
+$uibk-navy: #003361;
+$uibk-orange: #f39200;
+
+// Slide surface
+$body-bg: #000000;
+$body-color: #f2f4f7;
+
+// Headings — near-white for legibility; orange is used as the accent instead
+$presentation-heading-font: $font-family-sans-serif;
+$presentation-heading-color: #ffffff;
+$presentation-heading-font-weight: 300;
+$presentation-h2-font-size: 1.6em;
+$presentation-font-size-root: 30px;
+
+// Links
+$link-color: $uibk-orange;
+
+// Code
+$code-block-bg: $uibk-navy;     // navy surface lifts code off the black slide (brand accent)
+$code-block-font-size: 0.65em;
+$code-color: $uibk-orange;      // inline code
+
+/*-- scss:rules --*/
+.reveal .slides section h2 {
+  border-bottom: 1px solid $uibk-orange;
+  padding-bottom: 0.15em;
+  text-align: left;
+}
+.reveal ul li::marker { color: $uibk-orange; }
+.reveal .small { font-size: 0.65em; }
+.reveal .aside { font-size: 0.55em; color: #9fb0c3; }
+.reveal .slide-number { color: $uibk-orange; }
+
+// Third-party screenshots and charts were drawn for a white page. Dropped
+// straight onto a black slide they either glare, or -- for dark line art on a
+// transparent background -- disappear entirely. A light card keeps them
+// readable and makes the contrast look deliberate rather than accidental.
+// Photographs do NOT need this; they are self-contained rectangles.
+.reveal img.fig-card {
+  background: #f4f6f8;
+  padding: 0.5em 0.7em;
+  border-radius: 6px;
+}
+
+// A simple row of images (several photos side by side on one slide).
+.reveal .fig-row {
+  display: flex;
+  gap: 1.2em;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.reveal .fig-row img { margin: 0; }
+
+// Graphviz diagrams render as inline SVG at their natural size, which is far
+// too small on a 1280x720 slide -- let them fill the available width.
+.reveal figure > p > svg,
+.reveal .cell-output-display > svg {
+  display: flex;
+  justify-content: center;
+}
+.reveal figure > p > svg,
+.reveal .cell-output-display > svg {
+  width: 100%;
+  max-width: 1040px;
+  max-height: 460px;
+  height: auto;
+}

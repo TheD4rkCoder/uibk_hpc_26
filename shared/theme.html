@@ -1,0 +1,149 @@
+<!--
+  Dark / light theme switch, included at the end of every deck's body
+  (`include-after-body` in _quarto.yml).
+
+  There are two halves to a theme here:
+
+    the slide itself   shared/uibk.scss is the dark theme; shared/uibk-light.scss
+                       overlays it under html.theme-light and in @media print
+    the figures        every generated figure exists twice, as figs/out/<f>.svg
+                       and figs/out/light/<f>.svg (see tools/build_figs.py), so
+                       switching theme means rewriting the image paths
+
+  The theme is picked in this order:
+
+    ?theme=light|dark       explicit, and wins -- useful for decktape and for
+                            linking someone straight to one variant
+    print view              ?print-pdf / ?view=print, i.e. the E key: the
+                            handout is always light
+    localStorage            what the viewer chose last time, per browser
+    dark                    the deck as it is presented
+
+  Printing (Ctrl+P) from the dark theme swaps the figures for the duration of
+  the print job, so the PDF is light even if nobody switched the deck first.
+-->
+<button class="theme-toggle" type="button" title="Toggle light / dark theme (T)"
+        aria-label="Toggle light / dark theme"></button>
+
+<style>
+  /* the slot next to Quarto's menu button, which sits at left: 8px */
+  .theme-toggle {
+    position: fixed;
+    left: 54px;
+    bottom: 8px;
+    z-index: 30;
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0;
+    line-height: 2.2rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    opacity: 0.75;
+    color: var(--r-link-color);
+  }
+  .theme-toggle:hover { opacity: 1; }
+  /* it is a control, not content: never part of the handout */
+  @media print { .theme-toggle { display: none; } }
+  html.print-view .theme-toggle { display: none; }
+</style>
+
+<script>
+  (function () {
+    var KEY = 'uibk-deck-theme';
+    var root = document.documentElement;
+    var button = document.querySelector('.theme-toggle');
+
+    function stored(value) {
+      try {
+        if (value === undefined) return window.localStorage.getItem(KEY);
+        window.localStorage.setItem(KEY, value);
+      } catch (e) {
+        /* private mode, or a file:// URL with site data blocked */
+      }
+      return null;
+    }
+
+    // figs/out/<f>.svg  <->  figs/out/light/<f>.svg
+    var DARK = /(^|\/)figs\/out\/([^/]+\.svg)$/;
+    var LIGHT = /(^|\/)figs\/out\/light\/([^/]+\.svg)$/;
+
+    function retarget(theme) {
+      var from = theme === 'light' ? DARK : LIGHT;
+      var to = theme === 'light' ? '$1figs/out/light/$2' : '$1figs/out/$2';
+      var images = document.querySelectorAll('img[src], img[data-src]');
+      for (var i = 0; i < images.length; i++) {
+        // reveal.js lazy-loads: a slide that has not been shown yet still
+        // carries the path in data-src, so both attributes have to be moved
+        ['src', 'data-src'].forEach(function (attr) {
+          var path = images[i].getAttribute(attr);
+          if (path && from.test(path)) images[i].setAttribute(attr, path.replace(from, to));
+        });
+      }
+    }
+
+    function apply(theme) {
+      root.classList.toggle('theme-light', theme === 'light');
+      root.classList.toggle('theme-dark', theme !== 'light');
+      retarget(theme);
+      if (button) button.textContent = theme === 'light' ? '◑' : '◐';
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var printing = params.has('print-pdf') || params.get('view') === 'print';
+    if (printing) root.classList.add('print-view');
+
+    var requested = params.get('theme');
+    var current = requested === 'light' || requested === 'dark' ? requested
+                : printing ? 'light'
+                : stored() === 'light' ? 'light'
+                : 'dark';
+    apply(current);
+
+    function toggle() {
+      current = current === 'light' ? 'dark' : 'light';
+      stored(current);
+      apply(current);
+    }
+
+    if (button) button.addEventListener('click', toggle);
+
+    // Printing from the dark theme: the stylesheet turns the slide white via
+    // @media print, and this turns the figures with it, then puts the deck
+    // back the way the viewer had it.
+    var beforePrint = null;
+    window.addEventListener('beforeprint', function () {
+      if (current === 'light') return;
+      beforePrint = current;
+      retarget('light');
+    });
+    window.addEventListener('afterprint', function () {
+      if (beforePrint === null) return;
+      retarget(beforePrint);
+      beforePrint = null;
+    });
+
+    // T toggles. Preferably registered with reveal.js, so that it shows up in
+    // the keyboard help overlay (?) alongside the built-in keys -- but this
+    // script may well run before Reveal exists, hence the retry and the plain
+    // listener as a last resort.
+    function bindKey() {
+      if (!window.Reveal || !Reveal.addKeyBinding) return false;
+      Reveal.addKeyBinding({ keyCode: 84, key: 'T',
+                             description: 'Toggle light / dark theme' }, toggle);
+      return true;
+    }
+    if (!bindKey()) {
+      window.addEventListener('load', function () {
+        if (bindKey()) return;
+        window.addEventListener('keydown', function (e) {
+          if (e.key !== 't' && e.key !== 'T') return;
+          if (e.altKey || e.ctrlKey || e.metaKey) return;
+          if (e.target !== document.body) return;
+          toggle();
+        });
+      });
+    }
+  })();
+</script>
