@@ -5,6 +5,7 @@
 *.pdf
 *.pptx
 *.xlsx
+*.docx
 
 # Quarto's generated support files (reveal.js, MathJax, clipboard.js, ...).
 # _libs/ is the single shared copy configured via `lib-dir` in _quarto.yml;
@@ -23,3 +24,5 @@ __pycache__/
 # whole project. The published site gets its own root redirect from
 # .github/workflows/pages.yml.
 /index.html
+
+old
