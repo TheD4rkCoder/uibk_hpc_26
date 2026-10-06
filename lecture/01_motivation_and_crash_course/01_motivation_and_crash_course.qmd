@@ -113,7 +113,7 @@ format:
 - "the number of transistors in iso-cost silicon doubles approx. every 2 years" — 1965
   - also rephrased as "performance doubles every 18 months"
   - has been derived from historical data, used as predictive measure for decades
-- will cease to be true in the 2020s
+- ceased to be true in the 2020s
 - compare Intel's architecture updates
   - previously: "Tick-Tock" (2 steps)
   - now: "Process-architecture-optimization" (3 steps)
@@ -127,14 +127,15 @@ format:
   - supercomputers since ~1960s
   - desktop PCs, laptops since 2005
   - mobile and embedded devices
-    - cellphones since 2011
-    - smart watches since 2016
+    - cellphones since 2011, smart watches since 2016
 - sequential computing hardware practically became extinct!
 - increasing amount (>120) of parallel or concurrent programming languages and libraries
 - serve as the basis to many more, highly domain-specific languages and libraries (DSLs)
  
-::: {.small}
-Ada, Akka.NET, Alef, Alice, Apache Beam, Apache Flink, Apache Hadoop, Apache Spark, Ateji PX, Axum, Bloom, BMDFM, C#, C\*, C++, C++ AMP, C=, CAL, Chapel, Charm++, Cilk, Cilk Plus, Clojure, CnC, Coarray Fortran, Concurrent Clean, Concurrent Haskell, Concurrent ML, Concurrent Pascal, Constraint Handling Rules, Cpp, Crystal, CUDA, Curry, Cω, D, Dart, E, Ease, ECMAScript, Eiffel, Eiffel SCOOP, Elixir, Elm, Emerald, Erlang, Esterel, FAUST, Fork, FortranM, Fortress, Futhark, Glenda, Go, Golang, Haskell, Hermes, HPF, Hume, Id, Io, Janus, Java, JavaScript, JCSP, JoCaml, Join Java, Joule, Joyce, Julia, Kokkos, LabVIEW, Limbo, Linda, Lustre, Mercury, Millipede, Modula, MPD, MPI, MultiLisp, Newsqueak, Occam, Occam-π, OpenCL, OpenHMPP, OpenMP, Orc, Oz, ParaSail, Parlog, Perl, Pict, Pony, Preesm, Prolog, PyCSP, Python, Red, Reia, Ruby, Rust, SALSA, Scala, SequenceL, Sequoia, Signal, SISAL, Smalltalk, SR, StratifiedJS, SuperPascal, SYCL, SystemC, SystemVerilog, Termite Scheme, Titanium, TNSDL, Unicon, UPC, Verilog, VHDL, X10, XC, ZPL, μC++ (Source: https://en.wikipedia.org/wiki/List_of_concurrent_and_parallel_programming_languages)
+::: {.tiny}
+Ada, Akka.NET, Alef, Alice, Apache Beam, Apache Flink, Apache Hadoop, Apache Spark, Ateji PX, Axum, Bloom, BMDFM, C#, C\*, C++, C++ AMP, C=, CAL, Chapel, Charm++, Cilk, Cilk Plus, Clojure, CnC, Coarray Fortran, Concurrent Clean, Concurrent Haskell, Concurrent ML, Concurrent Pascal, Constraint Handling Rules, Cpp, Crystal, CUDA, Curry, Cω, D, Dart, E, Ease, ECMAScript, Eiffel, Eiffel SCOOP, Elixir, Elm, Emerald, Erlang, Esterel, FAUST, Fork, FortranM, Fortress, Futhark, Glenda, Go, Golang, Haskell, Hermes, HPF, Hume, Id, Io, Janus, Java, JavaScript, JCSP, JoCaml, Join Java, Joule, Joyce, Julia, Kokkos, LabVIEW, Limbo, Linda, Lustre, Mercury, Millipede, Modula, MPD, MPI, MultiLisp, Newsqueak, Occam, Occam-π, OpenCL, OpenHMPP, OpenMP, Orc, Oz, ParaSail, Parlog, Perl, Pict, Pony, Preesm, Prolog, PyCSP, Python, Red, Reia, Ruby, Rust, SALSA, Scala, SequenceL, Sequoia, Signal, SISAL, Smalltalk, SR, StratifiedJS, SuperPascal, SYCL, SystemC, SystemVerilog, Termite Scheme, Titanium, TNSDL, Unicon, UPC, Verilog, VHDL, X10, XC, ZPL, μC++ 
+
+(Source: <https://en.wikipedia.org/wiki/List_of_concurrent_and_parallel_programming_languages>)
 :::
 
 ## The three walls
@@ -171,14 +172,16 @@ TOP500 list (<https://www.top500.org>) — fastest supercomputers world-wide, re
 ## The power wall cont'd
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="42%"}
 - VSC-3 compute node cooling
 - oil-immersion cooling instead of air
 
-{{< video https://www.youtube.com/watch?v=NxNUK3U73SI aspect-ratio="16x9" >}}
-:::
-::: {.column width="50%"}
 ![](img/image18.jpeg){width="100%"}
+:::
+::: {.column width="58%"}
+::: {.video-4x3}
+{{< video https://www.youtube.com/watch?v=NxNUK3U73SI >}}
+:::
 :::
 ::::
 
@@ -268,11 +271,10 @@ TOP500 list (<https://www.top500.org>) — fastest supercomputers world-wide, re
 :::: {.columns}
 ::: {.column width="50%"}
 - GPUs
-  - NVidia: Quadro RTX A6000, RTX4090, Tegra/Xavier
-  - AMD: RX 7000, Radeon Instinct
+  - Nvidia: B300, RTX5090, Tegra/Xavier
+  - AMD: RX 9000, Radeon Instinct
 - FPGAs
-  - Xilinx: Virtex
-  - Altera/Intel: Stratix
+  - Virtex (Xilinx), Stratix (Altera/Intel)
 - Misc
   - Intel Xeon Phi
 - several caveats, because of different
@@ -282,11 +284,9 @@ TOP500 list (<https://www.top500.org>) — fastest supercomputers world-wide, re
 - we are probably not going to work on any of those!
 :::
 ::: {.column width="50%"}
-![](img/image21.jpg){width="86%" fig-align="center"}
+![](img/image21.jpg){width="60%" fig-align="center"}
 
-![](img/image22.jpg){width="86%" fig-align="center"}
-
-![](img/image23.png){width="86%" fig-align="center"}
+![](img/image22.jpg){width="60%" fig-align="center"}
 :::
 ::::
 
@@ -334,9 +334,9 @@ TOP500 list (<https://www.top500.org>) — fastest supercomputers world-wide, re
 - ranked 50th world-wide (Nov 2024)
 :::
 ::: {.column width="50%"}
-**Lineshine**, Shenzhen, China (13 CPU cores)
+**Lineshine**, Shenzhen, China (13,789,440 CPU cores)
 
-- 22.000+ nodes
+- 22,000+ nodes
   - 2x LX2 CPU (304 cores each)
   - 64 GB HBM + 512 GB DDR5
 - LinQi Network
@@ -412,10 +412,12 @@ TOP500 list (<https://www.top500.org>) — fastest supercomputers world-wide, re
 - still valid and in use today
 - also applies to software
 
+::: {.table-grid}
 |                         | **Single Data**                          | **Multiple Data**                          |
 |-------------------------|------------------------------------------|--------------------------------------------|
 | **Single Instruction**  | Single Instruction Single Data (SISD)    | Single Instruction Multiple Data (SIMD)    |
 | **Multiple Instruction**| Multiple Instruction Single Data (MISD)  | Multiple Instruction Multiple Data (MIMD)  |
+:::
 
 ## Flynn's taxonomy cont'd
 
@@ -515,6 +517,8 @@ send_data(x, …);
 - uses SGI NUMAlink to provide global cache coherence
 - useful for mandatorily shared-memory apps that require a lot of RAM
   - e.g. legacy codes nobody wants to rewrite
+- 2024: no longer necessary today, as RAM has become very cheap
+  - 2026: 😏
 :::
 ::: {.column width="55%"}
 ![](figs/out/s40_numalink.svg){width="100%"}

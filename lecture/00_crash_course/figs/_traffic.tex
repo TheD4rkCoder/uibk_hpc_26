@@ -1,0 +1,32 @@
+% The AI-policy "traffic light" (department handout, winter term 2026/27):
+% four lamps, exactly one of them lit. Shared by traffic_<colour>.tex, one
+% figure per state, so the slides can use them both as a legend and per
+% category of AI use.
+%
+% The lamp colours carry the meaning and stay fixed in both themes; only the
+% housing (fg) flips. On white, the outline of an unlit lamp needs a darker
+% shade to stay visible -- pale yellow in particular.
+\definecolor{tlred}{HTML}{E53935}
+\definecolor{tlorange}{HTML}{FB8C00}
+\definecolor{tlyellow}{HTML}{FDD835}
+\definecolor{tlgreen}{HTML}{43A047}
+\ifdefined\figlight
+  \newcommand{\tlunlit}[1]{#1!75!black}
+\else
+  \newcommand{\tlunlit}[1]{#1}
+\fi
+
+% \trafficlight{n} -- n = 1 (red, top) ... 4 (green, bottom) is lit
+\newcommand{\trafficlight}[1]{%
+  \begin{tikzpicture}[x=1cm,y=1cm]
+    \draw[draw=fg,line width=0.8pt,rounded corners=3.1mm]
+      (0,0) rectangle (0.62,1.94);
+    \foreach \c [count=\i] in {tlred,tlorange,tlyellow,tlgreen}{
+      \ifnum\i=#1
+        \fill[\c] (0.31,{1.94-0.42*\i+0.05}) circle (0.165);
+      \else
+        \draw[draw=\tlunlit{\c},line width=0.7pt]
+          (0.31,{1.94-0.42*\i+0.05}) circle (0.155);
+      \fi}
+  \end{tikzpicture}%
+}

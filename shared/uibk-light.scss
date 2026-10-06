@@ -43,7 +43,9 @@
   .reveal {
     // inline code: the orange used on black is unreadable on white
     code { color: #a05f00; }
-    .aside { color: #55657a; }
+    // Quarto renders `::: {.aside}` as an <aside> element and colours it
+    // white itself, which the class selector alone does not reach.
+    .aside, .slide aside { color: #55657a; }
     .footer, .footer a { color: #55657a; }
     ul li::marker { color: #{$uibk-orange}; }
     .slide-number { color: #a05f00; }
@@ -55,6 +57,7 @@
       background: rgba(0, 0, 0, 0);
       padding: 0;
     }
+    img.line-art { filter: none; }
 
     // Graphviz diagrams are emitted inline by Quarto, with the deck's colours
     // written into the SVG as presentation attributes. The lightened navy

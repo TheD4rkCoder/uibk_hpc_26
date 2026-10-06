@@ -4,7 +4,8 @@ Quarto / reveal.js decks, converted from the original PowerPoint files.
 One directory per lecture under `lecture/`; the decks are independent of each
 other. `lecture/index.html` links them all.
 
-    00_crash_course/                  A Crash Course in Clusters and Job Submission (PS)
+    00_crash_course/                  Introduction & Administrative Stuff (VO+PS),
+                                      A Crash Course in Clusters and Job Submission (PS)
     01_motivation_and_crash_course/   Motivation & A Crash Course in Parallel Hard- and Software
     02_mpi_basics/                    MPI – Message Passing Interface
     03_debugging/                     Debugging Parallel Programs

@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Philipp Gschwandtner">
-  <title>A Crash Course in Clusters and Job Submission</title>
+  <title>Introduction &amp; Administrative Stuff</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -101,7 +101,7 @@
     code span.vs { color: #e6db74; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../../_libs/revealjs/dist/theme/quarto-c29a4e8a457b64422ecb6f869667879b.css">
+  <link rel="stylesheet" href="../../_libs/revealjs/dist/theme/quarto-6f737ba0ebaf1bbb81ee3c116b62bb97.css">
   <link href="../../_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -199,8 +199,8 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">A Crash Course in Clusters and Job Submission</h1>
-  <p class="subtitle">703309 PS High-Performance Computing</p>
+  <h1 class="title">Introduction &amp; Administrative Stuff</h1>
+  <p class="subtitle">703308/703309 VO+PS High-Performance Computing</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -212,6 +212,371 @@ Philipp Gschwandtner
           </p>
     </div>
 </div>
+
+</section>
+<section id="high-performance-computing---where-are-the-slides" class="slide level2 center-figs">
+<h2>High-Performance Computing - Where are the slides?</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<p><a href="https://github.com/philippgs/uibk_hpc_26" class="uri">https://github.com/philippgs/uibk_hpc_26</a></p>
+<p>or</p>
+<p><a href="https://tinyurl.com/UIBKHPC26" class="uri">https://tinyurl.com/UIBKHPC26</a></p>
+</div><div class="column" style="width:55%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/qr_slides.svg" class="fig-card quarto-figure quarto-figure-center" height="420"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="organizational-stuff" class="slide level2">
+<h2>Organizational stuff</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>VO+PS instructor information
+<ul>
+<li><a href="mailto:philipp.gschwandtner@uibk.ac.at" class="email">philipp.gschwandtner@uibk.ac.at</a></li>
+<li><img data-src="img/discord.png" style="height: 0.9em; margin: 0; vertical-align: -0.12em;"> philgs or room 2W05, ICT building</li>
+<li>no fixed office hours (send an e-mail, I’m quite responsive…usually)</li>
+<li>adhere to my communication rules!</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>dates and location
+<ul>
+<li>see lfu:online (<a href="https://lfuonline.uibk.ac.at/public/lfuonline_lv.details?sem_id_in=26W&amp;lvnr_id_in=703308">VO</a>, <a href="https://lfuonline.uibk.ac.at/public/lfuonline_lv.details?sem_id_in=26W&amp;lvnr_id_in=703309">PS</a>) for exact dates</li>
+<li>generally:
+<ul>
+<li>proseminar every Wednesday 08:45–10:30 in RR 15</li>
+<li>lecture every Wednesday 10:45–12:30 in RR 15</li>
+</ul></li>
+</ul></li>
+</ul>
+</div></div>
+</section>
+<section id="communication-rules" class="slide level2">
+<h2>Communication rules</h2>
+<div class="columns">
+<div class="column" style="width:48%;">
+<ul>
+<li>Philipp (Gschwandtner (PhD))</li>
+<li>use of LLMs (ChatGPT &amp; Co)
+<ul>
+<li>“I hope this e-mail finds you well”</li>
+<li>overly polite</li>
+<li>very generic &amp; lengthy</li>
+<li>eloquent, over-the-top phrases</li>
+<li><strong>wastes my time <u>and</u> yours</strong></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:52%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/atlantic_job_market.png" class="fig-card quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+<div class="small" style="text-align: center;">
+<p><a href="https://www.theatlantic.com/ideas/archive/2025/09/job-market-hell/684133/" class="uri">https://www.theatlantic.com/ideas/archive/2025/09/job-market-hell/684133/</a></p>
+</div>
+</div></div>
+</section>
+<section id="communication-rules-contd" class="slide level2">
+<h2>Communication rules cont’d</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<ul>
+<li>Philipp (Gschwandtner (PhD))</li>
+<li>use of LLMs (ChatGPT &amp; Co)
+<ul>
+<li>“I hope this e-mail finds you well”</li>
+<li>overly polite</li>
+<li>very generic &amp; lengthy</li>
+<li>eloquent, over-the-top phrases</li>
+<li><strong>wastes my time <u>and</u> yours</strong></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/xkcd_1838.png" class="fig-card quarto-figure quarto-figure-center" height="520"></p>
+</figure>
+</div>
+<div class="small" style="text-align: center;">
+<p><a href="https://xkcd.com/1838/" class="uri">https://xkcd.com/1838/</a></p>
+</div>
+</div></div>
+</section>
+<section id="more-organizational-stuff" class="slide level2">
+<h2>More organizational stuff</h2>
+<div class="columns">
+<div class="column" style="width:48%;">
+<ul>
+<li>prerequisites
+<ul>
+<li>interest in parallel hardware, parallel programming and high-performance computing</li>
+<li>lecture: very little beyond that</li>
+<li>proseminar: + programming in C/C++</li>
+</ul></li>
+<li>language
+<ul>
+<li>English</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:52%;">
+<ul>
+<li>content
+<ul>
+<li>general concepts of parallel programming and its intricacies
+<ul>
+<li>concepts apply to almost all parallel programming models</li>
+<li>as an example, we will mainly discuss MPI</li>
+<li>there are countless others (OpenMP, Kokkos, CUDA, SYCL, TBB, Cilk, Pthreads, C++ STL, Charm++, X10, …)</li>
+<li>also bits and pieces of hardware every now and then</li>
+</ul></li>
+<li>guided tour</li>
+<li>feel free to request topics!</li>
+</ul></li>
+</ul>
+</div></div>
+</section>
+<section id="grading-lecture" class="slide level2">
+<h2>Grading: lecture</h2>
+<ul>
+<li>no mandatory attendance
+<ul>
+<li>note: not everything I say will be on the slides…</li>
+</ul></li>
+<li>single, written exam (27.01.2027, 17.02.2027, 22.03.2027)
+<ul>
+<li>multiple exercises with multiple points</li>
+<li>standard grading scheme, ≥ 50% for positive grade, 12.5% intervals between grades</li>
+<li>don’t memorize the slides, understand the content!</li>
+</ul></li>
+</ul>
+</section>
+<section id="grading-proseminar" class="slide level2">
+<h2>Grading: proseminar</h2>
+<ul>
+<li>weekly assignments, published on GitHub
+<ul>
+<li><a href="https://github.com/philippgs/uibk_hpc_26" class="uri">https://github.com/philippgs/uibk_hpc_26</a></li>
+</ul></li>
+<li>teamwork is permitted and encouraged
+<ul>
+<li>3 people max. per team</li>
+<li>every team member must be able to present and discuss solution</li>
+</ul></li>
+<li><span class="strikethrough">solutions must be handed in via OLAT until Tuesday 17:00!</span>
+<ul>
+<li>solutions must work on the LCC3 cluster</li>
+<li>copying/generating solutions (e.g.&nbsp;off the Internet/LLMs) is acceptable if properly cited and understood</li>
+<li>grade is 50% check marks, 50% presentations/discussion – both must be ≥ 50%!
+<ul>
+<li>you might be asked to present multiple times, presentation grade will be the arithmetic mean!</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="ai-policy-for-coursework" class="slide level2">
+<h2>AI policy for coursework</h2>
+<p><em>“Riding a taxi is not a good way to learn how to drive.”</em></p>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>Principles</strong></p>
+<ul>
+<li>you are responsible for <u>all</u> content you deliver (spoken, in writing, or code)</li>
+<li>this course uses a similar policy compared to most other courses at UIBK</li>
+<li>failure to comply with the policy may result in failing the course</li>
+</ul>
+</div><div class="column" style="width:52%;">
+<p><strong>Definition of the traffic light</strong></p>
+<div class="fig-legend">
+<p><img data-src="figs/out/traffic_red.svg"></p>
+<p>AI use is prohibited.</p>
+<p><img data-src="figs/out/traffic_orange.svg"></p>
+<p>AI is permitted, but must be declared and comply with other restrictions</p>
+<p><img data-src="figs/out/traffic_yellow.svg"></p>
+<p>AI use is allowed.</p>
+<p><img data-src="figs/out/traffic_green.svg"></p>
+<p>AI use is recommended.</p>
+</div>
+</div></div>
+
+<aside><div>
+<p>Department of Computer Science, Winter Term 2026/27</p>
+</div></aside></section>
+<section id="ai-policy-for-this-course" class="slide level2">
+<h2>AI policy for this course</h2>
+<p>The traffic light applies to different types of AI use in the following way:</p>
+<div class="fig-cols">
+<div>
+<p><img data-src="img/icon_ideas.png" class="line-art" height="60"> <img data-src="figs/out/traffic_red.svg" height="120"></p>
+<p><strong>Creative tasks</strong></p>
+<ul>
+<li>planning of parallelization strategies, algorithm selection, etc.</li>
+<li>text generation</li>
+<li>creation of presentation slides</li>
+</ul>
+</div>
+<div>
+<p><img data-src="img/icon_gear.png" class="line-art" height="60"> <img data-src="figs/out/traffic_orange.svg" height="120"></p>
+<p><strong>Professional core tasks</strong></p>
+<ul>
+<li>programming code and benchmarking infrastructure</li>
+<li>data analysis</li>
+</ul>
+</div>
+<div>
+<p><img data-src="img/icon_search.png" class="line-art" height="60"> <img data-src="figs/out/traffic_yellow.svg" height="120"></p>
+<p><strong>Supporting tasks</strong></p>
+<ul>
+<li>literature search</li>
+<li>text summarisation and translation (without directly adopting the output)</li>
+<li>generation of solution hints</li>
+</ul>
+</div>
+<div>
+<p><img data-src="img/icon_wand.png" class="line-art" height="60"> <img data-src="figs/out/traffic_green.svg" height="120"></p>
+<p><strong>Presentation quality assurance</strong></p>
+<ul>
+<li>spell checking</li>
+<li>text editing (without changing the meaning)</li>
+<li>improvement/harmonisation of graphical elements</li>
+</ul>
+</div>
+</div>
+
+<aside><div>
+<p>Department of Computer Science, Winter Term 2026/27</p>
+</div></aside></section>
+<section id="interaction-feedback" class="slide level2">
+<h2>Interaction &amp; feedback</h2>
+<ul>
+<li>platform for interaction outside of the PS/VO
+<ul>
+<li>Discord? Matrix?</li>
+</ul></li>
+<li>anonymous feedback possible via Google Form linked in OLAT</li>
+</ul>
+</section>
+<section id="literature" class="slide level2">
+<h2>Literature</h2>
+<ul>
+<li>Your AI of choice</li>
+<li>www.internet.com
+<ul>
+<li>MPI: A Message-Passing Interface Standard 5.0 (PDF available via <a href="https://www.mpi-forum.org/" class="uri">https://www.mpi-forum.org/</a>, hardcover of v3.1 available)</li>
+<li><a href="https://theartofhpc.com/" class="uri">https://theartofhpc.com/</a></li>
+<li>Stackoverflow</li>
+<li>Google</li>
+<li>…</li>
+</ul></li>
+<li>https://theartofhpc.com/</li>
+<li>old school: printed books
+<ul>
+<li>let me know and I will look up some references…</li>
+</ul></li>
+</ul>
+</section>
+<section id="who-is-this-speaker-what-does-he-do-besides-teaching" class="slide level2">
+<h2>Who is this speaker, what does he do besides teaching?</h2>
+<div class="columns">
+<div class="column" style="width:64%;">
+<ul>
+<li>Head of Research Center HPC, UIBK
+<ul>
+<li>studied computer science @ UIBK, focus on parallel programming, benchmarking and tuning</li>
+</ul></li>
+<li>research interests in and around HPC
+<ul>
+<li>measurement/optimization/modeling of performance, energy, efficiency, …</li>
+<li>APIs, programming models, runtime systems, compilers, …</li>
+</ul></li>
+<li>aid researchers in developing/optimizing parallel applications
+<ul>
+<li>(co-)writing HPC-focused project proposals</li>
+<li>making stuff go faster</li>
+<li>giving training courses on how to make stuff go faster (OpenMP, MPI, etc.)</li>
+</ul></li>
+<li><strong>supervising very exciting master theses!</strong></li>
+</ul>
+</div><div class="column" style="width:36%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/philipp.jpg" class="quarto-figure quarto-figure-center" height="400"></p>
+</figure>
+</div>
+<div class="small" style="text-align: center;">
+<p>Extremely professional-looking photo of Philipp Gschwandtner (© Andreas Friedle)</p>
+</div>
+</div></div>
+</section>
+<section id="what-are-we-all-doing-here" class="slide level2">
+<h2>What are we all doing here?</h2>
+<div class="columns">
+<div class="column" style="width:48%;">
+<ul>
+<li>discuss key concepts of parallel computing
+<ul>
+<li>hardware <strong>and</strong> software aspects</li>
+<li>multiple non-functional aspects – there’s more than just speed</li>
+<li>portability, usability, maintainability, sustainability</li>
+</ul></li>
+<li>we still need to actually do some concrete work
+<ul>
+<li>(mostly) MPI for implementing and evaluating distributed-memory parallelism concepts</li>
+<li>we’ll use LCC3 for running experiments</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:52%;">
+<p><img data-src="img/image3.jpg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="what-are-we-going-to-discuss" class="slide level2">
+<h2>What are we going to discuss?</h2>
+<ul>
+<li>crash course on hardware and programming models</li>
+<li>introduction to MPI (and a bit of other APIs/models such as OpenMP?)</li>
+<li>tons of generic concepts at the example of MPI (and others) programs
+<ul>
+<li>metrics: performance, efficiency, scalability</li>
+<li>problem partitioning, scheduling and load balancing</li>
+<li>parallel program classification and characteristics</li>
+<li>programmer productivity, debugging, profiling</li>
+<li>…</li>
+</ul></li>
+</ul>
+</section>
+<section id="hints-not-only-for-this-course" class="slide level2">
+<h2>Hints (not only) for this course</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>choose a suitable source code editor / IDE and choose it wisely!</li>
+<li>get acquainted with your toolchain
+<ul>
+<li>debuggers, version control (git), etc.</li>
+</ul></li>
+<li>use common sense and sanity checks!</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="img/sandbox.png" class="quarto-figure quarto-figure-center" height="400"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="questions" class="title-slide slide level1 center">
+<h1>Questions?</h1>
+
+</section>
+
+<section>
+<section id="a-crash-course-in-clusters-and-job-submission" class="title-slide slide level1 center">
+<h1>A Crash Course in Clusters and Job Submission</h1>
 
 </section>
 <section id="clusters-and-supercomputers" class="slide level2">
@@ -326,7 +691,10 @@ Philipp Gschwandtner
 <span id="cb2-15"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-16"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/bin/hostname</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</section>
+
+<aside><div>
+<p>Source: <a href="code/job.sh"><code>code/job.sh</code></a></p>
+</div></aside></section>
 <section id="additional-useful-slurm-tools" class="slide level2">
 <h2>Additional useful SLURM tools</h2>
 <ul>
@@ -434,16 +802,21 @@ Philipp Gschwandtner
 <h2>Image sources</h2>
 <div class="small">
 <ul>
-<li><strong>Cluster photo:</strong> <a href="https://forschungsinfrastruktur.bmbwf.gv.at/de/fi/hpc-compute-cluster-leo3-leo3e_513" class="uri">https://forschungsinfrastruktur.bmbwf.gv.at/de/fi/hpc-compute-cluster-leo3-leo3e_513</a></li>
+<li><strong>LEO3 / LCC3 photo:</strong> <a href="https://forschungsinfrastruktur.bmbwf.gv.at/de/fi/hpc-compute-cluster-leo3-leo3e_513" class="uri">https://forschungsinfrastruktur.bmbwf.gv.at/de/fi/hpc-compute-cluster-leo3-leo3e_513</a>, <a href="https://www.uibk.ac.at/zid/systeme/hpc-systeme/leo3/" class="uri">https://www.uibk.ac.at/zid/systeme/hpc-systeme/leo3/</a></li>
+<li><strong>The Atlantic:</strong> <a href="https://www.theatlantic.com/ideas/archive/2025/09/job-market-hell/684133/" class="uri">https://www.theatlantic.com/ideas/archive/2025/09/job-market-hell/684133/</a></li>
+<li><strong>xkcd:</strong> <a href="https://xkcd.com/1838/" class="uri">https://xkcd.com/1838/</a></li>
+<li><strong>Photo of Philipp Gschwandtner:</strong> © Andreas Friedle</li>
+<li><strong>AI policy and its icons:</strong> Department of Computer Science, Winter Term 2026/27</li>
+<li><strong>Sandbox:</strong> <a href="http://www.googblogs.com/open-sourcing-sandboxed-api/" class="uri">http://www.googblogs.com/open-sourcing-sandboxed-api/</a></li>
 <li><strong>SLURM:</strong> <a href="https://justjimsthoughts.blogspot.com/2017/07/trivia_24.html" class="uri">https://justjimsthoughts.blogspot.com/2017/07/trivia_24.html</a></li>
 </ul>
 </div>
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-<p>703309 PS High-Performance Computing — Clusters &amp; Job Submission</p>
+<p>703308/703309 VO+PS High-Performance Computing — Introduction &amp; Crash Course</p>
 </div>
 </div></div>
 

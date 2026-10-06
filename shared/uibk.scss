@@ -35,6 +35,17 @@ $code-color: $uibk-orange;      // inline code
 }
 .reveal ul li::marker { color: $uibk-orange; }
 .reveal .small { font-size: 0.65em; }
+
+// One step below .small / .smaller, for slides that still overflow. Works both
+// on a whole slide (`## Title {.tiny}`, like Quarto's own .smaller, which is
+// 0.7em) and on a block or span (`::: {.tiny}`, like .small). On a slide the
+// headings are scaled back up so the title keeps its usual size.
+$tiny: 0.55;
+.reveal .tiny,
+.reveal .slides section.tiny { font-size: #{$tiny}em; }
+.reveal .slides section.tiny h1 { font-size: calc(2.5em / #{$tiny}); }
+.reveal .slides section.tiny h2 { font-size: calc(#{$presentation-h2-font-size} / #{$tiny}); }
+.reveal .slides section.tiny h3 { font-size: calc(1.3em / #{$tiny}); }
 .reveal .aside { font-size: 0.55em; color: #9fb0c3; }
 .reveal .slide-number { color: $uibk-orange; }
 
@@ -103,3 +114,68 @@ html.print-pdf .reveal .slides section.center-figs {
 .reveal .steps > * { margin: 0; }
 .reveal .steps > :nth-child(even) { text-align: center; }
 .reveal .steps > :nth-child(even) img { height: 150px; margin: 0; }
+
+// Quarto's {{< video >}} shortcode emits a bare <iframe> for reveal.js -- its
+// aspect-ratio option only works in the html format -- which the browser then
+// draws at its default 300x150. Make YouTube embeds fill their container at
+// 16:9 instead; size them by putting them in a column of the desired width.
+// For a 4:3 video, wrap the shortcode in `::: {.video-4x3}` -- otherwise
+// YouTube pillarboxes it inside the 16:9 frame.
+.reveal iframe[src*="youtube.com/embed"],
+.reveal iframe[data-src*="youtube.com/embed"] {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.reveal .video-4x3 iframe { aspect-ratio: 4 / 3; }
+
+// Black line-art icons on a transparent background vanish on the black slide.
+// Mark them `.line-art` to draw them white instead; uibk-light.scss undoes it.
+.reveal img.line-art { filter: invert(1); }
+
+// A legend of small figures, each followed by its explanation:
+// `::: {.fig-legend}` with alternating image / text paragraphs.
+.reveal .fig-legend {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.8em;
+  row-gap: 0.35em;
+  align-items: center;
+}
+.reveal .fig-legend > * { margin: 0; }
+.reveal .fig-legend img { height: 95px; margin: 0; display: block; }
+
+// Several figure-headed columns side by side (`::: {.fig-cols}`, one child
+// div per column): the figures line up on top, the text below each.
+.reveal .fig-cols {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  column-gap: 1em;
+}
+.reveal .fig-cols > div > p:has(img) { text-align: center; margin: 0 0 0.3em; }
+.reveal .fig-cols img { margin: 0; }
+.reveal .fig-cols ul { margin-top: 0.2em; }
+
+// `[text]{.strikethrough}` -- Pandoc's own `~~text~~` works too, but unlike
+// `.underline` this class is not one Pandoc knows, so it needs a rule.
+.reveal .strikethrough { text-decoration: line-through; }
+
+// Markdown tables get reveal's default: horizontal rules only. Wrap a table in
+// `::: {.table-grid}` for a full grid instead. The borders use the text colour,
+// so they flip with the theme. An empty top-left header cell (a matrix such as
+// Flynn's taxonomy) is left open.
+.reveal .table-grid table { border-collapse: collapse; }
+.reveal .table-grid th,
+.reveal .table-grid td {
+  border: 1px solid;
+  vertical-align: middle;
+}
+// reveal drops the last row's bottom border with a more specific selector
+.reveal .table-grid tbody tr:last-child th,
+.reveal .table-grid tbody tr:last-child td { border-bottom: 1px solid; }
+.reveal .table-grid thead th:first-child:empty {
+  border-top: none;
+  border-left: none;
+}
