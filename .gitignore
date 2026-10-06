@@ -18,3 +18,8 @@
 
 # byte-compiled shared/figs/figtheme.py
 __pycache__/
+
+# Rendered from index.qmd, which exists only so `quarto preview` works on the
+# whole project. The published site gets its own root redirect from
+# .github/workflows/pages.yml.
+/index.html

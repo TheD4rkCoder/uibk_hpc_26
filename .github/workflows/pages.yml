@@ -1,0 +1,60 @@
+# Publish the rendered decks to GitHub Pages.
+#
+# The decks are rendered locally and committed (figures need a TeX install), so
+# this only assembles and uploads. Requires Settings -> Pages -> Source:
+# "GitHub Actions".
+#
+# The site keeps the repository layout -- lecture/ next to _libs/ -- because
+# every deck loads its support files via ../../_libs/. The site root only
+# forwards to lecture/index.html; that redirect is generated here so the repo
+# itself needs no root index.html.
+name: Deploy slides to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Assemble site
+        run: |
+          mkdir site
+          cp -r lecture _libs site/
+          cat > site/index.html <<'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+          <meta charset="utf-8">
+          <title>703308 VO High-Performance Computing</title>
+          <meta http-equiv="refresh" content="0; url=lecture/index.html">
+          <link rel="canonical" href="lecture/index.html">
+          </head>
+          <body><a href="lecture/index.html">Lecture slides</a></body>
+          </html>
+          EOF
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

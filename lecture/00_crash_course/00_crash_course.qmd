@@ -144,9 +144,9 @@ JOBID PRIORITY PARTITION NAME USER     STATE   NODES CPUS TIME_LIMIT NODELIST(RE
 
 - refer to ZID's help pages
   - LCC3 status: <https://login.lcc3.uibk.ac.at/cgi-bin/slurm.pl>
-  - LCC3: <https://www.uibk.ac.at/zid/systeme/hpc-systeme/leo3/>
+  - LCC3: <https://www.uibk.ac.at/en/zid/systeme/hpc-systeme/lcc3/>
   - SLURM: <https://www.uibk.ac.at/zid/systeme/hpc-systeme/common/tutorials/slurm-tutorial.html>
-- consult manpages or "The Internet"
+- consult your AI, "The Internet", or manpages
 - ask me
 
 ## Image sources {.smaller}

@@ -1,0 +1,15 @@
+---
+# Project root page. It exists for two reasons:
+#  - `quarto preview` on a default-type project refuses to start without an
+#    index document at the project root;
+#  - the GitHub Pages site root would otherwise 404.
+# Both just forward to the real landing page, lecture/index.html.
+title: "703308 VO High-Performance Computing"
+format:
+  html:
+    minimal: true
+    include-in-header:
+      text: '<meta http-equiv="refresh" content="0; url=lecture/index.html">'
+---
+
+[Lecture slides](lecture/index.html)

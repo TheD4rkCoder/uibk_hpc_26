@@ -2,7 +2,9 @@ project:
   type: default
   # One directory per lecture under lecture/; each renders to its own HTML
   # next to its source.
+  # index.qmd only forwards to lecture/index.html -- see that file.
   render:
+    - index.qmd
     - "lecture/*/*.qmd"
   # One shared copy of the reveal.js / MathJax / clipboard.js support files for
   # all decks, instead of an identical ~5 MB tree inside every <deck>_files/.
