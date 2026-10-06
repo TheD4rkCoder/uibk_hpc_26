@@ -1,0 +1,25 @@
+% MPI_Cart_shift: given a direction and a displacement, MPI hands back the rank
+% numbers of the source and destination neighbours. On a periodic dimension the
+% shift wraps around, which is why the horizontal arrow leaves on one side and
+% comes back on the other.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_cart.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % rank 1,1 is "me"; its up/down and left/right neighbours light up
+  \carttopo{1/1/c, 1/0/h, 1/2/h, 3/1/h}
+
+  % vertical shift by 1, in both directions
+  \draw[->,draw=blu,line width=1.1pt] (t1-1) -- (t1-0);
+  \draw[->,draw=blu,line width=1.1pt] (t1-1) -- (t1-2);
+
+  % horizontal shift by 2 on a periodic dimension: wraps around the row
+  \draw[->,draw=blu,line width=1.1pt] (t1-1) -- (t3-1);
+  \draw[draw=blu,line width=1.1pt,rounded corners=6pt]
+    ({1*\cartd},{-1*\cartd+0.02}) -- ({1*\cartd},{-1*\cartd+0.30})
+    -- ({3*\cartd+0.42},{-1*\cartd+0.30}) -- ({3*\cartd+0.42},{-1*\cartd});
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,45 @@
+% Shared building block for the virtual-topology figures (slides 30, 31, 34,
+% 35, 51): a 4x4 Cartesian grid of ranks with periodic wrap-around.
+% Not a figure itself -- see tools/build_figs.py.
+
+\tikzset{
+  cdotp/.style={circle,fill=uibkorange!35,minimum size=4.6mm,inner sep=0pt},  % idle rank
+  cdoth/.style={circle,fill=uibkorange,minimum size=4.6mm,inner sep=0pt},     % involved
+  cdotc/.style={circle,fill=uibknavy,draw=blu,line width=0.5pt,
+                minimum size=4.6mm,inner sep=0pt},                            % "me"
+  clink/.style={draw=blu,line width=0.7pt},
+  cwrap/.style={draw=blu,line width=0.7pt,dash pattern=on 2.5pt off 2.5pt},
+}
+
+\newcommand{\cartd}{0.78}   % spacing between ranks
+
+% ---------------------------------------------------------------------------
+% \carttopo{overrides}
+%   Draws the grid, its links and the dashed periodic wrap-arounds, then the
+%   ranks. Every rank is drawn pale; "overrides" is a comma list of
+%   "col/row/style" (style: p pale, h highlighted, c centre) drawn on top.
+%   Nodes are named t<col>-<row> so a figure can attach arrows to them.
+% ---------------------------------------------------------------------------
+\newcommand{\carttopo}[1]{%
+  % nearest-neighbour links
+  \foreach \c in {0,...,3}{\foreach \r in {0,...,2}{%
+    \draw[clink] ({\c*\cartd},{-\r*\cartd}) -- ({\c*\cartd},{-\r*\cartd-\cartd});}}
+  \foreach \c in {0,...,2}{\foreach \r in {0,...,3}{%
+    \draw[clink] ({\c*\cartd},{-\r*\cartd}) -- ({\c*\cartd+\cartd},{-\r*\cartd});}}
+  % periodic boundaries: each row and each column closes on itself
+  \foreach \r in {0,...,3}{%
+    \draw[cwrap,rounded corners=5pt]
+      ({3*\cartd},{-\r*\cartd}) -- ({3*\cartd+0.42},{-\r*\cartd})
+      -- ({3*\cartd+0.42},{-\r*\cartd+0.34}) -- ({-0.42},{-\r*\cartd+0.34})
+      -- ({-0.42},{-\r*\cartd}) -- (0,{-\r*\cartd});}
+  \foreach \c in {0,...,3}{%
+    \draw[cwrap,rounded corners=5pt]
+      ({\c*\cartd},{-3*\cartd}) -- ({\c*\cartd},{-3*\cartd-0.42})
+      -- ({\c*\cartd+0.34},{-3*\cartd-0.42}) -- ({\c*\cartd+0.34},{0.42})
+      -- ({\c*\cartd},{0.42}) -- ({\c*\cartd},0);}
+  % ranks
+  \foreach \c in {0,...,3}{\foreach \r in {0,...,3}{%
+    \node[cdotp] (t\c-\r) at ({\c*\cartd},{-\r*\cartd}) {};}}
+  \foreach \c/\r/\s in {#1}{%
+    \node[cdot\s] (t\c-\r) at ({\c*\cartd},{-\r*\cartd}) {};}%
+}

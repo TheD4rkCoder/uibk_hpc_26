@@ -1,0 +1,19 @@
+% A column of a row-major matrix is a strided type; sending it as one and
+% receiving it as plain elements transposes it into a contiguous row.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cs{0.46}
+  \memgrid{(0,0)}{4}{4}{\cs}
+  \memblock{(0,0)}{0}{0}{1}{4}{\cs}
+
+  \draw[->,draw=blu,line width=1.6pt] (2.65,{-2*\cs}) -- (4.55,{-2*\cs});
+
+  \memgrid{(5.10,{-1.5*\cs})}{4}{1}{\cs}
+  \memblock{(5.10,{-1.5*\cs})}{0}{0}{4}{1}{\cs}
+
+\end{tikzpicture}
+\end{document}

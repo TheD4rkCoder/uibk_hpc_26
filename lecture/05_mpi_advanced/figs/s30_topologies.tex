@@ -1,0 +1,34 @@
+% The two topology types MPI knows about: a regular Cartesian grid, and a
+% general graph where the edges are whatever neighbour relation you declare.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_cart.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \begin{scope}
+    \carttopo{0/0/h, 1/0/h, 2/0/h, 3/0/h, 0/1/h, 1/1/h, 2/1/h, 3/1/h,
+              0/2/h, 1/2/h, 2/2/h, 3/2/h, 0/3/h, 1/3/h, 2/3/h, 3/3/h}
+  \end{scope}
+
+  % an irregular graph: same idea, arbitrary edges
+  \begin{scope}[xshift=5.6cm,yshift=-1.2cm]
+    \foreach \n/\x/\y in {a/0.00/0.35, b/0.75/0.95, c/1.55/1.10, d/2.35/0.80,
+                          e/3.10/1.05, f/3.80/0.55, g/0.55/-0.45, h/1.35/0.15,
+                          i/2.05/-0.20, j/2.80/0.30, k/3.45/-0.30,
+                          l/1.05/-1.05, m/1.95/-1.15, n/2.70/-0.85}{
+      \node[cdoth] (\n) at (\x,\y) {};}
+    \foreach \u/\v in {a/b, b/c, c/d, d/e, e/f, a/g, g/h, h/i, i/j, j/k, k/f,
+                       b/h, c/h, c/i, d/i, d/j, e/j, g/l, l/m, m/n, n/k,
+                       h/l, i/m, j/n, i/n, h/m}{
+      \draw[clink] (\u) -- (\v);}
+    % redraw the vertices so the edges sit underneath them
+    \foreach \n/\x/\y in {a/0.00/0.35, b/0.75/0.95, c/1.55/1.10, d/2.35/0.80,
+                          e/3.10/1.05, f/3.80/0.55, g/0.55/-0.45, h/1.35/0.15,
+                          i/2.05/-0.20, j/2.80/0.30, k/3.45/-0.30,
+                          l/1.05/-1.05, m/1.95/-1.15, n/2.70/-0.85}{
+      \node[cdoth] at (\x,\y) {};}
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

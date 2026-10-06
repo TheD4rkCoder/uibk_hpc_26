@@ -1,0 +1,23 @@
+% MPI_Bcast: every rank ends up with a full copy of root's buffer.
+% Unlike scatter/gather there is no self-loop in the original figure -- the
+% single curved arrow is root's send buffer feeding its own receive buffer.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}
+
+  % --- root's send buffer ---------------------------------------------------
+  \mpibuf{(0,1.45)}{0,1,2,3,4,5,6,7}
+  \draw[flow] (-0.18,1.71) .. controls +(-0.75,0) and +(-0.75,0) .. (-0.18,0.96);
+
+  % --- every rank receives the complete buffer ------------------------------
+  \mpibuf{(0,0.70)}{0,1,2,3,4,5,6,7}          % rank 0 (top left, root)
+  \mpibuf{(\colb,0.70)}{0,1,2,3,4,5,6,7}      % rank 1 (top right)
+  \mpibuf{(\colb,-4.15)}{0,1,2,3,4,5,6,7}     % rank 2 (bottom right)
+  \mpibuf{(0,-4.15)}{0,1,2,3,4,5,6,7}         % rank 3 (bottom left)
+
+  \mpiranks
+  \mpiflows
+
+\end{tikzpicture}
+\end{document}

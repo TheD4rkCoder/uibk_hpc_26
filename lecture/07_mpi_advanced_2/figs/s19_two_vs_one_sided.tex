@@ -1,0 +1,37 @@
+% Two-sided vs. one-sided. On the left, every transfer is also a
+% synchronisation point. On the right the two are decoupled: the fences bound
+% an epoch, and inside it data moves without the target doing anything.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_rma.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % ---------------- two-sided ----------------
+  \begin{scope}
+    \node[text=fg,font=\sffamily\small] at (0,0.34) {sender rank};
+    \node[text=fg,font=\sffamily\small] at (\rmaw,0.34) {receiver rank};
+    \draw[rmaline] (0,0) -- (0,-\rmah);
+    \draw[rmaline] (\rmaw,0) -- (\rmaw,-\rmah);
+    \node[rmacall] at (0.24,{-\rmah+0.30}) {t};
+    \node[rmacall] at ({\rmaw+0.24},{-\rmah+0.30}) {t};
+
+    % the message is the synchronisation
+    \draw[rmadata] (0,-1.70) -- ({\rmaw-0.06},-2.60);
+    \draw[rmasync] (0,-1.70) -- ({\rmaw-0.06},-2.60);
+    \node[rmacall,anchor=east] at (-0.18,-1.70) {\texttt{MPI\_Send(...)}};
+    \node[rmacall,anchor=west] at ({\rmaw+0.18},-2.60) {\texttt{MPI\_Recv(...)}};
+    \node[text=fg,font=\sffamily\small,anchor=north] at ({\rmaw/2},-\rmah-0.35) {two-sided};
+  \end{scope}
+
+  % ---------------- one-sided ----------------
+  \begin{scope}[xshift=8.4cm]
+    \rmapanel{\texttt{MPI\_Win\_fence(...)}}{\texttt{MPI\_Win\_fence(...)}}%
+             {\texttt{MPI\_Win\_fence(...)}}{\texttt{MPI\_Win\_fence(...)}}{1}
+    \node[text=fg,font=\sffamily\small,anchor=north] at ({\rmaw/2},-\rmah-0.35) {one-sided};
+  \end{scope}
+
+  \rmalegend{(3.6,-6.1)}
+
+\end{tikzpicture}
+\end{document}

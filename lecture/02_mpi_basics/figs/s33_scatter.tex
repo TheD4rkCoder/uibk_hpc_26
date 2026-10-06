@@ -1,0 +1,25 @@
+% MPI_Scatter: root's send buffer is split into contiguous chunks, one per rank.
+% Ranks are numbered clockwise from top-left (0,1,2,3), as in the original slide.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}
+
+  % --- root's send buffer, holding all 8 elements ---------------------------
+  \mpibuf{(0,1.45)}{0,1,2,3,4,5,6,7}
+  % curved arrow from the send buffer into root's own receive buffer
+  \draw[flow] (-0.18,1.71) .. controls +(-0.75,0) and +(-0.75,0) .. (-0.18,0.96);
+
+  % --- receive buffers: rank i receives elements 2i and 2i+1 ----------------
+  \mpibuf{(0,0.70)}{0,1,.,.,.,.,.,.}          % rank 0 (top left, root)
+  \mpibuf{(\colb,0.70)}{.,.,2,3,.,.,.,.}      % rank 1 (top right)
+  \mpibuf{(\colb,-4.15)}{.,.,.,.,4,5,.,.}     % rank 2 (bottom right)
+  \mpibuf{(0,-4.15)}{.,.,.,.,.,.,6,7}         % rank 3 (bottom left)
+
+  % --- ranks and the scatter fan-out ---------------------------------------
+  \mpiranks
+  \mpiselfloop
+  \mpiflows
+
+\end{tikzpicture}
+\end{document}

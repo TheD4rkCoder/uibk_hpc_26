@@ -1,0 +1,48 @@
+% Schematic (not measured data): OpenMP buys speed-up sooner because it allows
+% incremental parallelisation; MPI needs the program restructured before
+% anything runs at all, but ultimately reaches further.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\base{1.25}     % performance of the untouched sequential program
+  \def\startp{2.60}   % where parallelisation begins
+
+  % --- axes -----------------------------------------------------------------
+  \draw[->,draw=fg,line width=1.0pt] (0,0) -- (10.9,0);
+  \draw[->,draw=fg,line width=1.0pt] (0,0) -- (0,6.1);
+  \node[lbl,anchor=west]  at (7.9,-0.55) {time and effort};
+  \node[lbl,rotate=90,anchor=south] at (-0.55,3.0) {performance};
+
+  % --- the sequential program, before anyone touches it ---------------------
+  \draw[draw=uibkorange,line width=1.3pt,dash pattern=on 6pt off 4pt]
+    (0.15,\base) -- (\startp,\base);
+  \draw[draw=blu,line width=1.3pt,dash pattern=on 6pt off 4pt]
+    (0.15,\base) -- (\startp,\base);
+
+  % --- OpenMP: gains arrive early, then flatten out -------------------------
+  \draw[draw=uibkorange,line width=1.5pt] plot[smooth,tension=0.65] coordinates {
+    (\startp,\base) (3.55,2.70) (4.45,3.65) (5.40,4.10) (6.80,4.32) (10.2,4.42)};
+  \node[lbl,text=uibkorange,anchor=south] at (4.35,4.55) {OpenMP};
+
+  % --- MPI: nothing works until the rewrite is done, then it overtakes ------
+  \draw[draw=blu,line width=1.3pt,dash pattern=on 6pt off 4pt]
+    (\startp,\base) -- (6.10,\base);
+  \draw[draw=blu,line width=1.5pt] plot[smooth,tension=0.65] coordinates {
+    (6.10,\base) (6.75,2.35) (7.35,3.55) (8.00,4.25) (8.90,4.72) (10.2,5.10)};
+  \node[lbl,text=blu,anchor=south] at (9.05,5.25) {MPI};
+
+  % --- annotations ----------------------------------------------------------
+  \draw[draw=blu,line width=1.0pt,dotted] (\startp,0) -- (\startp,\base);
+  \node[lbl,align=center,anchor=north] at (\startp,-0.55)
+    {start of\\parallelization};
+
+  \node[lbl,align=center,anchor=south] at (1.45,2.75) {sequential\\program};
+  \draw[->,draw=blu,line width=1.1pt] (1.45,2.62) -- (1.45,\base+0.18);
+
+  \node[lbl,align=center,anchor=south] at (4.55,2.30) {non-functional\\program};
+  \draw[->,draw=blu,line width=1.1pt] (4.55,2.17) -- (4.55,\base+0.18);
+
+\end{tikzpicture}
+\end{document}

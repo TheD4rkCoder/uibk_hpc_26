@@ -1,8 +1,10 @@
 # 703308 VO High-Performance Computing — lecture slides
 
 Quarto / reveal.js decks, converted from the original PowerPoint files.
-One directory per lecture; the decks are independent of each other.
+One directory per lecture under `lecture/`; the decks are independent of each
+other. `lecture/index.html` links them all.
 
+    00_crash_course/                  A Crash Course in Clusters and Job Submission (PS)
     01_motivation_and_crash_course/   Motivation & A Crash Course in Parallel Hard- and Software
     02_mpi_basics/                    MPI – Message Passing Interface
     03_debugging/                     Debugging Parallel Programs
@@ -14,10 +16,11 @@ One directory per lecture; the decks are independent of each other.
 ## Render
 
     quarto render                     # every deck
-    quarto render 02_mpi_basics       # one deck
-    quarto preview 02_mpi_basics/02_mpi_basics.qmd    # live reload while editing
+    quarto render lecture/02_mpi_basics       # one deck
+    quarto preview lecture/02_mpi_basics/02_mpi_basics.qmd    # live reload while editing
 
-Each deck renders to `<deck>/<deck>.html` next to its source.
+Each deck renders to `lecture/<deck>/<deck>.html` next to its source. In the
+rest of this file, `<deck>/` is short for `lecture/<deck>/`.
 
 PDF for students, either
 
@@ -44,6 +47,9 @@ The PDF is always light-themed regardless of how the deck is being shown; see
         figtheme.py     the same colours for the matplotlib generators
         mem.tex         memory layouts (lectures 05, 06)
         numa.tex        the four-socket NUMA node (lectures 01, 07)
+    lecture/
+      index.html        landing page linking every deck
+      <deck>/           one per lecture, see below
     tools/
       build_figs.py     builds every deck's figures (see below)
       pptx_dump.py      inspects a .pptx when converting a new lecture
@@ -61,9 +67,10 @@ The PDF is always light-themed regardless of how the deck is being shown; see
       code/             source files included into the slides via {{< include >}}
       original/         the .pptx (and .pdf) this deck was converted from
 
-Adding a lecture means creating one more `<deck>/` directory with a `.qmd` in
-it. `tools/build_figs.py` picks it up automatically: a "deck" is simply any
-top-level directory containing a `figs/` subdirectory.
+Adding a lecture means creating one more `lecture/<deck>/` directory with a
+`.qmd` in it, and a link in `lecture/index.html`. `tools/build_figs.py` picks
+it up automatically: a "deck" is simply any directory under `lecture/`
+containing a `figs/` subdirectory.
 
 ### One shared copy of the JS/CSS support files
 
@@ -71,7 +78,7 @@ By default Quarto gives every document its own `<deck>_files/libs/` tree, so
 each deck carried an identical ~5 MB copy of reveal.js, MathJax, clipboard.js
 and friends -- 38 MB across seven decks, all of it byte-for-byte the same.
 `lib-dir: _libs` in `_quarto.yml` makes Quarto emit one copy at the project
-root instead, which every deck references as `../_libs/...`.
+root instead, which every deck references as `../../_libs/...`.
 
 It is generated output, so it is git-ignored; `quarto render` recreates it.
 

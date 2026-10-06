@@ -1,0 +1,28 @@
+% MPI_Reduce: each rank contributes one value (rank i holds value i at slot i)
+% and root receives the combined result -- here MPI_SUM, so 0+1+2+3 = 6.
+% Buffers are 4 cells wide, centred under their rank.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}
+
+  % 4-cell buffers are centred on the rank: left edge = centre - 2*\cellw
+  \newcommand{\bufa}{0.92}   % left column
+  \newcommand{\bufb}{5.52}   % right column
+
+  % --- each rank contributes its own value ----------------------------------
+  \mpibuf{(\bufa,1.45)}{0,.,.,.}        % rank 0 (top left, root)
+  \mpibuf{(\bufb,1.45)}{.,1,.,.}        % rank 1 (top right)
+  \mpibuf{(\bufb,-4.15)}{.,.,2,.}       % rank 2 (bottom right)
+  \mpibuf{(\bufa,-4.15)}{.,.,.,3}       % rank 3 (bottom left)
+
+  % --- root receives the reduced result --------------------------------------
+  \mpibuf{(1.61,0.70)}{6}
+  \draw[flow] (0.74,1.71) .. controls +(-0.75,0) and +(-0.75,0) .. (1.43,0.96);
+
+  \mpiranks
+  \mpiselfloop
+  \mpiflowsin
+
+\end{tikzpicture}
+\end{document}

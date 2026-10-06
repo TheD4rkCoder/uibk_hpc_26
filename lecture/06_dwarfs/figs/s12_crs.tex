@@ -1,0 +1,46 @@
+% Compressed row storage: one array holds the non-zero values, a second holds
+% their column index, and a third says where each row starts in the first two.
+% Below: compressed diagonal storage, which instead stores whole diagonals.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % --- CRS ----------------------------------------------------------------
+  \memstrip{(0.85,1.55)}{o/2, n/-1, o/3, n/-1, o/2, n/1, o/0, n/3}
+  \memstrip{(0.85,0.95)}{n/0, o/1, n/0, o/1, n/2, o/1, n/2, o/3}
+  \node[text=fg,font=\sffamily\scriptsize,anchor=east] at (0.72,1.79) {$a_{ij}$};
+  \node[text=fg,font=\sffamily\scriptsize,anchor=east] at (0.72,1.19) {$j$};
+
+  \memstrip{(1.95,0.10)}{n/0, n/2, n/5, n/8}
+  \node[text=fg,font=\sffamily\scriptsize,anchor=east] at (1.82,0.34) {start$(i)$};
+
+  % which stretch of the value array each row occupies
+  \foreach \s/\d in {0/0, 2/1, 5/2, 8/3}{
+    \draw[draw=blu,line width=0.6pt]
+      ({0.85+\s*\memw+0.5*\memw},0.93) to[out=-90,in=90]
+      ({1.95+\d*\memw+0.5*\memw},0.64);}
+
+  % --- CDS ----------------------------------------------------------------
+  % Compressed diagonal storage keeps whole diagonals instead of single
+  % elements, which pays off when the non-zeros sit in a band around the main
+  % diagonal -- as they do for many stencil-derived matrices.
+  \def\cs{0.42}
+  \begin{scope}[yshift=-0.55cm]
+    \foreach \c in {0,...,5}{\foreach \r in {0,...,5}{
+      \pgfmathsetmacro{\d}{abs(\c-\r)}
+      \ifthenelse{\lengthtest{\d pt < 1.5pt}}
+        {\draw[draw=uibkorange!70!black,line width=0.5pt,fill=uibkorange]
+           ({0.85+\c*\cs},{-\r*\cs}) rectangle ++(\cs,-\cs);}
+        {\draw[draw=blu,line width=0.5pt]
+           ({0.85+\c*\cs},{-\r*\cs}) rectangle ++(\cs,-\cs);}}}
+    \foreach \c/\r/\v in {0/0/-2, 1/0/-1, 0/1/3, 1/1/-1, 2/1/2, 1/2/1,
+                          2/2/0, 3/2/3, 2/3/4, 3/3/-2, 4/3/2, 3/4/1,
+                          4/4/-3, 5/4/1, 4/5/3, 5/5/2}{
+      \node[text=inkdark,font=\sffamily\scriptsize]
+        at ({0.85+\c*\cs+0.5*\cs},{-\r*\cs-0.5*\cs}) {\v};}
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

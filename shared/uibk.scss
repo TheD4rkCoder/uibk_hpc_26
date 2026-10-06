@@ -73,3 +73,33 @@ $code-color: $uibk-orange;      // inline code
   max-height: 460px;
   height: auto;
 }
+
+// Image-only slides: with `center: false`, reveal pins content to the top and
+// leaves the bottom of the slide empty. Tag such a slide `## Title {.center-figs}`
+// to centre its figures vertically in the space below the title. The section
+// becomes a full-height flex column; the title's bottom margin and an empty
+// ::after item share the free space equally.
+.reveal .slides section.center-figs.present,
+html.print-pdf .reveal .slides section.center-figs {
+  display: flex !important; // reveal sets an inline display: block on the shown slide
+  flex-direction: column;
+  height: 100%;
+}
+.reveal .slides section.center-figs > h2 { margin-bottom: auto; }
+.reveal .slides section.center-figs::after { content: ""; margin-top: auto; }
+
+// Bullets paired with one figure each (`:::: {.steps}`): children alternate
+// text, figure, text, figure, ... and each pair shares a grid row, so a bullet
+// sits level with its picture. Figures are drawn at a common scale and shown
+// at a common height, so they stay comparable across rows.
+.reveal .steps {
+  display: grid;
+  grid-template-columns: 58fr 42fr;
+  column-gap: 1.2em;
+  row-gap: 0.5em;
+  align-items: center;
+  margin: 0.6em 0 0.8em;
+}
+.reveal .steps > * { margin: 0; }
+.reveal .steps > :nth-child(even) { text-align: center; }
+.reveal .steps > :nth-child(even) img { height: 150px; margin: 0; }

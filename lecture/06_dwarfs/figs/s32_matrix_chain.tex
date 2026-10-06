@@ -1,0 +1,47 @@
+% Matrix-chain multiplication: the result is the same whatever order you
+% choose, but the cost is not -- which is what dynamic programming exploits.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    lbl/.style={text=fg,font=\sffamily\small,align=center}]
+
+  \def\u{0.135}   % one matrix row/column
+
+  % \mat{x}{rows}{cols}{name}{dims}
+  % The matrices differ in height, so the captions sit on two fixed baselines
+  % below the tallest one (8 rows) rather than below each matrix.
+  \def\capa{-1.42}
+  \def\capb{-1.76}
+  \newcommand{\mat}[5]{%
+    \pgfmathsetmacro{\w}{#3*\u}
+    \foreach \c in {0,...,\the\numexpr#3-1\relax}{
+      \foreach \r in {0,...,\the\numexpr#2-1\relax}{
+        \draw[draw=uibkorange!70!black,line width=0.35pt,fill=uibkorange]
+          ({#1+\c*\u},{-\r*\u}) rectangle ++(\u,-\u);}}
+    \node[lbl] at ({#1+\w/2},\capa) {#4};
+    \node[lbl,font=\sffamily\scriptsize] at ({#1+\w/2},\capb) {#5};}
+
+  \mat{0.00}{5}{5}{A}{5x5}
+  \node[lbl] at (0.82,-0.34) {$\times$};
+  \mat{1.00}{5}{4}{B}{5x4}
+  \node[lbl] at (1.68,-0.34) {$\times$};
+  \mat{1.86}{4}{8}{C}{4x8}
+  \node[lbl] at (3.10,-0.34) {$\times$};
+  \mat{3.28}{8}{2}{D}{8x2}
+  \node[lbl] at (3.72,-0.34) {$=$};
+  \mat{3.90}{5}{2}{X}{5x2}
+
+  % the three ways to parenthesise, and what each costs
+  \node[lbl,anchor=west,font=\sffamily\small] at (0,-2.35)
+    {$A \times \bigl(B \times (C \times D)\bigr) = X$};
+  \node[lbl,anchor=west,font=\sffamily\small] at (0,-2.92)
+    {$(A \times B) \times (C \times D) = X$};
+  \node[lbl,anchor=west,font=\sffamily\small] at (0,-3.49)
+    {$\bigl((A \times B) \times C\bigr) \times D = X$};
+  \node[lbl,anchor=west] at (3.95,-2.35) {154 ops};
+  \node[lbl,anchor=west] at (3.95,-2.92) {204 ops};
+  \node[lbl,anchor=west] at (3.95,-3.49) {340 ops};
+
+\end{tikzpicture}
+\end{document}

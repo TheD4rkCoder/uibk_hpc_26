@@ -1,0 +1,22 @@
+% Virtual topologies let you say "my left neighbour" instead of open-coding the
+% modulo arithmetic that computes the same rank number.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \memstrip{(0,0)}{h/, o/, o/, o/, o/, o/, o/, o/}
+
+  \draw[->,draw=blu,line width=0.9pt]
+    ({\memw*2.6},1.02) -- ({\memw*0.5},{\memh+0.06});
+  \node[text=fg,font=\sffamily\scriptsize,align=center,anchor=south]
+    at ({\memw*3.5},1.06) {send to\\\texttt{(myRank - 1 + numRanks) \% numRanks}};
+
+  \draw[->,draw=blu,line width=0.9pt]
+    ({\memw*2.6},-0.92) -- ({\memw*0.5},-0.06);
+  \node[text=fg,font=\sffamily\scriptsize,anchor=north]
+    at ({\memw*3.5},-0.96) {``send to my left neighbor''};
+
+\end{tikzpicture}
+\end{document}

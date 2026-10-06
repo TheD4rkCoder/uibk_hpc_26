@@ -1,0 +1,62 @@
+% How a broadcast may actually be realised: linearly, as a tree, or in hardware.
+% All three panels show the same eight ranks in the same flat row, so only the
+% arrow pattern differs -- that is the whole point of the figure.
+%
+% The tree panel draws a textbook binomial broadcast: after step k, 2^k ranks
+% hold the data (1 -> 2 -> 4 -> 8), which is why it finishes in log2(n) steps.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[
+    dot/.style ={circle,draw=onfill,line width=0.6pt,fill=uibknavy,
+                 minimum size=4.6mm,inner sep=0pt},
+    root/.style={circle,draw=onfill,line width=0.6pt,fill=uibkorange,
+                 minimum size=4.6mm,inner sep=0pt},
+    stepnum/.style={text=fg,font=\sffamily\tiny,inner sep=1pt},
+    pan/.style ={text=fg,font=\sffamily\small,align=center}]
+
+  \def\dx{0.62}      % leaf spacing
+  \def\ly{-1.75}     % leaf row
+  \def\rx{1.86}      % root x (centre of the row)
+
+  % ======================= 1. sequential ==================================
+  \begin{scope}[xshift=0cm]
+    \node[root] (a) at (\rx,0) {};
+    \foreach \i in {0,...,6}{\node[dot] (a\i) at ({\i*\dx},\ly) {};}
+    \foreach \i in {0,...,6}{\draw[flow] (a) -- (a\i);}
+    \node[pan] at (\rx,-3.15) {sequential algorithm\\$\mathcal{O}(\texttt{num\_ranks})$};
+  \end{scope}
+
+  % ======================= 2. tree-based ==================================
+  \begin{scope}[xshift=5.6cm]
+    \node[root] (b) at (\rx,0) {};
+    \foreach \i in {0,...,6}{\node[dot] (b\i) at ({\i*\dx},\ly) {};}
+
+    % step 1: root reaches the middle of the range
+    \draw[flow] (b)  -- node[stepnum,right=1pt] {1} (b3);
+    % step 2: both halves again
+    \draw[flow] (b)  -- node[stepnum,above left=-1pt] {2} (b1);
+    \draw[flow] (b3) to[bend right=50] node[stepnum,below=1pt] {2} (b5);
+    % step 3: every remaining rank
+    \draw[flow] (b)  -- node[stepnum,above left=-1pt] {3} (b0);
+    \draw[flow] (b1) to[bend right=52] node[stepnum,below=1pt] {3} (b2);
+    \draw[flow] (b3) to[bend right=52] node[stepnum,below=1pt] {3} (b4);
+    \draw[flow] (b5) to[bend right=52] node[stepnum,below=1pt] {3} (b6);
+
+    \node[pan] at (\rx,-3.15)
+      {tree-based algorithm\\e.g.\ $\mathcal{O}(\log_2(\texttt{num\_ranks}))$};
+  \end{scope}
+
+  % ======================= 3. hardware =====================================
+  % Orthogonal, nested routes: the fabric delivers to everyone at once.
+  \begin{scope}[xshift=11.2cm]
+    \node[root] (c) at (\rx,0) {};
+    \foreach \i in {0,...,6}{\node[dot] (c\i) at ({\i*\dx},\ly) {};}
+    \foreach \i/\yb in {0/-1.18,1/-1.03,2/-0.88,3/-0.73,4/-0.88,5/-1.03,6/-1.18}{
+      \draw[flow] (\rx,-0.23) -- (\rx,\yb) -- ({\i*\dx},\yb) -- ({\i*\dx},{\ly+0.23});
+    }
+    \node[pan] at (\rx,-3.15) {hardware operation\\$\mathcal{O}(1)$};
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

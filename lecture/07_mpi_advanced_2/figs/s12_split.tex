@@ -1,0 +1,25 @@
+% MPI_Comm_split with colour = rank/4: the 16 ranks of MPI_COMM_WORLD fall into
+% four new communicators, and each rank gets a fresh rank number inside its own.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    rk/.style ={circle,fill=uibkorange,draw=uibkorange!70!black,line width=0.5pt,
+                text=inkdark,font=\sffamily\scriptsize,minimum size=6mm,inner sep=0pt},
+    note/.style={text=fg,font=\sffamily\scriptsize}]
+
+  \foreach \c in {0,...,3}{
+    \foreach \r in {0,...,3}{
+      \node[rk] at ({\r*1.05},{-\c*0.95}) {\r};}
+    \node[note,anchor=west] at (3.55,{-\c*0.95}) {\texttt{my\_color = \c}};}
+
+  % the cuts between the four new communicators
+  \foreach \c in {0,1,2}{
+    \draw[draw=blu,line width=0.9pt,dash pattern=on 5pt off 4pt]
+      (-0.45,{-\c*0.95-0.48}) -- (3.40,{-\c*0.95-0.48});}
+
+  \draw[->,draw=blu,line width=0.9pt] (1.05,0.86) -- (1.05,0.26);
+  \node[note,anchor=south] at (1.05,0.90) {\texttt{newRank}};
+
+\end{tikzpicture}
+\end{document}

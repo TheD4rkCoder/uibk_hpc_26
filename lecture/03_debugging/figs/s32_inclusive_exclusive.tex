@@ -1,0 +1,54 @@
+% Inclusive vs. exclusive measurement. The braces have to line up with
+% individual source lines, which is why the code is drawn here rather than set
+% as a normal Quarto code block: TikZ can place a brace against a known line.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % monokai-ish, to match the deck's highlight-style
+  \definecolor{ckw}{HTML}{F92672}   % keyword
+  \definecolor{cty}{HTML}{66D9EF}   % type
+  \definecolor{cfn}{HTML}{A6E22E}   % function name
+  \definecolor{ccm}{HTML}{75715E}   % comment
+  \definecolor{ctx}{HTML}{F8F8F2}   % plain code
+
+  \def\lh{0.46}                     % line height
+  \newcommand{\cl}[2]{%
+    \node[anchor=base west,font=\ttfamily\small,text=ctx]
+      at (0.25,{-#1*\lh}) {#2};}
+
+  % the code box
+  \fill[rounded corners=3pt,fill=black!92]
+    (0,{0.42}) rectangle (7.1,{-8*\lh-0.30});
+
+  \cl{0}{\textcolor{cty}{int} \textcolor{cfn}{outside}() \{}
+  \cl{1}{~~\textcolor{ckw}{for}(\textcolor{cty}{int} i = 0; i < N; ++i) \{}
+  \cl{2}{~~~~\textcolor{ccm}{// work}}
+  \cl{3}{~~\}}
+  \cl{4}{~~\textcolor{cfn}{inside}();}
+  \cl{5}{~~\textcolor{ckw}{for}(\textcolor{cty}{int} j = 0; j < M; ++j) \{}
+  \cl{6}{~~~~\textcolor{ccm}{// more work}}
+  \cl{7}{~~\}}
+  \cl{8}{\}}
+
+  % --- what a profiler would attribute to `outside` --------------------------
+  % exclusive: only the work done directly in outside(), i.e. the two loops
+  \draw[decorate,decoration={brace,amplitude=5pt},draw=blu,line width=0.8pt]
+    (7.35,{-1*\lh+0.34}) -- (7.35,{-3*\lh-0.14});
+  \node[text=fg,font=\sffamily\scriptsize,rotate=-90,anchor=south]
+    at (7.72,{-2*\lh+0.10}) {exclusive};
+
+  \draw[decorate,decoration={brace,amplitude=5pt},draw=blu,line width=0.8pt]
+    (7.35,{-5*\lh+0.34}) -- (7.35,{-7*\lh-0.14});
+  \node[text=fg,font=\sffamily\scriptsize,rotate=-90,anchor=south]
+    at (7.72,{-6*\lh+0.10}) {exclusive};
+
+  % inclusive: the same, plus everything inside() does
+  \draw[decorate,decoration={brace,amplitude=5pt},draw=blu,line width=0.8pt]
+    (8.35,{-1*\lh+0.34}) -- (8.35,{-7*\lh-0.14});
+  \node[text=fg,font=\sffamily\scriptsize,rotate=-90,anchor=south]
+    at (8.72,{-4*\lh+0.10}) {inclusive};
+
+\end{tikzpicture}
+\end{document}

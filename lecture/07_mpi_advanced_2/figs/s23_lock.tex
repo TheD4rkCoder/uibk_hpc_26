@@ -1,0 +1,13 @@
+% Passive target synchronisation: the target takes no part at all -- neither in
+% the transfer nor in the synchronisation. Only the origin bounds the epoch,
+% which is why the target side carries no calls here.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_rma.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \rmapanel{\texttt{MPI\_Win\_lock(...)}}{}%
+           {\texttt{MPI\_Win\_unlock(...)}}{}{0}
+  \rmalegend{(-1.1,-5.9)}
+\end{tikzpicture}
+\end{document}

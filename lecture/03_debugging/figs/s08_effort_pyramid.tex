@@ -1,0 +1,38 @@
+% The debugging effort pyramid: the further up you go, the rarer the technique
+% should be and the more manual effort it costs. The traffic-light colours are
+% part of the message, so they are kept rather than mapped onto the CI palette.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \definecolor{lvlred}{HTML}{C0392B}
+  \definecolor{lvlamber}{HTML}{F0B323}
+  \definecolor{lvlgreen}{HTML}{8BC74F}
+
+  \def\H{5.6}    % apex height
+  \def\W{6.20}   % half-width at the base
+
+  % \band{y1}{y2}{colour}{text colour}{font}{label}
+  % a horizontal slice of the triangle; its half-width shrinks linearly with y,
+  % so the upper (narrower) bands need a smaller font to stay inside the shape
+  \newcommand{\band}[6]{%
+    \pgfmathsetmacro{\wa}{\W*(1-#1/\H)}%
+    \pgfmathsetmacro{\wb}{\W*(1-#2/\H)}%
+    \fill[#3,draw=fg,line width=0.6pt]
+      (-\wa,#1) -- (\wa,#1) -- (\wb,#2) -- (-\wb,#2) -- cycle;
+    \node[text=#4,font=\sffamily#5,align=center]
+      at (0,{(#1+#2)/2}) {#6};}
+
+  \band{0}{1.85}{lvlgreen}{inkdark}{\small}{Clean code, best practice}
+  \band{1.85}{3.30}{lvlgreen}{inkdark}{\small}{(Automatic) Testing\\(unit, integration, CI)}
+  \band{3.30}{4.55}{lvlamber}{inkdark}{\scriptsize}{Automatic runtime checks\\(sanitizers, analyzers, etc.)}
+  \band{4.55}{\H}{lvlred}{white}{\scriptsize}{Manual\\Debugging}
+
+  % the axis: upwards means rarer but more expensive
+  \draw[->,draw=blu,line width=1.0pt] (-7.5,0) -- (-7.5,\H);
+  \node[text=fg,font=\sffamily\small,align=center,anchor=east] at (-7.85,2.8)
+    {Generally decreasing\\frequency, increasing\\manual effort};
+
+\end{tikzpicture}
+\end{document}

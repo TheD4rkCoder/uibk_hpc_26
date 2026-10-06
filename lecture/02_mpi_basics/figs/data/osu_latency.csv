@@ -1,0 +1,6 @@
+problem_size,latency intra socket,latency inter socket,L3 misses intra socket,L3 misses inter socket
+1 MB,91.91,91.74,64539.0,82441.0
+2 MB,180.21,179.1,72076.0,80201.0
+4 MB,750.63,354.43,348990.0,91809.0
+8 MB,1678.22,1713.6,871472.0,700721.0
+16 MB,3363.58,3790.74,1040501.0,817111.0

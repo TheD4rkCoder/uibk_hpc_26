@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>703308 VO High-Performance Computing</title>
+<style>
+  /* The same corporate identity as the decks (shared/uibk.scss), reduced to
+     the few rules a one-page list of links needs. */
+  :root {
+    --navy: #003361;
+    --orange: #f39200;
+    --bg: #000000;
+    --fg: #f2f4f7;
+    --muted: #9fb0c3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 4rem 1.5rem 5rem;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Carlito", "Calibri", "Segoe UI", sans-serif;
+    font-weight: 300;
+    line-height: 1.45;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+  h1 { font-size: 2rem; font-weight: 300; margin: 0 0 .2rem; }
+  .sub { color: var(--muted); margin: 0 0 2.5rem; }
+  ol { list-style: none; margin: 0; padding: 0; counter-reset: deck; }
+  li { counter-increment: deck; }
+  a.deck {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    padding: .9rem 1.1rem;
+    margin-bottom: .5rem;
+    border: 1px solid #1d2a38;
+    border-left: 3px solid var(--navy);
+    border-radius: 4px;
+    color: var(--fg);
+    text-decoration: none;
+    transition: border-color .12s ease, background .12s ease;
+  }
+  a.deck:hover, a.deck:focus-visible {
+    background: #0b1219;
+    border-color: #2b3b4d;
+    border-left-color: var(--orange);
+    outline: none;
+  }
+  a.deck .n { color: var(--orange); font-variant-numeric: tabular-nums; }
+  footer { max-width: 46rem; margin: 3rem auto 0; color: var(--muted); font-size: .85rem; }
+  footer a { color: var(--orange); }
+</style>
+</head>
+<body>
+<main>
+  <h1>703308 VO High-Performance Computing</h1>
+  <p class="sub">Lecture slides &middot; University of Innsbruck</p>
+  <ol>
+    <li><a class="deck" href="00_crash_course/00_crash_course.html"><span class="n">00</span><span>A Crash Course in Clusters and Job Submission</span></a></li>
+    <li><a class="deck" href="01_motivation_and_crash_course/01_motivation_and_crash_course.html"><span class="n">01</span><span>Motivation &amp; A Crash Course in Parallel Hard- and Software</span></a></li>
+    <li><a class="deck" href="02_mpi_basics/02_mpi_basics.html"><span class="n">02</span><span>MPI – Message Passing Interface</span></a></li>
+    <li><a class="deck" href="03_debugging/03_debugging.html"><span class="n">03</span><span>Debugging Parallel Programs</span></a></li>
+    <li><a class="deck" href="04_measurements/04_measurements.html"><span class="n">04</span><span>Measuring and Reporting Performance</span></a></li>
+    <li><a class="deck" href="05_mpi_advanced/05_mpi_advanced.html"><span class="n">05</span><span>MPI Derived Datatypes and Virtual Topologies</span></a></li>
+    <li><a class="deck" href="06_dwarfs/06_dwarfs.html"><span class="n">06</span><span>The 13 Dwarfs of HPC</span></a></li>
+    <li><a class="deck" href="07_mpi_advanced_2/07_mpi_advanced_2.html"><span class="n">07</span><span>MPI Groups, Communicators and One-Sided Communication</span></a></li>
+  </ol>
+</main>
+<footer>
+  <p>Each deck opens as a reveal.js presentation. Press <strong>T</strong> to
+  switch between the dark and light theme, <strong>?</strong> for the other
+  keyboard shortcuts, and <strong>E</strong> for the print view the PDF is made
+  from &mdash; that one is always light.</p>
+</footer>
+</body>
+</html>

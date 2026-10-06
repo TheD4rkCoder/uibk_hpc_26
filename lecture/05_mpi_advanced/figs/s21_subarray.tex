@@ -1,0 +1,27 @@
+% MPI_Type_create_subarray: a contiguous sub-range of a multi-dimensional
+% array, given by the sizes of the whole array, the sizes of the sub-array and
+% the coordinates of its starting point.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cs{0.40}
+  \memgrid{(0,0)}{8}{8}{\cs}
+  \memblock{(0,0)}{2}{2}{3}{3}{\cs}
+  % the starting point of the sub-array
+  \draw[mh] ({2*\cs},{-2*\cs}) rectangle ++(\cs,-\cs);
+
+  \membrace{2*\cs}{5*\cs}{0.16}{new size x}
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},draw=blu,line width=0.7pt]
+    ({5*\cs+0.14},{-2*\cs}) -- ({5*\cs+0.14},{-5*\cs});
+  \node[text=fg,font=\sffamily\scriptsize,anchor=west]
+    at ({5*\cs+0.34},{-3.5*\cs}) {new size y};
+
+  \draw[->,draw=blu,line width=0.9pt] (-1.28,{-2.5*\cs}) -- ({2*\cs-0.06},{-2.5*\cs});
+  \node[text=fg,font=\sffamily\scriptsize,anchor=east]
+    at (-1.32,{-2.5*\cs}) {starting point};
+
+\end{tikzpicture}
+\end{document}

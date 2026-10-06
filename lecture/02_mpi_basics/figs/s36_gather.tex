@@ -1,0 +1,24 @@
+% MPI_Gather: the mirror image of scatter -- each rank contributes a chunk and
+% root assembles them, in rank order, into one buffer.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}
+
+  % --- per-rank send buffers: rank i contributes elements 2i and 2i+1 -------
+  \mpibuf{(0,1.45)}{0,1,.,.,.,.,.,.}          % rank 0 (top left, root)
+  \mpibuf{(\colb,1.45)}{.,.,2,3,.,.,.,.}      % rank 1 (top right)
+  \mpibuf{(\colb,-4.15)}{.,.,.,.,4,5,.,.}     % rank 2 (bottom right)
+  \mpibuf{(0,-4.15)}{.,.,.,.,.,.,6,7}         % rank 3 (bottom left)
+
+  % --- root's receive buffer, holding the assembled result ------------------
+  \mpibuf{(0,0.70)}{0,1,2,3,4,5,6,7}
+  \draw[flow] (-0.18,1.71) .. controls +(-0.75,0) and +(-0.75,0) .. (-0.18,0.96);
+
+  % --- ranks, all feeding into the root ------------------------------------
+  \mpiranks
+  \mpiselfloop
+  \mpiflowsin
+
+\end{tikzpicture}
+\end{document}

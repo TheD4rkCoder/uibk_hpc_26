@@ -1,0 +1,62 @@
+% Why bother with MPI: one simulation domain is too big for a single machine,
+% so it is cut into sub-domains, each rank simulates one and exchanges halo
+% data with its neighbours, and the partial results are collected into the
+% final forecast.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cs{0.42}
+
+  % \quadgrid{x}{y}{n}{colour} -- n x n outlined grid, top-left at (x,y)
+  \newcommand{\quadgrid}[4]{%
+    \foreach \c in {0,...,\the\numexpr#3-1\relax}{%
+      \foreach \r in {0,...,\the\numexpr#3-1\relax}{%
+        \draw[draw=#4,line width=0.6pt]
+          ({#1+\c*\cs},{#2-\r*\cs}) rectangle ++(\cs,-\cs);}}}
+
+  % ======================= the whole simulation domain =====================
+  % Quadrants are outlined in alternating colours: these become the sub-domains
+  \quadgrid{0}{1.26}{3}{blu}
+  \quadgrid{1.26}{1.26}{3}{uibkorange}
+  \quadgrid{0}{0}{3}{uibkorange}
+  \quadgrid{1.26}{0}{3}{blu}
+
+  % ======================= one sub-domain per rank =========================
+  \def\sx{5.0}
+  \foreach \k/\yc/\col in {0/3.0/blu, 1/1.0/uibkorange,
+                           2/-1.0/blu, 3/-3.0/uibkorange}{
+    \quadgrid{\sx}{\yc+0.63}{3}{\col}
+    % each rank writes out its partial result
+    \mpidoc{(\sx+1.75,\yc-0.50)}{0.78}{1.00}
+    \draw[flow] ({\sx+1.32},\yc) -- ({\sx+1.70},\yc);
+  }
+
+  % domain -> sub-domains
+  \foreach \yc in {3.0,1.0,-1.0,-3.0}{
+    \draw[flow] (2.62,0) -- ({\sx-0.12},\yc);}
+
+  % halo exchange between neighbouring sub-domains
+  \foreach \ya/\yb in {3.0/1.0, 1.0/-1.0, -1.0/-3.0}{
+    \draw[<->,draw=blu,line width=1.0pt,dash pattern=on 2.5pt off 2.5pt]
+      ({\sx+0.63},{\ya-0.68}) -- ({\sx+0.63},{\yb+0.68});}
+
+  % ======================= the collected forecast ==========================
+  \mpidoc{(9.40,-0.75)}{1.15}{1.50}
+  \foreach \yc in {3.0,1.0,-1.0,-3.0}{
+    \draw[flow] ({\sx+2.62},\yc) -- (9.32,0);}
+
+  \draw[-{Stealth[length=5mm,width=5mm]},draw=blu,line width=3pt]
+    (10.80,0) -- (11.75,0);
+  \node[lbl,anchor=west,font=\sffamily\itshape\small] at (12.00,0)
+    {``tomorrow: 12$^\circ$ C, sunny''};
+
+  % ======================= legend ==========================================
+  \draw[flow] (11.10,-2.75) -- (12.10,-2.75);
+  \draw[->,draw=blu,line width=1.0pt,dash pattern=on 2.5pt off 2.5pt]
+    (11.10,-3.20) -- (12.10,-3.20);
+  \node[lbl,anchor=west] at (12.30,-2.97) {\ldots\ MPI communication};
+
+\end{tikzpicture}
+\end{document}

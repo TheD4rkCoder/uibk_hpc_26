@@ -1,0 +1,31 @@
+% An unstructured mesh has two kinds of element: the cells themselves and the
+% faces between them. If each kind needs its own global reduction, then each
+% kind wants its own communicator. (The original draws this with 3D cells; a
+% 2D row carries the same point and stays legible at slide size.)
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    cell/.style={draw=blu,line width=0.9pt,minimum size=9mm,
+                 text=fg,font=\sffamily\small},
+    face/.style={draw=uibkorange!70!black,line width=0.6pt,fill=uibkorange,
+                 text=inkdark,font=\sffamily\scriptsize},
+    note/.style={text=muted,font=\sffamily\scriptsize}]
+
+  % --- the mesh: cells separated by faces ---------------------------------
+  \foreach \l [count=\i from 0] in {A,B,C,D,E}{
+    \node[cell] at ({\i*1.32},0) {\l};}
+  \foreach \l [count=\i from 0] in {1,2,3,4}{
+    \node[face,minimum width=3.2mm,minimum height=9mm] at ({\i*1.32+0.66},0) {\l};}
+
+  % --- the two element types, each of which wants its own communicator ----
+  \foreach \i in {0,...,3}{
+    \node[face,minimum width=3.2mm,minimum height=9mm] at ({\i*0.42},-1.85) {};}
+  \node[note,anchor=west] at (1.55,-1.85) {faces};
+
+  \foreach \i in {0,...,4}{
+    \node[cell,minimum size=7mm] at ({\i*0.86+3.60},-1.85) {};}
+  \node[note,anchor=west] at (7.95,-1.85) {cells};
+
+\end{tikzpicture}
+\end{document}

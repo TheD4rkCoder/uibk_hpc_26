@@ -1,0 +1,23 @@
+% Receiving a strided type into a plain array (left) leaves the skipped slots
+% untouched; receiving it as plain elements (right) compacts it instead.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \begin{scope}[xshift=0cm]
+    \memstrip{(0,0)}{o/, o/, e/, o/, o/, e/, o/, o/}
+    \membrace{0}{\memw*8}{0.60}{new size}
+    \draw[->,draw=blu,line width=0.9pt] ({\memw*4.1},-0.85) -- ({\memw*2.4},-0.06);
+    \node[text=fg,font=\sffamily\scriptsize,align=center,anchor=north]
+      at ({\memw*4.6},-0.88) {unwritten part\\of new array};
+  \end{scope}
+
+  \begin{scope}[xshift=7.2cm]
+    \memstrip{(0,0)}{o/, o/, o/, o/, o/, o/}
+    \membrace{0}{\memw*6}{0.60}{new size}
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

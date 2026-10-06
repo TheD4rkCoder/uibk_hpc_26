@@ -1,0 +1,23 @@
+% MPI_Type_vector: take `blocklength` elements, skip to the next `stride`,
+% repeat `count` times. The run past the last block is never written.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \memstrip{(0,0)}{o/, o/, e/, o/, o/, e/, o/, o/, d/, d/}
+
+  % stride: from the start of one block to the start of the next
+  \membrace{0}{\memw*3}{0.62}{stride}
+  % block size: the elements actually taken each time
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},draw=blu,line width=0.7pt]
+    (0,-0.10) -- ({\memw*2},-0.10);
+  \node[text=fg,font=\sffamily\scriptsize,anchor=north] at ({\memw},-0.28) {block size};
+
+  \draw[->,draw=blu,line width=0.9pt] ({\memw*10.4},-0.62) -- ({\memw*9.2},{\memh*0.4});
+  \node[text=fg,font=\sffamily\scriptsize,anchor=north west]
+    at ({\memw*9.6},-0.66) {end is truncated};
+
+\end{tikzpicture}
+\end{document}

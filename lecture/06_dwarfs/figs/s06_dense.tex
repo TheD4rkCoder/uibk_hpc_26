@@ -1,0 +1,30 @@
+% Dense linear algebra: everything is stored, so one output element is a full
+% row of A against a full column of B.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cs{0.40}
+  \memgrid{(0,0)}{5}{5}{\cs}
+  \memblock{(0,0)}{0}{1}{5}{1}{\cs}
+
+  \node[text=fg,font=\sffamily\small] at (2.35,{-2.5*\cs}) {$\times$};
+
+  \memgrid{(2.70,0)}{5}{5}{\cs}
+  \memblock{(2.70,0)}{2}{0}{1}{5}{\cs}
+
+  \node[text=fg,font=\sffamily\small] at (5.05,{-2.5*\cs}) {$=$};
+
+  % the result: the whole row is produced, the highlighted cell by this pair
+  \begin{scope}[shift={(5.40,0)}]
+    \foreach \c in {0,...,4}{
+      \draw[draw=blu,line width=0.6pt,fill=uibkorange!25]
+        ({\c*\cs},{-1*\cs}) rectangle ++(\cs,-\cs);}
+  \end{scope}
+  \memgrid{(5.40,0)}{5}{5}{\cs}
+  \memblock{(5.40,0)}{2}{1}{1}{1}{\cs}
+
+\end{tikzpicture}
+\end{document}

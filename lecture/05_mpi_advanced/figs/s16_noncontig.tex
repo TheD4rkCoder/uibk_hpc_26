@@ -1,0 +1,21 @@
+% Two examples of data that is not contiguous in memory: every second element
+% of an array of (min,max) tuples, and one column of a row-major matrix.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \memstrip{(0,2.9)}{o/min, n/max, o/min, n/max, o/min, n/max}
+  \draw[->,draw=blu,line width=1.4pt] (1.80,2.75) -- (1.80,2.20);
+  \memstrip{(0.90,1.55)}{n/max, n/max, n/max}
+
+  \def\cs{0.44}
+  \memgrid{(0,0.30)}{4}{4}{\cs}
+  \memblock{(0,0.30)}{0}{0}{1}{4}{\cs}
+  \draw[->,draw=blu,line width=1.4pt] (2.20,{0.30-2*\cs}) -- (3.55,{0.30-2*\cs});
+  \memgrid{(3.95,0.30)}{1}{4}{\cs}
+  \memblock{(3.95,0.30)}{0}{0}{1}{4}{\cs}
+
+\end{tikzpicture}
+\end{document}

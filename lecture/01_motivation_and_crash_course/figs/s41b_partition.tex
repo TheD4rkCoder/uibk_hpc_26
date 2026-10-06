@@ -1,0 +1,17 @@
+% Step 2: the same domain cut into pieces (not necessarily regular ones).
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_s41_steps.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \stepsframe
+  \stepsgrid
+  % irregular blocks: three strips, an L and a diamond
+  \foreach \x in {0.30,0.60}{\draw[part] (\x,0) -- (\x,0.90);}
+  \draw[part] (0,0.90) -- (0.90,0.90);
+  \draw[part] (1.20,1.80) -- (1.80,1.80) -- (1.80,0.90)
+           -- (1.20,0.90) -- cycle;
+  \draw[part] (1.35,0.84) -- (1.74,0.45) -- (1.35,0.06) -- (0.96,0.45) -- cycle;
+  \node[pan] at (0.90,-0.45) {partition};
+\end{tikzpicture}
+\end{document}

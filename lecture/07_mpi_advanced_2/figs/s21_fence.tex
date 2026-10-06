@@ -1,0 +1,12 @@
+% Active target synchronisation with a fence: the epoch is collective, so every
+% participating rank opens and closes it together.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_rma.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \rmapanel{\texttt{MPI\_Win\_fence(...)}}{\texttt{MPI\_Win\_fence(...)}}%
+           {\texttt{MPI\_Win\_fence(...)}}{\texttt{MPI\_Win\_fence(...)}}{1}
+  \rmalegend{(-1.1,-5.9)}
+\end{tikzpicture}
+\end{document}

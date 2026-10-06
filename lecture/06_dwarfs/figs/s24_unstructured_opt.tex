@@ -1,0 +1,18 @@
+% Decomposing an unstructured grid: the rank owning the dark vertex needs the
+% hatched ones as ghost cells, and it can only find them by following the
+% explicitly stored connectivity.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_mesh.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \meshbase{i/mvhi, c/mvghost, d/mvghost, h/mvghost, j/mvghost,
+            m/mvghost, n/mvghost}
+
+  % everything this rank has to touch for one update
+  \draw[draw=fg,line width=0.9pt,dash pattern=on 4pt off 3pt]
+    (2.20,-0.10) circle (1.35);
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,47 @@
+% What a cluster "feels like" from the user's side: a few login nodes you ssh
+% into, a large pool of compute nodes behind them that only the submission
+% system hands out, and shared storage attached to all of them.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[
+    x=1cm,y=1cm,
+    n/.style   ={chip,minimum width=5.2mm,minimum height=5.2mm},
+    pool/.style={container,rounded corners=10pt,inner sep=0pt},
+    disk/.style={cylinder,shape border rotate=90,aspect=0.28,draw=onfill,
+                 line width=0.6pt,fill=uibknavy,minimum width=11mm,
+                 minimum height=4.2mm,inner sep=0pt},
+    leader/.style={draw=fg,line width=0.6pt},
+    pan/.style ={text=fg,font=\sffamily\small}]
+
+  \def\p{0.75}  % node pitch
+
+  % =============== compute nodes =======================================
+  \fill[uibkorange,rounded corners=10pt] (0,0) rectangle ({7*\p+0.3},{5*\p+0.3});
+  \draw[draw=uibkorange!70!black,line width=0.5pt,rounded corners=10pt]
+    (0,0) rectangle ({7*\p+0.3},{5*\p+0.3});
+  \foreach \c in {0,...,6}{\foreach \r in {0,...,4}{
+    \node[n] (c\c-\r) at ({0.15+0.5*\p+\c*\p},{0.15+0.5*\p+\r*\p}) {};}}
+
+  % =============== login nodes ==========================================
+  \foreach \c [count=\i from 0] in {2,3,4}{
+    \node[n] (l\i) at ({0.15+0.5*\p+\c*\p},{5*\p+1.15}) {};}
+  \draw[wire] (l0) -- (c1-4);
+  \draw[wire] (l1) -- (c3-4);
+  \draw[wire] (l2) -- (c5-4);
+  % ... and on the other end of the dotted line: you, via ssh
+  \draw[wire,dotted,line width=1.4pt] (l1.north) -- ++(0,0.85);
+
+  \draw[leader] (l2.north east) -- ++(0.30,0.25)
+    node[pan,anchor=west,inner sep=2pt] {login node};
+  \draw[leader] (c0-4.north west) -- ++(-0.45,0.55)
+    node[pan,anchor=south,inner sep=2pt] {compute node};
+
+  % =============== shared storage =======================================
+  \foreach \k in {0,...,4}{
+    \node[disk] at (-1.35,{1.05+\k*0.32}) {};}
+  \foreach \y in {1.55,1.80,2.05}{
+    \draw[wire,line width=1.2pt] (-0.75,\y) -- (0,\y);}
+  \node[pan,anchor=north] at (-1.35,0.72) {storage};
+\end{tikzpicture}
+\end{document}

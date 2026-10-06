@@ -1,0 +1,34 @@
+% Graph traversal: the work is walking edges and looking things up, not
+% arithmetic. Different branches can be explored in parallel, but each step is
+% an indirect access and therefore latency-bound.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    nd/.style   ={circle,fill=uibkorange,minimum size=4.2mm,inner sep=0pt},
+    edge/.style ={draw=blu,line width=0.9pt},
+    stub/.style ={draw=blu,line width=0.9pt,dotted}]
+
+  \def\dy{1.05}
+
+  \node[nd] (r) at (0,0) {};
+  % three children, then three grandchildren each
+  \foreach \i/\x in {0/-2.30, 1/0.00, 2/2.30}{
+    \node[nd] (c\i) at (\x,-\dy) {};
+    \draw[edge] (r) -- (c\i);
+    \foreach \j/\o in {0/-0.78, 1/0.00, 2/0.78}{
+      \node[nd] (g\i-\j) at ({\x+\o},{-2*\dy}) {};
+      \draw[edge] (c\i) -- (g\i-\j);}}
+
+  % the frontier continues; one branch is expanded one level further
+  \foreach \j/\o in {0/-0.34, 1/0.00, 2/0.34}{
+    \node[nd] (h\j) at ({-2.30-0.78+\o},{-3*\dy}) {};
+    \draw[edge] (g0-0) -- (h\j);}
+  \foreach \i in {0,1,2}{
+    \foreach \j in {0,1,2}{
+      \ifthenelse{\i=0 \AND \j=0}{}{%
+        \draw[stub] (g\i-\j) -- ++(-0.30,{-0.55*\dy});
+        \draw[stub] (g\i-\j) -- ++(0.30,{-0.55*\dy});}}}
+
+\end{tikzpicture}
+\end{document}

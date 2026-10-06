@@ -1,0 +1,37 @@
+% Two disjoint intra-communicators (say, two libraries) bridged by an
+% inter-communicator, which is what lets a rank in one address the other.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    rk/.style   ={circle,fill=uibknavy,draw=blu,line width=0.5pt,text=onfill,
+                  font=\sffamily\scriptsize,minimum size=5.6mm,inner sep=0pt},
+    inter/.style={ellipse,fill=blu!45,draw=blu,line width=0.6pt},
+    intra/.style={ellipse,fill=uibkorange,draw=uibkorange!70!black,line width=0.6pt},
+    note/.style  ={text=fg,font=\sffamily\scriptsize}]
+
+  % the inter-communicator spans both sides
+  \node[inter,minimum width=46mm,minimum height=20mm] at (-1.55,0) {};
+  \node[inter,minimum width=46mm,minimum height=20mm] at (1.55,0) {};
+
+  \foreach \s in {-1,1}{
+    \node[intra,minimum width=34mm,minimum height=14mm] at ({\s*1.55},0) {};}
+
+  \foreach \i/\x/\y in {0/-0.72/-0.22, 1/-0.06/0.26, 2/0.44/-0.30, 3/1.06/0.16}{
+    \node[rk] at ({\x-1.55},\y) {\i};
+    \node[rk] at ({\x+1.55},\y) {\i};}
+
+  % the boundary between the two libraries
+  \draw[draw=fg,line width=1.0pt,dash pattern=on 4pt off 3pt] (0,1.30) -- (0,-1.30);
+  \node[note,anchor=south east] at (-0.08,1.32) {library A};
+  \node[note,anchor=south west] at (0.08,1.32) {library B};
+
+  \draw[->,draw=blu,line width=0.9pt] (-3.55,1.05) -- (-2.30,0.34);
+  \node[note,anchor=south east] at (-3.50,1.02) {intra-communicator rank};
+  \draw[->,draw=blu,line width=0.9pt] (3.70,0.95) -- (2.95,0.52);
+  \node[note,anchor=west] at (3.74,0.98) {intra-communicator};
+  \draw[->,draw=blu,line width=0.9pt] (3.70,-1.05) -- (2.80,-0.72);
+  \node[note,anchor=west] at (3.74,-1.08) {inter-communicator};
+
+\end{tikzpicture}
+\end{document}

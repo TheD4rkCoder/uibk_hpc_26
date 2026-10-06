@@ -1,0 +1,11 @@
+% Same four-socket node as lecture 01 (the macro lives in shared/figs/numa.tex):
+% collectives among the cores of one node are cheap, so it would be useful to
+% have a communicator that covers exactly this node.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{numa.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \numanodebase
+\end{tikzpicture}
+\end{document}

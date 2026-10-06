@@ -1,0 +1,44 @@
+% The n-queens problem, one of the classic backtracking search spaces: place
+% eight queens so that none attacks another. The search tree is explored
+% incrementally and pruned as soon as a partial placement cannot work.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cs{0.62}
+
+  % a little crown, drawn rather than set: no chess font needed
+  % #2 is the fill colour: a queen on a dark square has to be light, and a
+  % queen on an orange square dark, or it disappears
+  \newcommand{\queen}[2]{%
+    \begin{scope}[shift={#1},scale=0.62]
+      \fill[#2] (-0.26,-0.20) rectangle (0.26,-0.10);
+      \fill[#2] (-0.21,-0.10) -- (0.21,-0.10) -- (0.17,0.12)
+             -- (-0.17,0.12) -- cycle;
+      \fill[#2] (-0.17,0.12) -- (-0.24,0.30) -- (-0.08,0.18)
+             -- (0.00,0.32) -- (0.08,0.18) -- (0.24,0.30)
+             -- (0.17,0.12) -- cycle;
+      \foreach \x in {-0.24,0.00,0.24}{\fill[#2] (\x,0.32) circle (0.055);}
+    \end{scope}}
+
+  \foreach \c in {1,...,8}{
+    \foreach \r in {1,...,8}{
+      \pgfmathparse{Mod(\c+\r,2) ? "uibkorange" : "none"}
+      \edef\sq{\pgfmathresult}
+      \draw[draw=blu,line width=0.5pt,fill=\sq]
+        ({\c*\cs},{\r*\cs}) rectangle ++(\cs,\cs);}}
+
+  % one solution: file a..h -> rank
+  \foreach \c/\r in {1/4, 2/2, 3/7, 4/3, 5/6, 6/8, 7/5, 8/1}{
+    \pgfmathparse{Mod(\c+\r,2) ? "inkdark" : "fg"}
+    \edef\qc{\pgfmathresult}
+    \queen{({\c*\cs+0.5*\cs},{\r*\cs+0.5*\cs})}{\qc}}
+
+  \foreach \c/\l in {1/a, 2/b, 3/c, 4/d, 5/e, 6/f, 7/g, 8/h}{
+    \node[text=blu,font=\sffamily\scriptsize] at ({\c*\cs+0.5*\cs},{0.5*\cs+0.20}) {\l};}
+  \foreach \r in {1,...,8}{
+    \node[text=blu,font=\sffamily\scriptsize] at ({0.5*\cs+0.22},{\r*\cs+0.5*\cs}) {\r};}
+
+\end{tikzpicture}
+\end{document}

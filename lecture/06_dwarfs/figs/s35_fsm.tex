@@ -1,0 +1,49 @@
+% A finite state machine. In the original the state labels were rasterised
+% images because they contain subscripts; here they are real math.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    st/.style  ={text=fg,font=\sffamily\small,inner sep=1.5pt},
+    tr/.style  ={->,draw=blu,line width=0.9pt,
+                 >={Stealth[round,length=3.4pt,width=3pt]}},
+    ev/.style  ={text=muted,font=\sffamily\tiny,inner sep=1pt}]
+
+  \def\dx{1.55}
+  \def\dy{1.15}
+
+  \node[st] (s0) at (0,0)            {$S_0$};
+  \node[st] (s1) at (-\dx,-\dy)      {$S_1$};
+  \node[st] (s2) at (\dx,-\dy)       {$S_2$};
+  \node[st] (s3) at (-\dx,-2*\dy)    {$S_3$};
+  \node[st] (s4) at (\dx,-2*\dy)     {$S_4$};
+  \node[st] (s5) at (-2*\dx,-3*\dy)  {$S_5$};
+  \node[st] (s6) at (0,-3*\dy)       {$S_6$};
+  \node[st] (s7) at (2*\dx,-3*\dy)   {$S_7$};
+  \node[st] (s8) at (-\dx,-4*\dy)    {$S_8$};
+  \node[st] (s9) at (\dx,-4*\dy)     {$S_9$};
+
+  \draw[tr] (s0) -- node[ev,above left] {(start)}  (s1);
+  \draw[tr] (s0) -- node[ev,above right] {(start)} (s2);
+  \draw[tr] (s1) -- node[ev,left] {(create)}       (s3);
+  \draw[tr] (s2) -- node[ev,right] {(create)}      (s4);
+  \draw[tr] (s1) -- node[ev,above] {(start)}       (s2);
+  \draw[tr] (s3) -- node[ev,above left] {(init)}   (s5);
+  \draw[tr] (s3) -- node[ev,above right] {(sync)}  (s6);
+  \draw[tr] (s4) -- node[ev,above left] {(sync)}   (s6);
+  \draw[tr] (s4) -- node[ev,above right] {(spawn)} (s7);
+  \draw[tr] (s5) -- node[ev,above] {(replicate)}   (s6);
+  \draw[tr] (s5) -- node[ev,below left] {(replicate)} (s8);
+  \draw[tr] (s6) -- node[ev,below left] {(sync)}   (s8);
+  \draw[tr] (s6) -- node[ev,below right] {(start)} (s9);
+  \draw[tr] (s7) -- node[ev,below right] {(migrate)} (s9);
+  \draw[tr] (s8) -- node[ev,below left] {(spawn)}  ++(-0.55,-0.72);
+  \draw[tr] (s8) -- node[ev,below right] {(sync)}  ++(0.55,-0.72);
+  \draw[tr] (s9) -- node[ev,below left] {(init)}   ++(-0.55,-0.72);
+  \draw[tr] (s9) -- node[ev,below right] {(sync)}  ++(0.55,-0.72);
+
+  \foreach \x in {-2.10,-0.55,1.00,2.55}{
+    \node[text=muted,font=\sffamily\small] at (\x,{-5*\dy-0.10}) {$\ldots$};}
+
+\end{tikzpicture}
+\end{document}

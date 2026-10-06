@@ -1,0 +1,40 @@
+% "Structured" means the neighbour relation follows a rule, not that the grid
+% is rectangular: a triangular and a hexagonal tiling are both structured.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,cellline/.style={draw=blu,line width=0.7pt}]
+
+  % --- triangular tiling, as a triangle of triangles ----------------------
+  \def\t{0.46}
+  \begin{scope}
+    \foreach \r in {0,...,5}{
+      \foreach \c in {0,...,\r}{
+        \pgfmathsetmacro{\x}{(\c-\r/2)*\t}
+        \pgfmathsetmacro{\y}{-\r*\t*0.866}
+        % upward triangle
+        \draw[cellline] (\x,\y) -- ({\x+\t},\y) -- ({\x+\t/2},{\y+\t*0.866}) -- cycle;}}
+    \foreach \r in {1,...,5}{
+      \foreach \c in {0,...,\the\numexpr\r-1\relax}{
+        \pgfmathsetmacro{\x}{(\c-\r/2)*\t}
+        \pgfmathsetmacro{\y}{-\r*\t*0.866}
+        % downward triangle filling the gap
+        \draw[cellline] ({\x+\t/2},{\y+\t*0.866}) -- ({\x+\t},\y)
+                     -- ({\x+\t*1.5},{\y+\t*0.866}) -- cycle;}}
+  \end{scope}
+
+  % --- hexagonal tiling ---------------------------------------------------
+  \def\h{0.46}
+  \begin{scope}[xshift=4.4cm,yshift=-1.9cm]
+    \foreach \c/\r in {0/0, 1/0, 2/0, -0.5/1, 0.5/1, 1.5/1, 2.5/1,
+                       0/2, 1/2, 2/2}{
+      \pgfmathsetmacro{\x}{\c*\h*1.732}
+      \pgfmathsetmacro{\y}{\r*\h*1.5}
+      \draw[cellline]
+        ({\x},{\y+\h}) -- ({\x+\h*0.866},{\y+\h/2}) -- ({\x+\h*0.866},{\y-\h/2})
+        -- ({\x},{\y-\h}) -- ({\x-\h*0.866},{\y-\h/2}) -- ({\x-\h*0.866},{\y+\h/2})
+        -- cycle;}
+  \end{scope}
+
+\end{tikzpicture}
+\end{document}

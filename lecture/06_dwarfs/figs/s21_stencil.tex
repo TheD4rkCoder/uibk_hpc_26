@@ -1,0 +1,33 @@
+% A 7-point stencil in 3D: computing one new cell reads its six face
+% neighbours. Because the pattern is fixed and known, the cache behaviour can
+% be predicted analytically rather than measured.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    cellb/.style={draw=uibkorange!70!black,line width=0.6pt,fill=uibkorange,
+                  text=inkdark,font=\sffamily\scriptsize,
+                  minimum size=7.5mm,inner sep=0pt},
+    arr/.style  ={->,draw=blu,line width=1.0pt}]
+
+  \def\d{1.15}
+
+  \node[cellb] (c)  at (0,0)            {C};
+  \node[cellb] (l)  at (-\d,0)          {L};
+  \node[cellb] (r)  at (\d,0)           {R};
+  \node[cellb] (t)  at (0,\d)           {T};
+  \node[cellb] (bo) at (0,-\d)          {Bo};
+  \node[cellb] (f)  at (-0.72,-0.72)    {F};
+  \node[cellb] (ba) at (0.72,0.72)      {Ba};
+
+  \foreach \n in {l,r,t,bo,f,ba}{\draw[arr] (\n) -- (c);}
+
+  % the pattern is fixed, so the cache traffic can be modelled up front
+  \draw[-{Stealth[length=5mm,width=5mm]},draw=blu,line width=2.6pt]
+    (1.45,-0.95) -- (2.30,-1.55);
+  \node[draw=uibkorange!70!black,line width=0.6pt,fill=uibkorange,text=inkdark,
+        font=\sffamily\scriptsize,align=left,inner sep=5pt,anchor=north west]
+    at (2.40,-1.35) {L1 misses: \#\\L2 misses: \#\\L3 misses: \#\\\ldots};
+
+\end{tikzpicture}
+\end{document}

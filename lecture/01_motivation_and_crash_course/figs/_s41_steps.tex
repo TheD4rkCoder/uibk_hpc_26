@@ -1,0 +1,23 @@
+% Shared by s41a/b/c: the three steps of creating a parallel program, one
+% figure per step so the slide can put each next to its bullet.
+%
+% All three are drawn at the same scale and given the same vertical extent
+% (\stepsframe), so at equal display height on the slide they line up.
+\tikzset{
+  cell/.style ={draw=blu,line width=0.5pt},
+  part/.style ={draw=uibkorange,line width=1.4pt},
+  dot/.style  ={circle,fill=blu,inner sep=0pt,minimum size=2.4mm},
+  thin arr/.style={->,draw=blu,line width=0.4pt,
+                   >={Stealth[round,length=2.4pt,width=2.2pt]}},
+  pan/.style  ={text=muted,font=\sffamily\footnotesize,align=center}}
+
+\def\g{0.30}   % grid cell size
+
+% \stepsgrid -- the 6x6 problem domain, bottom left at the origin
+\newcommand{\stepsgrid}{%
+  \foreach \c in {0,...,5}{\foreach \r in {0,...,5}{
+    \draw[cell] ({\c*\g},{\r*\g}) rectangle ++(\g,\g);}}%
+}
+
+% \stepsframe -- common vertical extent: caption below, a little air on top
+\newcommand{\stepsframe}{\path (0,-0.70) (0,1.90);}

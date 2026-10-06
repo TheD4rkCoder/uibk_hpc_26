@@ -1,0 +1,32 @@
+% Where to spend optimisation effort, most profitable first. The interlocking
+% chevrons carry the ordering; each one names a layer, the box beside it lists
+% the knobs available at that layer.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cw{1.55}   % chevron width
+  \def\ch{1.32}   % chevron body height
+  \def\cd{0.34}   % depth of the notch / point
+
+  % \layer{row}{layer name}{what you can change there}
+  \newcommand{\layer}[3]{%
+    \pgfmathsetmacro{\y}{-#1*(\ch+0.10)}%
+    \fill[uibkorange,draw=uibkorange!70!black,line width=0.5pt]
+      (0,\y) -- ({\cw/2},{\y-\cd}) -- (\cw,\y)
+          -- (\cw,{\y-\ch}) -- ({\cw/2},{\y-\ch-\cd}) -- (0,{\y-\ch}) -- cycle;
+    \node[text=inkdark,font=\sffamily\scriptsize,align=center]
+      at ({\cw/2},{\y-\ch/2-0.06}) {#2};
+    \node[draw=blu,line width=0.9pt,rounded corners=3pt,text=fg,
+          font=\sffamily\small,align=left,inner sep=6pt,
+          text width=95mm,anchor=north west]
+      at ({\cw+0.30},{\y-0.02}) {#3};}
+
+  \layer{0}{I/O}{file formats, buffering, distributed I/O, ram disks, data structures}
+  \layer{1}{Network}{comm.\ patterns, non-blocking \& one-sided comm., topology mappings, load balancing}
+  \layer{2}{Memory}{data structures, NUMA \& affinity, cache optimizations (e.g.\ tiling, alignment, padding)}
+  \layer{3}{Compu-\\tation}{vectorization, data types, intrinsics, load balancing, hardware changes}
+
+\end{tikzpicture}
+\end{document}

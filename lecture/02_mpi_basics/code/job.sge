@@ -1,0 +1,15 @@
+#!/bin/bash
+# submission queue
+#$ -q std.q
+# change to current directory
+#$ -cwd
+# name of the job
+#$ -N my_test_job
+# redirect output stream to this file
+#$ -o output.dat
+# join the output and error stream
+#$ -j yes
+# specify parallel environment
+#$ -pe openmpi-2perhost 8
+
+mpiexec -n 8 /path/to/application

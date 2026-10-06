@@ -1,0 +1,30 @@
+% Shared building block for the unstructured-grid figures of this deck
+% (slides 22 and 24): an irregular triangulated mesh. The vertex positions are
+% fixed so the two slides show the same mesh.
+
+\tikzset{
+  mvert/.style ={circle,fill=uibkorange,minimum size=4.4mm,inner sep=0pt},
+  mvhi/.style  ={circle,fill=uibknavy,draw=blu,line width=0.5pt,
+                 minimum size=4.4mm,inner sep=0pt},
+  mvghost/.style={circle,fill=uibkorange,draw=inkdark,line width=0.4pt,
+                 pattern=north east lines,pattern color=inkdark,
+                 minimum size=4.4mm,inner sep=0pt},
+  medge/.style ={draw=blu,line width=0.9pt},
+}
+
+\def\meshverts{a/0.00/0.55, b/0.85/1.05, c/1.70/0.75, d/2.55/1.15, e/3.45/0.80,
+               f/4.25/1.00, g/0.45/-0.25, h/1.35/0.15, i/2.20/-0.10,
+               j/3.05/0.25, k/3.90/-0.05, l/1.00/-1.05, m/1.95/-0.95,
+               n/2.85/-1.10, o/3.70/-0.85}
+
+\def\meshedges{a/b, b/c, c/d, d/e, e/f, a/g, g/h, h/i, i/j, j/k, k/f,
+               b/h, c/h, c/i, d/i, d/j, e/j, e/k, g/l, l/m, m/n, n/o, o/k,
+               h/l, h/m, i/m, i/n, j/n, j/o}
+
+% \meshbase{overrides} -- draws the mesh; "overrides" is a comma list of
+% "name/style" (mvert, mvhi, mvghost) applied on top of the default vertices.
+\newcommand{\meshbase}[1]{%
+  \foreach \n/\x/\y in \meshverts{\coordinate (\n) at (\x,\y);}
+  \foreach \u/\v in \meshedges{\draw[medge] (\u) -- (\v);}
+  \foreach \n/\x/\y in \meshverts{\node[mvert] at (\x,\y) {};}
+  \foreach \n/\s in {#1}{\node[\s] at (\n) {};}}

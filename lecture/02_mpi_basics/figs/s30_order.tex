@@ -1,0 +1,25 @@
+% Message order preservation: two sends from rank 0 arrive at rank 1 in the
+% order they were posted -- messages never overtake one another.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}
+
+  \ranktimeline{0}{rank 0}{7.0}
+  \ranktimeline{5.0}{rank 1}{7.0}
+
+  % --- the two messages, in flight -----------------------------------------
+  \draw[msg] (0,-1.55) -- (5.0,-4.05);
+  \draw[msg] (0,-2.15) -- (5.0,-4.65);
+
+  \node[lbl,anchor=east] at (-0.2,-1.55) {\texttt{MPI\_Send(\&a,\ldots)}};
+  \node[lbl,anchor=east] at (-0.2,-2.15) {\texttt{MPI\_Send(\&b,\ldots)}};
+  \node[lbl,anchor=west] at (5.2,-4.05) {\texttt{MPI\_Recv(\&a,\ldots)}};
+  \node[lbl,anchor=west] at (5.2,-4.65) {\texttt{MPI\_Recv(\&b,\ldots)}};
+
+  % --- "time passes" cut through the messages -------------------------------
+  \wavebreak{(2.15,-2.85)}{1.3}
+  \wavebreak{(2.75,-3.35)}{1.3}
+
+\end{tikzpicture}
+\end{document}

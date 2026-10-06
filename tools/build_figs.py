@@ -5,7 +5,8 @@
     python tools/build_figs.py 02_mpi          # only decks matching a substring
     python tools/build_figs.py s33             # only figures matching a substring
 
-A "deck" is any top-level directory that contains a figs/ subdirectory.
+A "deck" is any directory directly under lecture/ that contains a figs/
+subdirectory.
 For each deck this script:
 
   1. compiles every  <deck>/figs/*.tex  to  <deck>/figs/out/*.svg
@@ -42,15 +43,16 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SHARED_FIGS = os.path.join(ROOT, "shared", "figs")
 PREAMBLE = os.path.join(SHARED_FIGS, "preamble.tex")
-NOT_A_DECK = {"shared", "tools", ".git", ".quarto"}
+DECKS = "lecture"   # every deck is lecture/<deck>/
 
 
 def decks():
-    for name in sorted(os.listdir(ROOT)):
-        if name in NOT_A_DECK or name.startswith("."):
+    """Deck paths relative to ROOT, e.g. "lecture/02_mpi_basics"."""
+    for name in sorted(os.listdir(os.path.join(ROOT, DECKS))):
+        if name.startswith("."):
             continue
-        if os.path.isdir(os.path.join(ROOT, name, "figs")):
-            yield name
+        if os.path.isdir(os.path.join(ROOT, DECKS, name, "figs")):
+            yield DECKS + "/" + name
 
 
 def newer(src, dst):

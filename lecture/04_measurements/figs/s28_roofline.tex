@@ -1,0 +1,78 @@
+% The roofline model. Both axes are log2, so the memory-bandwidth ceiling
+% (performance = bandwidth x operational intensity) is a straight diagonal and
+% the compute ceiling is flat. Where an application sits relative to the knee
+% says whether to optimise memory traffic or arithmetic.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \definecolor{bound}{HTML}{8BC74F}
+
+  % log2 axes -> plain coordinates
+  \def\sx{0.72}   % cm per doubling on x
+  \def\sy{0.86}   % cm per doubling on y
+  \newcommand{\X}[1]{{(#1)*\sx}}
+  \newcommand{\Y}[1]{{(#1)*\sy}}
+
+  \def\knee{2}        % operational intensity 4  = 2^2
+  \def\ceil{0.58}     % performance ceiling ~1.5 = 2^0.58
+
+  % --- axes ---------------------------------------------------------------
+  \draw[->,draw=blu,line width=1.2pt] (\X{-2.6},\Y{-2.7}) -- (\X{-2.6},\Y{2.5});
+  \draw[->,draw=blu,line width=1.2pt] (\X{-2.6},\Y{-2.7}) -- (\X{8.7},\Y{-2.7});
+  \node[text=fg,font=\sffamily\small,align=right,anchor=south east]
+    at (\X{-2.7},\Y{2.0}) {Performance\\{}[GFLOPS]};
+  \node[text=fg,font=\sffamily\small,align=left,anchor=west]
+    at (\X{8.9},\Y{-2.7}) {operational\\intensity\\{}[FLOPS/byte]};
+
+  % ticks
+  \foreach \e/\l in {-2/$\frac14$,-1/$\frac12$,0/1,1/2,2/4,3/8,4/16,5/32,
+                     6/64,7/128,8/256}{
+    \node[text=fg,font=\sffamily\scriptsize] at (\X{\e},\Y{-3.05}) {\l};}
+  \foreach \e/\l in {-2/$\frac14$,-1/$\frac12$,0/1,1/2,2/4}{
+    \node[text=fg,font=\sffamily\scriptsize,anchor=east] at (\X{-2.75},\Y{\e}) {\l};}
+
+  % --- the roof -----------------------------------------------------------
+  % bandwidth-limited slope, then the flat compute ceiling
+  \draw[draw=uibkorange,line width=1.6pt]
+    (\X{-2.4},\Y{-2.4+\ceil-\knee+\knee}) -- (\X{\knee},\Y{\ceil});
+  \draw[draw=uibkorange,line width=1.6pt] (\X{\knee},\Y{\ceil}) -- (\X{8.4},\Y{\ceil});
+  % how each ceiling would continue on its own
+  \draw[draw=uibkorange,line width=1.2pt,dotted]
+    (\X{\knee},\Y{\ceil}) -- (\X{5.0},\Y{\ceil+3.0});
+  \draw[draw=uibkorange,line width=1.2pt,dotted]
+    (\X{-2.6},\Y{\ceil}) -- (\X{\knee},\Y{\ceil});
+
+  \node[text=fg,font=\sffamily\small,align=left,anchor=west]
+    at (\X{5.1},\Y{\ceil+2.9}) {Memory\\Bandwidth limit};
+  \node[text=fg,font=\sffamily\small,anchor=south west]
+    at (\X{5.6},\Y{\ceil+0.12}) {Performance limit};
+
+  % --- the knee separates the two regimes ---------------------------------
+  \draw[draw=bound,line width=1.2pt,dash pattern=on 5pt off 4pt]
+    (\X{\knee},\Y{-2.7}) -- (\X{\knee},\Y{2.15});
+  \draw[<-,draw=bound,line width=1.1pt,dash pattern=on 5pt off 4pt]
+    (\X{-1.2},\Y{1.85}) -- (\X{\knee},\Y{1.85});
+  \draw[->,draw=bound,line width=1.1pt,dash pattern=on 5pt off 4pt]
+    (\X{\knee},\Y{1.85}) -- (\X{5.2},\Y{1.85});
+  \node[text=fg,font=\sffamily\small,anchor=south east] at (\X{1.8},\Y{2.0}) {memory bound};
+  \node[text=fg,font=\sffamily\small,anchor=south west] at (\X{2.2},\Y{2.0}) {compute bound};
+
+  % --- two measured applications ------------------------------------------
+  % \app{x}{y}{label} -- a measured application, dropped onto the intensity axis
+  \newcommand{\app}[3]{%
+    \draw[draw=blu,line width=0.9pt,dash pattern=on 3pt off 3pt]
+      (\X{#1},\Y{-2.7}) -- (\X{#1},\Y{#2});
+    \draw[draw=blu,line width=2.6pt,line cap=round]
+      ({(#1)*\sx-0.17},{(#2)*\sy-0.17}) -- ({(#1)*\sx+0.17},{(#2)*\sy+0.17});
+    \draw[draw=blu,line width=2.6pt,line cap=round]
+      ({(#1)*\sx-0.17},{(#2)*\sy+0.17}) -- ({(#1)*\sx+0.17},{(#2)*\sy-0.17});
+    \node[text=fg,font=\sffamily\small,anchor=west]
+      at ({(#1)*\sx+0.30},{(#2)*\sy}) {#3};}
+
+  \app{1}{-2}{App 1}
+  \app{5}{-1}{App 2}
+
+\end{tikzpicture}
+\end{document}

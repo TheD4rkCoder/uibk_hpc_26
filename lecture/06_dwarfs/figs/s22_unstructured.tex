@@ -1,0 +1,10 @@
+% An unstructured grid: the neighbour relation follows no rule, so it has to be
+% stored explicitly -- which is where the levels of indirection come from.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_mesh.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \meshbase{}
+\end{tikzpicture}
+\end{document}

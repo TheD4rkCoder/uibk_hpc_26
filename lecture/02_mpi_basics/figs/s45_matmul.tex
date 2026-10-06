@@ -1,0 +1,70 @@
+% Naive distributed matrix multiplication C = A x B.
+% Row block i of A is scattered to rank i, all of B is broadcast to everyone,
+% and the resulting row blocks of C are gathered back to root.
+% Rank 1's share is highlighted throughout.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\cs{0.52}   % cell size of the big matrices
+  \def\rs{0.34}   % cell size of the per-rank miniatures
+
+  % \bigmat{x}{y}{size} -- outline of an n x n matrix with top-left at (x,y)
+  \newcommand{\bigmat}[3]{%
+    \foreach \c in {0,...,3}{\foreach \r in {0,...,3}{%
+      \draw[gridcell] ({#1+\c*#3},{#2-\r*#3}) rectangle ++(#3,-#3);}}}
+
+  % ======================= the operation ===================================
+  \def\ay{0}
+  \fill[uibkorange] (0,{\ay-\cs}) rectangle ++({4*\cs},-\cs);          % row 1 of A
+  \bigmat{0}{\ay}{\cs}
+  \node[lbl] at ({2*\cs},{\ay-4*\cs-0.42}) {A};
+  \node[subcap] at ({2*\cs},{\ay-4*\cs-0.95}) {(Scatter)};
+
+  \fill[uibkorange] ({3.30+2*\cs},\ay) rectangle ++(\cs,{-4*\cs});     % col 2 of B
+  \bigmat{3.30}{\ay}{\cs}
+  \node[lbl] at ({3.30+2*\cs},{\ay-4*\cs-0.42}) {B};
+  \node[subcap] at ({3.30+2*\cs},{\ay-4*\cs-0.95}) {(Broadcast)};
+
+  \fill[uibkorange!28] (6.60,{\ay-\cs}) rectangle ++({4*\cs},-\cs);    % row 1 of C
+  \fill[uibkorange] ({6.60+2*\cs},{\ay-\cs}) rectangle ++(\cs,-\cs);   % the element
+  \bigmat{6.60}{\ay}{\cs}
+  \node[lbl] at ({6.60+2*\cs},{\ay-4*\cs-0.42}) {C};
+  \node[subcap] at ({6.60+2*\cs},{\ay-4*\cs-0.95}) {(Gather)};
+
+  \node[lbl] at (2.92,{\ay-2*\cs}) {$\times$};
+  \node[lbl] at (6.22,{\ay-2*\cs}) {$=$};
+
+  % ======================= what each rank holds ============================
+  % rank 1 owns the highlighted row block; everyone owns a copy of B
+  \foreach \k in {0,...,3}{
+    \pgfmathsetmacro{\ry}{-3.55-\k*1.55}
+    \node[lbl,anchor=east] at (-0.35,{\ry-2*\rs}) {Rank \k};
+
+    % --- row block of A ---
+    \ifthenelse{\equal{\k}{1}}
+      {\fill[uibkorange] (0.15,{\ry-1.5*\rs}) rectangle ++({4*\rs},-\rs);}{}
+    \foreach \c in {0,...,3}{
+      \draw[gridcell] ({0.15+\c*\rs},{\ry-1.5*\rs}) rectangle ++(\rs,-\rs);}
+
+    % --- the full copy of B ---
+    \ifthenelse{\equal{\k}{1}}
+      {\fill[uibkorange] (3.40,\ry) rectangle ++({4*\rs},{-4*\rs});}{}
+    \foreach \c in {0,...,3}{\foreach \r in {0,...,3}{
+      \draw[gridcell] ({3.40+\c*\rs},{\ry-\r*\rs}) rectangle ++(\rs,-\rs);}}
+
+    % --- row block of C ---
+    \ifthenelse{\equal{\k}{1}}
+      {\fill[uibkorange] (6.70,{\ry-1.5*\rs}) rectangle ++({4*\rs},-\rs);}{}
+    \foreach \c in {0,...,3}{
+      \draw[gridcell] ({6.70+\c*\rs},{\ry-1.5*\rs}) rectangle ++(\rs,-\rs);}
+  }
+
+  % separators between ranks
+  \foreach \k in {0,...,2}{
+    \pgfmathsetmacro{\sy}{-3.55-\k*1.55-1.55+0.06}
+    \draw[draw=blu,line width=0.5pt] (-1.35,\sy) -- (8.30,\sy);}
+
+\end{tikzpicture}
+\end{document}

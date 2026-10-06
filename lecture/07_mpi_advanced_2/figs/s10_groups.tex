@@ -1,0 +1,38 @@
+% The workflow: start from MPI_COMM_WORLD, derive a group and manipulate it
+% locally, then turn that group into a new communicator (a collective call).
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    rk/.style   ={circle,fill=uibknavy,draw=blu,line width=0.5pt,text=onfill,
+                  font=\sffamily\scriptsize,minimum size=5.4mm,inner sep=0pt},
+    commf/.style={ellipse,fill=uibkorange,draw=uibkorange!70!black,
+                  line width=0.6pt},
+    commo/.style={ellipse,draw=uibkorange,line width=1.2pt},
+    note/.style  ={text=fg,font=\sffamily\scriptsize}]
+
+  % --- MPI_COMM_WORLD: all eight ranks ------------------------------------
+  \node[commf,minimum width=44mm,minimum height=19mm] at (0,0) {};
+  \foreach \i/\x/\y in {0/-1.45/0.30, 1/-0.72/0.42, 2/0.06/0.50, 3/0.82/0.36,
+                        4/-1.25/-0.36, 5/-0.50/-0.46, 6/0.22/-0.40, 7/0.95/-0.30}{
+    \node[rk] at (\x,\y) {\i};}
+
+  \draw[->,draw=blu,line width=1.1pt] (0,-1.05) -- (0,-1.75);
+
+  % --- a group: local object, can be manipulated --------------------------
+  \node[commo,minimum width=30mm,minimum height=13mm] at (0,-2.35) {};
+  \foreach \i/\x in {0/-1.02, 1/-0.34, 2/0.34, 3/1.02}{
+    \node[rk] at (\x,-2.35) {\i};}
+  % group operations are purely local
+  \draw[->,draw=blu,line width=1.0pt]
+    (-1.62,-2.05) to[out=140,in=180,looseness=2.6] (-1.62,-2.65);
+
+  \draw[->,draw=blu,line width=1.1pt] (0,-3.05) -- (0,-3.75);
+
+  % --- the new communicator -----------------------------------------------
+  \node[commf,minimum width=30mm,minimum height=13mm] at (0,-4.35) {};
+  \foreach \i/\x in {0/-1.02, 1/-0.34, 2/0.34, 3/1.02}{
+    \node[rk] at (\x,-4.35) {\i};}
+
+\end{tikzpicture}
+\end{document}

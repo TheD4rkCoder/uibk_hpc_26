@@ -1,0 +1,12 @@
+% Active target synchronisation, selective: origin and target each name the
+% group they talk to, and each controls its own epoch (post/start/complete/wait).
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{_rma.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \rmapanel{\texttt{MPI\_Win\_start(...)}}{\texttt{MPI\_Win\_post(...)}}%
+           {\texttt{MPI\_Win\_complete(...)}}{\texttt{MPI\_Win\_wait(...)}}{1}
+  \rmalegend{(-1.1,-5.9)}
+\end{tikzpicture}
+\end{document}

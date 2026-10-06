@@ -1,0 +1,49 @@
+% Where does the time go in a blocking send/receive?
+% The payload hops rank 0 -> NIC buffer -> (network) -> NIC buffer -> rank 1,
+% and both ranks spend hatched "waiting time" that the MPI standard does not
+% pin down -- hence the "?".
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % --- node boundary --------------------------------------------------------
+  \draw[draw=blu,line width=1.1pt,dash pattern=on 5pt off 4pt]
+    (6,0.65) -- (6,-7.4);
+  \node[lbl,anchor=south east] at (5.8,0.75) {node 0};
+  \node[lbl,anchor=south west] at (6.2,0.75) {node 1};
+
+  % --- the two ranks --------------------------------------------------------
+  \ranktimeline{0}{rank 0}{7.2}
+  \ranktimeline{12}{rank 1}{7.2}
+
+  % --- rank 0: call returns only after an unspecified wait ------------------
+  \draw[wait] (-0.22,-2.0) rectangle (0.22,-3.5);
+  \node[lbl,anchor=east] at (-0.95,-1.85) {\texttt{MPI\_Send(\&a,\ldots)}};
+  \draw[decorate,decoration={brace,amplitude=5pt},draw=blu,line width=0.7pt]
+    (-0.42,-2.0) -- (-0.42,-3.5);
+  \node[lbl,anchor=east] at (-0.72,-2.75) {waiting time};
+  \node[text=fg,font=\sffamily\Large] at (-1.55,-4.2) {?};
+
+  % --- rank 1: mirror image -------------------------------------------------
+  \draw[wait] (11.78,-4.1) rectangle (12.22,-5.6);
+  \node[lbl,anchor=west] at (12.95,-3.95) {\texttt{MPI\_Recv(\&a,\ldots)}};
+  \draw[decorate,decoration={brace,amplitude=5pt,mirror},draw=blu,line width=0.7pt]
+    (12.42,-4.1) -- (12.42,-5.6);
+  \node[lbl,anchor=west] at (12.72,-4.85) {waiting time};
+
+  % --- the payload's journey ------------------------------------------------
+  \node[nic] (nic0) at (3.3,-2.6) {NIC buffer};
+  \node[nic] (nic1) at (8.7,-4.2) {NIC buffer};
+
+  \draw[msg] (0.3,-2.1)      -- (nic0.west);
+  \draw[msg] (nic0.east)     -- (5.3,-3.1);
+  \draw[msg] (6.7,-3.7)      -- (nic1.west);
+  \draw[msg] (nic1.east)     -- (11.7,-4.75);
+
+  % --- network transit: duration unspecified --------------------------------
+  \wavebreak{(5.55,-3.15)}{1.8}
+  \wavebreak{(6.45,-3.65)}{1.8}
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,49 @@
+% A structured grid in 3D: the cells are identical and their neighbours follow
+% from the indices, so no connectivity has to be stored. Drawn isometrically by
+% projecting the three axes onto the page.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \def\N{4}
+  \def\s{0.52}                 % cell size
+  % isometric axes: x to the right, y into the page, z up
+  \newcommand{\px}[3]{{(#1)*\s + (#2)*\s*0.52}}
+  \newcommand{\py}[3]{{(#3)*\s + (#2)*\s*0.30}}
+
+  % \face{corner coords as four (i,j,k) triples}{fill}
+  \newcommand{\quadf}[9]{%
+    \fill[#9,draw=inkdark,line width=0.4pt]
+      (\px{#1}{#2}{#3},\py{#1}{#2}{#3}) -- (\px{#4}{#5}{#6},\py{#4}{#5}{#6})
+      -- (\px{#7}{#8}{0},\py{#7}{#8}{0}) -- cycle;}
+
+  % --- top face (z = N) ---------------------------------------------------
+  \foreach \i in {0,...,3}{\foreach \j in {0,...,3}{
+    \pgfmathsetmacro{\t}{Mod(\i+\j,2) ? 100 : 45}
+    \fill[uibkorange!\t,draw=inkdark,line width=0.4pt]
+      (\px{\i}{\j}{\N},\py{\i}{\j}{\N})
+      -- (\px{\i+1}{\j}{\N},\py{\i+1}{\j}{\N})
+      -- (\px{\i+1}{\j+1}{\N},\py{\i+1}{\j+1}{\N})
+      -- (\px{\i}{\j+1}{\N},\py{\i}{\j+1}{\N}) -- cycle;}}
+
+  % --- front face (y = 0) -------------------------------------------------
+  \foreach \i in {0,...,3}{\foreach \k in {0,...,3}{
+    \pgfmathsetmacro{\t}{Mod(\i+\k,2) ? 100 : 45}
+    \fill[uibkorange!\t,draw=inkdark,line width=0.4pt]
+      (\px{\i}{0}{\k},\py{\i}{0}{\k})
+      -- (\px{\i+1}{0}{\k},\py{\i+1}{0}{\k})
+      -- (\px{\i+1}{0}{\k+1},\py{\i+1}{0}{\k+1})
+      -- (\px{\i}{0}{\k+1},\py{\i}{0}{\k+1}) -- cycle;}}
+
+  % --- right face (x = N) -------------------------------------------------
+  \foreach \j in {0,...,3}{\foreach \k in {0,...,3}{
+    \pgfmathsetmacro{\t}{Mod(\j+\k,2) ? 70 : 30}
+    \fill[uibkorange!\t,draw=inkdark,line width=0.4pt]
+      (\px{\N}{\j}{\k},\py{\N}{\j}{\k})
+      -- (\px{\N}{\j+1}{\k},\py{\N}{\j+1}{\k})
+      -- (\px{\N}{\j+1}{\k+1},\py{\N}{\j+1}{\k+1})
+      -- (\px{\N}{\j}{\k+1},\py{\N}{\j}{\k+1}) -- cycle;}}
+
+\end{tikzpicture}
+\end{document}

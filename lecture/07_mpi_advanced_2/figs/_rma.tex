@@ -1,0 +1,65 @@
+% Shared building block for the one-sided (RMA) figures of this deck.
+% Not a figure itself -- tools/build_figs.py skips names starting with "_".
+%
+% Slides 19, 21, 22 and 23 all show the same picture and differ only in which
+% synchronisation calls open and close the epoch, and whether the target takes
+% part at all. So the panel is written once here and parameterised.
+
+\tikzset{
+  rmaline/.style ={->,draw=blu,line width=1.1pt},          % a rank's time axis
+  rmasync/.style ={draw=blu,line width=1.0pt,
+                   dash pattern=on 4pt off 3pt},           % synchronisation
+  rmadata/.style ={->,draw=uibkorange,line width=1.3pt},   % data transfer
+  rmacall/.style ={text=fg,font=\sffamily\scriptsize},
+  rmaepoch/.style={draw=blu,line width=0.6pt,
+                   pattern=north east lines,pattern color=blu},
+}
+
+\newcommand{\rmaw}{3.60}   % distance between the two ranks
+\newcommand{\rmah}{5.00}   % length of a time axis
+
+% ---------------------------------------------------------------------------
+% \rmapanel{origin top call}{target top call}
+%          {origin bottom call}{target bottom call}{target epoch? 1/0}
+%   An empty target call means the target does not synchronise (passive target).
+% ---------------------------------------------------------------------------
+\newcommand{\rmapanel}[5]{%
+  \node[text=fg,font=\sffamily\small] at (0,0.34) {origin rank};
+  \node[text=fg,font=\sffamily\small] at (\rmaw,0.34) {target rank};
+  \draw[rmaline] (0,0) -- (0,-\rmah);
+  \draw[rmaline] (\rmaw,0) -- (\rmaw,-\rmah);
+  \node[rmacall] at (0.24,{-\rmah+0.30}) {t};
+  \node[rmacall] at ({\rmaw+0.24},{-\rmah+0.30}) {t};
+
+  % the epoch during which the target's window is open
+  \ifthenelse{\equal{#5}{1}}
+    {\draw[rmaepoch] ({\rmaw-0.13},-0.95) rectangle ({\rmaw+0.13},-3.95);}{}
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},draw=blu,line width=0.7pt]
+    ({\rmaw+0.30},-0.95) -- ({\rmaw+0.30},-3.95);
+  \node[rmacall,anchor=west] at ({\rmaw+0.52},-2.45) {RMA epoch};
+
+  % opening and closing synchronisation
+  \draw[rmasync] (0,-0.95) -- (\rmaw,-0.95);
+  \draw[rmasync] (0,-3.95) -- (\rmaw,-3.95);
+  \node[rmacall,anchor=east] at (-0.18,-0.95) {#1};
+  \node[rmacall,anchor=east] at (-0.18,-3.95) {#3};
+  \ifthenelse{\equal{#2}{}}{}{%
+    \node[rmacall,anchor=west] at ({\rmaw+0.20},-0.72) {#2};}
+  \ifthenelse{\equal{#4}{}}{}{%
+    \node[rmacall,anchor=west] at ({\rmaw+0.20},-4.18) {#4};}
+
+  % the actual data movement, which needs no action on the target
+  \draw[rmadata] (0,-1.85) -- ({\rmaw-0.16},-1.85);
+  \draw[rmadata] (0,-2.95) -- ({\rmaw-0.16},-2.95);
+  \node[rmacall,anchor=east] at (-0.18,-1.85) {\texttt{MPI\_Put(...)}};
+  \node[rmacall,anchor=east] at (-0.18,-2.95) {\texttt{MPI\_Get(...)}};
+}
+
+% a small key, so each figure can explain its two line styles
+\newcommand{\rmalegend}[1]{%
+  \begin{scope}[shift={#1}]
+    \draw[rmadata] (0,0) -- (0.85,0);
+    \node[rmacall,anchor=west] at (1.00,0) {data transfer};
+    \draw[rmasync] (0,-0.38) -- (0.85,-0.38);
+    \node[rmacall,anchor=west] at (1.00,-0.38) {synchronization};
+  \end{scope}}

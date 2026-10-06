@@ -1,0 +1,28 @@
+% Eager vs. rendez-vous protocol.
+% Rendez-vous costs a round trip before the payload moves; eager just sends.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}
+
+  \ranktimeline{0}{rank 0}{8.2}
+  \ranktimeline{5.0}{rank 1}{8.2}
+
+  % --- rendez-vous: request, acknowledge, then the payload ------------------
+  \draw[msg] (0,-1.05) -- (5.0,-1.95);   % "ready to send?"
+  \draw[msg] (5.0,-2.25) -- (0,-2.95);   % "ready to receive"
+  \draw[msg] (0,-3.05) -- (5.0,-3.95);   % payload
+  \node[lbl,anchor=west,align=left] at (5.3,-2.6) {Rendez-vous\\protocol};
+
+  % --- the two protocols are separate points in time ------------------------
+  \wavebreakh{(0,-4.75)}{1.7}
+  \wavebreakh{(5.0,-4.75)}{1.7}
+  \wavebreakh{(0,-5.55)}{1.7}
+  \wavebreakh{(5.0,-5.55)}{1.7}
+
+  % --- eager: payload goes immediately --------------------------------------
+  \draw[msg] (0,-6.25) -- (5.0,-6.95);
+  \node[lbl,anchor=west] at (5.3,-6.6) {Eager protocol};
+
+\end{tikzpicture}
+\end{document}

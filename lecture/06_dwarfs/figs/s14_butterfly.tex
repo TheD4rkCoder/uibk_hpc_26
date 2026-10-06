@@ -1,0 +1,36 @@
+% The butterfly network an FFT runs on: at stage s every point combines with
+% the point 2^s away, so after log2(N) stages every output depends on every
+% input -- which is why the communication pattern is effectively all-to-all.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,
+    pt/.style ={circle,fill=uibkorange,minimum size=3.6mm,inner sep=0pt},
+    wire/.style={draw=blu,line width=0.6pt}]
+
+  \def\dx{1.35}   % distance between stages
+  \def\dy{0.62}   % distance between points
+
+  % four stages of eight points
+  \foreach \s in {0,...,3}{
+    \foreach \i in {0,...,7}{
+      \node[pt] (p\s-\i) at ({\s*\dx},{-\i*\dy}) {};}}
+
+  % stage s pairs i with i XOR 2^(2-s); pgf has no xor, so the partners are
+  % listed per stage -- which is exactly what the picture is about
+  \foreach \a/\b in {0/4, 1/5, 2/6, 3/7}{
+    \draw[wire] (p0-\a) -- (p1-\b);  \draw[wire] (p0-\b) -- (p1-\a);
+    \draw[wire] (p0-\a) -- (p1-\a);  \draw[wire] (p0-\b) -- (p1-\b);}
+  \foreach \a/\b in {0/2, 1/3, 4/6, 5/7}{
+    \draw[wire] (p1-\a) -- (p2-\b);  \draw[wire] (p1-\b) -- (p2-\a);
+    \draw[wire] (p1-\a) -- (p2-\a);  \draw[wire] (p1-\b) -- (p2-\b);}
+  \foreach \a/\b in {0/1, 2/3, 4/5, 6/7}{
+    \draw[wire] (p2-\a) -- (p3-\b);  \draw[wire] (p2-\b) -- (p3-\a);
+    \draw[wire] (p2-\a) -- (p3-\a);  \draw[wire] (p2-\b) -- (p3-\b);}
+
+  % redraw the points so the wires pass underneath
+  \foreach \s in {0,...,3}{\foreach \i in {0,...,7}{
+    \node[pt] at ({\s*\dx},{-\i*\dy}) {};}}
+
+\end{tikzpicture}
+\end{document}

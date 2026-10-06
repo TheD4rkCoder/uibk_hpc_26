@@ -1,0 +1,32 @@
+% Ghost cell exchange along a 1D decomposition: every rank owns an interior
+% (orange) plus one ghost cell (hatched) at each end, which its neighbours fill
+% in. The solid arrows are the sends to the right, the dotted ones to the left.
+\documentclass[dvisvgm,border=3pt]{standalone}
+\input{preamble.tex}
+\input{mem.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  % pitch between rank blocks; a block is 6*\memw wide, so this leaves a gap
+  \def\rw{4.25}
+
+  % four ranks side by side, each ghost | interior | ghost
+  \foreach \k in {0,...,3}{
+    \memstrip{({\k*\rw},0)}{h/, n/, o/, o/, n/, h/}}
+
+  % send to the right neighbour: my last interior cell -> its left ghost cell
+  \foreach \k in {0,1,2}{
+    \pgfmathsetmacro{\xa}{\k*\rw+4.5*\memw}
+    \pgfmathsetmacro{\xb}{(\k+1)*\rw+0.5*\memw}
+    \draw[->,draw=blu,line width=1.2pt]
+      (\xa,{\memh+0.04}) to[bend left=42] (\xb,{\memh+0.04});}
+
+  % send to the left neighbour
+  \foreach \k in {0,1,2}{
+    \pgfmathsetmacro{\xa}{(\k+1)*\rw+1.5*\memw}
+    \pgfmathsetmacro{\xb}{\k*\rw+5.5*\memw}
+    \draw[->,draw=blu,line width=1.2pt,dash pattern=on 2.5pt off 2.5pt]
+      (\xa,-0.04) to[bend left=42] (\xb,-0.04);}
+
+\end{tikzpicture}
+\end{document}

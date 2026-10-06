@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../../_libs/clipboard/clipboard.min.js"></script>
+<script src="../../_libs/quarto-html/tabby.min.js"></script>
+<script src="../../_libs/quarto-html/popper.min.js"></script>
+<script src="../../_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../_libs/quarto-html/quarto-syntax-highlighting-dark-c4e1171eb4281116019c604a711c5128.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Philipp Gschwandtner">
+  <title>MPI Groups, Communicators and One-Sided Communication</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2; background-color: #2e3440; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #75715e; } /* Annotation */
+    code span.at { color: #f92672; } /* Attribute */
+    code span.bn { color: #ae81ff; } /* BaseN */
+    code span.bu { color: #66d9ef; } /* BuiltIn */
+    code span.cf { color: #f92672; } /* ControlFlow */
+    code span.ch { color: #e6db74; } /* Char */
+    code span.cn { color: #ae81ff; } /* Constant */
+    code span.co { color: #75715e; } /* Comment */
+    code span.cv { color: #75715e; } /* CommentVar */
+    code span.do { color: #75715e; } /* Documentation */
+    code span.dt { color: #66d9ef; font-style: italic; } /* DataType */
+    code span.dv { color: #ae81ff; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #a6e22e; font-weight: bold; } /* Extension */
+    code span.fl { color: #ae81ff; } /* Float */
+    code span.fu { color: #a6e22e; } /* Function */
+    code span.im { color: #f92672; } /* Import */
+    code span.in { color: #f1fa8c; } /* Information */
+    code span.kw { color: #f92672; } /* Keyword */
+    code span.op { color: #f8f8f2; } /* Operator */
+    code span.ot { color: #a6e22e; } /* Other */
+    code span.pp { color: #f92672; } /* Preprocessor */
+    code span.re { color: #75715e; } /* RegionMarker */
+    code span.sc { color: #ae81ff; } /* SpecialChar */
+    code span.ss { color: #e6db74; } /* SpecialString */
+    code span.st { color: #e6db74; } /* String */
+    code span.va { color: #f8f8f2; } /* Variable */
+    code span.vs { color: #e6db74; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../_libs/revealjs/dist/theme/quarto-c29a4e8a457b64422ecb6f869667879b.css">
+  <link href="../../_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-dark">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">MPI Groups, Communicators and One-Sided Communication</h1>
+  <p class="subtitle">703308 VO High-Performance Computing</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Philipp Gschwandtner
+</div>
+        <p class="quarto-title-affiliation">
+            University of Innsbruck
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="overview" class="slide level2">
+<h2>Overview</h2>
+<ul>
+<li>communicators and groups
+<ul>
+<li>more ways of limiting and controlling collective communication</li>
+</ul></li>
+<li>one-sided communication
+<ul>
+<li>decouples data access and synchronization</li>
+</ul></li>
+<li>error handling</li>
+</ul>
+</section>
+<section id="motivation" class="slide level2">
+<h2>Motivation</h2>
+<ul>
+<li>real-world applications are rarely a single component
+<ul>
+<li>often MPMD</li>
+<li>usually combination of libraries (e.g.&nbsp;molecular dynamics and quantum mechanics)</li>
+</ul></li>
+<li>adds several new complexities compared to single-component software
+<ul>
+<li>collective communication via <code>MPI_COMM_WORLD</code>?</li>
+<li>how to identify sub-programs and communicate between and within them?</li>
+</ul></li>
+</ul>
+</section>
+<section id="motivation-contd" class="slide level2">
+<h2>Motivation cont’d</h2>
+<div class="columns">
+<div class="column" style="width:46%;">
+<ul>
+<li>unstructured grid with cell and face element types
+<ul>
+<li>assume both require global communication (e.g.&nbsp;reduction) among their types</li>
+</ul></li>
+<li>a communicator per element type would be useful
+<ul>
+<li>but how?</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:54%;">
+<p><img data-src="figs/out/s04_mesh.svg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="motivation-contd-1" class="slide level2">
+<h2>Motivation cont’d</h2>
+<div class="columns">
+<div class="column" style="width:46%;">
+<ul>
+<li>What about NUMA?
+<ul>
+<li>virtual topologies do not reflect e.g.&nbsp;shared memory address spaces</li>
+</ul></li>
+<li>consider shared memory node with 4 CPUs and many cores per CPU</li>
+<li>local collective communication among cores of a node is cheap
+<ul>
+<li>how to limit?</li>
+<li>construct a communicator per node?</li>
+<li>do this in hardware- and compiler-independent way?</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:54%;">
+<p><img data-src="figs/out/s05_numa.svg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="communicators-and-groups" class="slide level2">
+<h2>Communicators and groups</h2>
+<ul>
+<li>communicators and groups hold sets of ranks
+<ul>
+<li>directly used for e.g.&nbsp;collective communication</li>
+<li>also required for identifying single ranks</li>
+<li>remember MPI basics lecture: everything in MPI is relative to a communicator or group</li>
+</ul></li>
+<li>Why not stick to <code>MPI_COMM_WORLD</code>?
+<ul>
+<li>isolate application sub-programs
+<ul>
+<li>individual processing steps running in parallel (task parallelism, MPMD)</li>
+<li>domain decomposition (SPMD, c.f. slicing Cartesian topologies)</li>
+<li>libraries (portability)</li>
+</ul></li>
+<li>usability
+<ul>
+<li>add user-defined attributes such as topologies</li>
+</ul></li>
+<li>performance
+<ul>
+<li>re-numbering of ranks (virtual topology vs.&nbsp;hardware topology)</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="communicators-and-groups-contd" class="slide level2">
+<h2>Communicators and groups cont’d</h2>
+<ul>
+<li><code>MPI_Group</code>
+<ul>
+<li>holds ordered set of ranks</li>
+<li>ordering is given by mapping process identifier (e.g.&nbsp;PID) to rank number</li>
+<li>construction of and operations on groups are always <strong>local</strong> operations</li>
+</ul></li>
+<li><code>MPI_Comm</code>
+<ul>
+<li>holds an <code>MPI_Group</code>
+<ul>
+<li>transitively holds ordered set of ranks</li>
+</ul></li>
+<li>can hold attributes (e.g.&nbsp;topology)</li>
+<li>constructed from groups</li>
+<li>construction of communicators are <strong>non-local</strong> operations (collectives)</li>
+</ul></li>
+</ul>
+</section>
+<section id="operations-on-mpi_group" class="slide level2">
+<h2>Operations on <code>MPI_Group</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>constructors</strong>
+<ul>
+<li><code>MPI_Comm_group(…)</code></li>
+<li><code>MPI_Group_union(…)</code></li>
+<li><code>MPI_Group_intersection(…)</code></li>
+<li><code>MPI_Group_difference(…)</code></li>
+<li><code>MPI_Group_incl(…)</code></li>
+<li><code>MPI_Group_excl(…)</code></li>
+<li><code>MPI_Group_range_incl(…)</code></li>
+<li><code>MPI_Group_range_excl(…)</code></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>accessors</strong>
+<ul>
+<li><code>MPI_Group_size(…)</code></li>
+<li><code>MPI_Group_rank(…)</code></li>
+<li><code>MPI_Group_compare(…)</code>
+<ul>
+<li>result is <code>MPI_IDENT</code>, <code>MPI_SIMILAR</code> or <code>MPI_UNEQUAL</code></li>
+</ul></li>
+</ul></li>
+<li><strong>destructor</strong>
+<ul>
+<li><code>MPI_Group_free(…)</code></li>
+</ul></li>
+</ul>
+</div></div>
+</section>
+<section id="operations-on-mpi_comm" class="slide level2">
+<h2>Operations on <code>MPI_Comm</code></h2>
+<ul>
+<li><strong>constructors</strong>
+<ul>
+<li><code>MPI_Comm_dup(…)</code></li>
+<li><code>MPI_Comm_create(…)</code></li>
+<li><code>MPI_Comm_split(…)</code></li>
+<li>convenience constructors such as <code>MPI_Cart_sub(…)</code></li>
+</ul></li>
+<li><strong>accessors</strong>
+<ul>
+<li><code>MPI_Comm_size(…)</code></li>
+<li><code>MPI_Comm_rank(…)</code></li>
+<li><code>MPI_Comm_compare(…)</code>
+<ul>
+<li>result is <code>MPI_IDENT</code>, <code>MPI_SIMILAR</code>, <code>MPI_CONGRUENT</code> or <code>MPI_UNEQUAL</code></li>
+</ul></li>
+</ul></li>
+<li><strong>destructor</strong>
+<ul>
+<li><code>MPI_Comm_free(…)</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="group-and-communicator-workflow" class="slide level2">
+<h2>Group and communicator workflow</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>start with <code>MPI_COMM_WORLD</code></li>
+<li>construct group(s) of rank subsets and modify as required
+<ul>
+<li><code>MPI_Group_union()</code>, <code>MPI_Group_range_incl()</code>, …</li>
+</ul></li>
+<li>create new communicator from group and use for communication</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/out/s10_groups.svg" class="quarto-figure quarto-figure-center" style="width:72.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="splitting-communicators" class="slide level2">
+<h2>Splitting communicators</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> MPI_Comm_split<span class="op">(</span>MPI_Comm comm<span class="op">,</span> <span class="dt">int</span> color<span class="op">,</span> <span class="dt">int</span> key<span class="op">,</span> MPI_Comm<span class="op">*</span> newcomm<span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>comm</code>: current communicator</li>
+<li><code>color</code>: control of subset assignment (same color: same new communicator)</li>
+<li><code>key</code>: control of rank assignment (0: sorted as in <code>comm</code>; otherwise according to ascending key values)</li>
+<li><code>newcomm</code>: new communicator</li>
+<li><code>MPI_Comm_split_type(…)</code>
+<ul>
+<li>allows to split dependent on hardware properties</li>
+</ul></li>
+</ul>
+</section>
+<section id="mpi_comm_split-example" class="slide level2">
+<h2><code>MPI_Comm_split</code> example</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm newComm<span class="op">;</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_rank<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span> <span class="op">&amp;</span>myRank<span class="op">);</span></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> myColor <span class="op">=</span> myRank <span class="op">/</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_split<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span> myColor<span class="op">,</span></span>
+<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a>               myRank<span class="op">,</span> <span class="op">&amp;</span>newComm<span class="op">);</span></span>
+<span id="cb2-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_rank<span class="op">(</span>newComm<span class="op">,</span> <span class="op">&amp;</span>newRank<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><img data-src="figs/out/s12_split.svg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="solutions-to-motivation-examples" class="slide level2 smaller">
+<h2>Solutions to motivation examples</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>a communicator per element type:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm newComm<span class="op">;</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_rank<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span> <span class="op">&amp;</span>rank<span class="op">);</span></span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> color <span class="op">=</span> <span class="op">(</span>elementType <span class="op">==</span> TYPE_FACES<span class="op">);</span></span>
+<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_split<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span></span>
+<span id="cb3-6"><a href="" aria-hidden="true" tabindex="-1"></a>               color<span class="op">,</span> rank<span class="op">,</span> <span class="op">&amp;</span>newComm<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p>a communicator per shared-memory node:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm newComm<span class="op">;</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_rank<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span> <span class="op">&amp;</span>rank<span class="op">);</span></span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_split_type<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span></span>
+<span id="cb4-5"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_COMM_TYPE_SHARED<span class="op">,</span> rank<span class="op">,</span></span>
+<span id="cb4-6"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_INFO_NULL<span class="op">,</span> <span class="op">&amp;</span>newComm<span class="op">);</span></span>
+<span id="cb4-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// also: OMPI_COMM_TYPE_CORE,</span></span>
+<span id="cb4-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// OMPI_COMM_TYPE_L1CACHE,</span></span>
+<span id="cb4-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// OMPI_COMM_TYPE_L2CACHE,</span></span>
+<span id="cb4-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// OMPI_COMM_TYPE_L3CACHE, ...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="intra--and-inter-communicators" class="slide level2">
+<h2>Intra- and inter-communicators</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><strong>intra-communicator</strong>
+<ul>
+<li>collection of ranks that can send messages to each other via point-to-point and collectives</li>
+<li>e.g.&nbsp;<code>MPI_COMM_WORLD</code></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><strong>inter-communicator</strong>
+<ul>
+<li>collection of ranks from disjoint intra-communicators</li>
+<li>allows sending messages between communicators</li>
+</ul></li>
+</ul>
+</div></div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/out/s14_intercomm.svg" class="quarto-figure quarto-figure-center" height="250"></p>
+</figure>
+</div>
+</section>
+<section>
+<section id="one-sided-communication" class="title-slide slide level1 center">
+<h1>One-sided Communication</h1>
+
+</section>
+<section id="motivation-1" class="slide level2">
+<h2>Motivation</h2>
+<ul>
+<li><strong>message-passing paradigm</strong>
+<ul>
+<li>fits distributed memory systems well</li>
+<li>data transfers among distinct address spaces require network communication</li>
+<li>requires explicit communication</li>
+<li>downside: little control over message &amp; synchronization aggregation</li>
+</ul></li>
+<li><strong>shared memory paradigm</strong>
+<ul>
+<li>no message passing required</li>
+<li>data transfer aggregation possible – write multiple bytes, elements, … in one go</li>
+<li>much more convenient from a user and performance perspective
+<ul>
+<li>does not necessarily require receiving side to participate</li>
+</ul></li>
+<li>also, messages are needless overhead on shared-memory systems
+<ul>
+<li>send/recv function call, management, etc., just for a <code>memcpy</code> in the same address space?</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="mpis-solution-one-sided-communication" class="slide level2">
+<h2>MPI’s solution: one-sided communication</h2>
+<ul>
+<li>classic point-to-point (“two-sided”) communication implies synchronization
+<ul>
+<li>at every data transfer action</li>
+<li>incurs a lot of overhead in the presence of many messages</li>
+</ul></li>
+<li>one-sided communication decouples data movement and synchronization
+<ul>
+<li>ranks expose a “window” of rank-local memory</li>
+<li>can be accessed by other ranks using remote memory access (RMA)</li>
+<li>data accesses do not necessarily require action on the rank exposing memory</li>
+<li>both read and write are possible
+<ul>
+<li>ranks no longer identify as “sender” and “receiver” but as “origin” and “target” instead</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="one-sided-communication-workflow" class="slide level2">
+<h2>One-sided communication workflow</h2>
+<ul>
+<li>allocate buffer and window
+<ul>
+<li>can ask MPI to allocate fast memory</li>
+</ul></li>
+<li>open window (“start epoch”)
+<ul>
+<li>synchronization point</li>
+<li>allows data access by remote ranks</li>
+</ul></li>
+<li>close window (“end epoch”)
+<ul>
+<li>synchronization point</li>
+<li>commits data accesses</li>
+</ul></li>
+<li>deallocate window and buffer</li>
+</ul>
+</section>
+<section id="mpi-one-sided-communication-contd" class="slide level2 center-figs">
+<h2>MPI one-sided communication cont’d</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/out/s19_two_vs_one_sided.svg" class="quarto-figure quarto-figure-center" height="440"></p>
+</figure>
+</div>
+</section>
+<section id="means-of-synchronization" class="slide level2">
+<h2>Means of synchronization</h2>
+<ul>
+<li><strong>active target synchronization</strong>
+<ul>
+<li>target participates in synchronization</li>
+<li>similar to message-passing paradigm</li>
+<li>uses either <code>MPI_Win_fence()</code> or “post-start-complete-wait”</li>
+<li>often preferred for bulk-synchronous parallel programs
+<ul>
+<li>all ranks execute computation and communication steps more or less in sync</li>
+<li>e.g.&nbsp;structured grid with ghost cell exchange</li>
+</ul></li>
+</ul></li>
+<li><strong>passive target synchronization</strong>
+<ul>
+<li>target does not synchronize</li>
+<li>similar to shared memory paradigm</li>
+<li>uses <code>MPI_Win_lock()</code> and <code>MPI_Win_unlock()</code></li>
+<li>often preferred for dynamic, independent access patterns
+<ul>
+<li>e.g.&nbsp;irregular codes</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="active-target-synchronization-fence" class="slide level2">
+<h2>Active target synchronization: fence</h2>
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li>collective synchronization
+<ul>
+<li>origin/target not specified</li>
+</ul></li>
+<li>all control the epoch
+<ul>
+<li>starts/ends all epochs on all participating ranks</li>
+</ul></li>
+<li>fence enforces synchronization</li>
+</ul>
+</div><div class="column" style="width:58%;">
+<p><img data-src="figs/out/s21_fence.svg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="active-target-synchronization-poststartcompletewait" class="slide level2">
+<h2>Active target synchronization: post/start/complete/wait</h2>
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li>selective synchronization
+<ul>
+<li>origin and target specify a group they communicate with</li>
+</ul></li>
+<li>both control their epochs
+<ul>
+<li>origin: start/complete</li>
+<li>target: post/wait</li>
+</ul></li>
+<li>synchronization calls may block to enforce ordering</li>
+</ul>
+</div><div class="column" style="width:58%;">
+<p><img data-src="figs/out/s22_pscw.svg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="passive-target-synchronization-lockunlock" class="slide level2">
+<h2>Passive target synchronization: lock/unlock</h2>
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li>target neither involved in data transfer, nor in synchronization</li>
+<li>origin has full control over epoch</li>
+<li>resembles shared memory programming models (e.g.&nbsp;Pthreads, <code>std::mutex</code>, …)
+<ul>
+<li>but not the same</li>
+<li>no critical section!</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:58%;">
+<p><img data-src="figs/out/s23_lock.svg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="implications-of-one-sided-communication" class="slide level2">
+<h2>Implications of one-sided communication</h2>
+<ul>
+<li>several benefits
+<ul>
+<li>allows dynamic access patterns (e.g.&nbsp;when target rank does not know number and ranks of origins; or have two ranks communicate data through a third rank who does not participate)</li>
+<li>reduce synchronization overhead for multiple data transfers</li>
+<li>reduce management overhead on receiver side (e.g.&nbsp;tag matching)</li>
+<li>performance gain</li>
+<li>reduce coding effort on receiver side</li>
+</ul></li>
+<li>drawbacks
+<ul>
+<li>no send/receive matching</li>
+<li>operations are not explicitly visible on the receiver side</li>
+<li>user responsible for correct order of reads/writes (race conditions)</li>
+<li>only non-blocking communication</li>
+</ul></li>
+</ul>
+</section>
+<section id="performance-comparison" class="slide level2">
+<h2>Performance comparison</h2>
+<div class="columns">
+<div class="column" style="width:52%;">
+<ul>
+<li>LCC2, openmpi/3.1.1, 2 ranks, one per node</li>
+<li>rank 0 sends <span class="math inline">\(10^8\)</span> <code>int</code> to rank 1
+<ul>
+<li>once using <span class="math inline">\(10^8\)</span> plain send/recv calls</li>
+<li>once using <span class="math inline">\(10^8\)</span> <code>MPI_Put()</code> calls with <code>MPI_Win_fence()</code> synchronization</li>
+</ul></li>
+<li>execution time reduced by 2.26x
+<ul>
+<li>only between two ranks</li>
+<li>but an edge case stress test</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:48%;">
+<p><img data-src="figs/out/s25_onesided_perf.svg" style="width:100.0%"></p>
+</div></div>
+</section>
+<section id="optional-window-fence-assertions" class="slide level2">
+<h2>Optional window fence assertions</h2>
+<ul>
+<li><code>MPI_MODE_NOSTORE</code>
+<ul>
+<li>local window was not updated by local store, local get or receive calls since last fence</li>
+</ul></li>
+<li><code>MPI_MODE_NOPUT</code>
+<ul>
+<li>local window will not be updated by put or accumulate until next fence</li>
+</ul></li>
+<li><code>MPI_MODE_NOPRECEDE</code>
+<ul>
+<li>fence does not complete any sequence of locally issued RMA calls</li>
+</ul></li>
+<li><code>MPI_MODE_NOSUCCEED</code>
+<ul>
+<li>fence does not start any sequence of locally issued RMA calls</li>
+</ul></li>
+<li>none of these are required, but they can improve performance</li>
+</ul>
+</section>
+<section id="four-window-models" class="slide level2">
+<h2>Four window models</h2>
+<ul>
+<li><code>MPI_Win_create(…)</code>
+<ul>
+<li>private memory buffer already allocated, use as window</li>
+</ul></li>
+<li><code>MPI_Win_allocate(…)</code>
+<ul>
+<li>allocate buffer and use as window</li>
+</ul></li>
+<li><code>MPI_Win_create_dynamic(…)</code>
+<ul>
+<li>expose a buffer which is not available yet</li>
+<li>use later with <code>MPI_Win_attach()</code>/<code>MPI_Win_detach()</code></li>
+</ul></li>
+<li><code>MPI_Win_allocate_shared(…)</code>
+<ul>
+<li>allocate and use buffer in shared memory segment of the OS</li>
+<li>only works for <code>MPI_COMM_TYPE_SHARED</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="transferring-data-put-get" class="slide level2">
+<h2>Transferring data: put &amp; get</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> MPI_Put<span class="op">(</span><span class="dt">const</span> <span class="dt">void</span><span class="op">*</span> origin_addr<span class="op">,</span> <span class="dt">int</span> origin_count<span class="op">,</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>            MPI_Datatype origin_datatype<span class="op">,</span> <span class="dt">int</span> target_rank<span class="op">,</span></span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a>            MPI_Aint target_disp<span class="op">,</span> <span class="dt">int</span> target_count<span class="op">,</span></span>
+<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a>            MPI_Datatype target_datatype<span class="op">,</span> MPI_Win win<span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>origin_addr</code>: local address of data to put (aka “send buffer”)</li>
+<li><code>origin_count</code>: number of elements on origin side</li>
+<li><code>origin_datatype</code>: type of elements on origin side</li>
+<li><code>target_rank</code>: target rank</li>
+<li><code>target_disp</code>: offset of target address to base address of target window</li>
+<li><code>target_count</code>: number of elements on target side</li>
+<li><code>target_datatype</code>: type of elements on target side</li>
+<li><code>win</code>: window handle</li>
+<li><code>MPI_Get(…)</code>: transfer data from target to origin</li>
+</ul>
+</section>
+<section id="transferring-data-accumulate" class="slide level2">
+<h2>Transferring data: accumulate</h2>
+<ul>
+<li><code>MPI_Accumulate(…)</code>
+<ul>
+<li>transfer data from origin and accumulate atomically at target</li>
+<li>can only use predefined operations of <code>MPI_Reduce(…)</code> (e.g.&nbsp;<code>MPI_SUM</code>)</li>
+<li>use <code>MPI_REPLACE</code> to get atomic put</li>
+</ul></li>
+<li><code>MPI_Get_accumulate(…)</code>
+<ul>
+<li>same as <code>MPI_Accumulate(…)</code> but store target buffer data in result buffer before accumulating</li>
+<li>use with <code>MPI_NO_OP</code> to implement atomic get or <code>MPI_REPLACE</code> for atomic swap</li>
+</ul></li>
+</ul>
+</section>
+<section id="transferring-data-single-element-atomics" class="slide level2">
+<h2>Transferring data: single-element atomics</h2>
+<ul>
+<li><code>MPI_Compare_and_swap(…)</code>
+<ul>
+<li>atomic swap if data at target buffer matches comparison value</li>
+<li>must be single element</li>
+<li>must be predefined integer, logical or byte type</li>
+</ul></li>
+<li><code>MPI_Fetch_and_op(…)</code>
+<ul>
+<li>variant of <code>MPI_Get_accumulate(…)</code>, available for hardware optimization</li>
+<li>implements a subset of <code>MPI_Get_accumulate(…)</code>’s generic functionality
+<ul>
+<li>must be single-element</li>
+<li>must be predefined data type</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="mpi-one-sided-communication-example" class="slide level2 smaller">
+<h2>MPI one-sided communication example</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// rank 0 (origin)</span></span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win window<span class="op">;</span></span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> buffer<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">...</span> <span class="op">;</span></span>
+<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_create<span class="op">(&amp;</span>buffer<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)*</span>SIZE<span class="op">,</span></span>
+<span id="cb6-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">),</span> MPI_INFO_NULL<span class="op">,</span></span>
+<span id="cb6-7"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_COMM_WORLD<span class="op">,</span> <span class="op">&amp;</span>window<span class="op">);</span></span>
+<span id="cb6-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_fence<span class="op">(</span>MPI_MODE_NOSTORE <span class="op">|</span></span>
+<span id="cb6-10"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_MODE_NOPUT <span class="op">|</span> MPI_MODE_NOPRECEDE<span class="op">,</span></span>
+<span id="cb6-11"><a href="" aria-hidden="true" tabindex="-1"></a>    window<span class="op">);</span></span>
+<span id="cb6-12"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Put<span class="op">(&amp;</span>buffer<span class="op">,</span> SIZE<span class="op">,</span> MPI_INT<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb6-14"><a href="" aria-hidden="true" tabindex="-1"></a>        SIZE<span class="op">,</span> MPI_INT<span class="op">,</span> window<span class="op">);</span></span>
+<span id="cb6-15"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_fence<span class="op">(</span>MPI_MODE_NOSTORE <span class="op">|</span></span>
+<span id="cb6-17"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_MODE_NOPUT <span class="op">|</span> MPI_MODE_NOSUCCEED<span class="op">,</span></span>
+<span id="cb6-18"><a href="" aria-hidden="true" tabindex="-1"></a>    window<span class="op">);</span></span>
+<span id="cb6-19"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_free<span class="op">(&amp;</span>window<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// rank 1 (target)</span></span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win window<span class="op">;</span></span>
+<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> buffer<span class="op">[</span>SIZE<span class="op">]</span> <span class="op">=</span> <span class="op">{</span> <span class="dv">0</span> <span class="op">};</span></span>
+<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_create<span class="op">(&amp;</span>buffer<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)*</span>SIZE<span class="op">,</span></span>
+<span id="cb7-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">),</span> MPI_INFO_NULL<span class="op">,</span></span>
+<span id="cb7-7"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_COMM_WORLD<span class="op">,</span> <span class="op">&amp;</span>window<span class="op">);</span></span>
+<span id="cb7-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_fence<span class="op">(</span>MPI_MODE_NOSTORE <span class="op">|</span></span>
+<span id="cb7-10"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_MODE_NOPRECEDE <span class="op">|</span></span>
+<span id="cb7-11"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_MODE_NOSUCCEED<span class="op">,</span> window<span class="op">);</span></span>
+<span id="cb7-12"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// window open, buffer can be written to</span></span>
+<span id="cb7-14"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_fence<span class="op">(</span>MPI_MODE_NOPUT <span class="op">|</span></span>
+<span id="cb7-16"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_MODE_NOPRECEDE <span class="op">|</span></span>
+<span id="cb7-17"><a href="" aria-hidden="true" tabindex="-1"></a>    MPI_MODE_NOSUCCEED<span class="op">,</span> window<span class="op">);</span></span>
+<span id="cb7-18"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// use buffer here</span></span>
+<span id="cb7-20"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_free<span class="op">(&amp;</span>window<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="rma-semantics" class="slide level2">
+<h2>RMA semantics</h2>
+<ul>
+<li>order of Get and Put/Accumulate is not guaranteed
+<ul>
+<li>race condition</li>
+<li>same for multiple Put operations (use Accumulate instead)</li>
+</ul></li>
+<li>no local access to window during access epoch
+<ul>
+<li>use an RMA operation if absolutely required</li>
+</ul></li>
+<li>local vs.&nbsp;remote completion of operation
+<ul>
+<li>no send buffer re-use after Put until end of access epoch</li>
+</ul></li>
+<li>no concurrent passive synchronization epochs to same target
+<ul>
+<li>only relevant in multi-threading context</li>
+</ul></li>
+<li>lots of MPI fence optimizations
+<ul>
+<li>where to place, which assertions to use (start with 0 and add assertions as appropriate)</li>
+</ul></li>
+</ul>
+</section>
+<section id="shared-memory-one-sided-communication" class="slide level2">
+<h2>Shared-memory one-sided communication</h2>
+<ul>
+<li>one-sided communication also available in a truly shared memory fashion
+<ul>
+<li>origin of data transfer will get a pointer to access target memory</li>
+<li>naturally only works for ranks in the same address space</li>
+<li>c.f. POSIX shared memory segments</li>
+</ul></li>
+<li>allows to share memory between ranks
+<ul>
+<li>reduces memory footprint (e.g.&nbsp;no extra buffer for ghost cell exchange of a stencil)</li>
+<li>even more efficient for intra-node communication than one-sided communication</li>
+</ul></li>
+</ul>
+</section>
+<section id="ghost-cell-exchange-message-passing-in-shared-memory" class="slide level2 center-figs">
+<h2>Ghost cell exchange (message passing in shared memory)</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/out/s34_ghost_copy.svg" class="quarto-figure quarto-figure-center" height="430"></p>
+</figure>
+</div>
+</section>
+<section id="ghost-cell-exchange-mpi-shared-memory-access" class="slide level2 center-figs">
+<h2>Ghost cell exchange (MPI shared memory access)</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="figs/out/s35_ghost_direct.svg" class="quarto-figure quarto-figure-center" height="430"></p>
+</figure>
+</div>
+</section>
+<section id="example-for-shared-memory-one-sided-communication" class="slide level2">
+<h2>Example for shared memory one-sided communication</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Comm_split_type<span class="op">(</span>MPI_COMM_WORLD<span class="op">,</span> MPI_COMM_TYPE_SHARED<span class="op">,</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>                    <span class="dv">0</span><span class="op">,</span> MPI_INFO_NULL<span class="op">,</span> <span class="op">&amp;</span>comm_sm<span class="op">);</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_allocate_shared<span class="op">((</span>MPI_Aint<span class="op">)(</span><span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">)</span> <span class="op">*</span> <span class="dv">10</span><span class="op">),</span></span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="kw">sizeof</span><span class="op">(</span><span class="dt">int</span><span class="op">),</span> MPI_INFO_NULL<span class="op">,</span> comm_sm<span class="op">,</span></span>
+<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="op">&amp;</span>rcv_buf_ptr<span class="op">,</span> <span class="op">&amp;</span>win<span class="op">);</span></span>
+<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_fence<span class="op">(</span><span class="dv">0</span><span class="op">,</span> win<span class="op">);</span></span>
+<span id="cb8-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>rcv_buf_ptr <span class="op">=</span> <span class="op">...;</span>   <span class="co">// replaces the MPI_Put() call!</span></span>
+<span id="cb8-11"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_fence<span class="op">(</span><span class="dv">0</span><span class="op">,</span> win<span class="op">);</span></span>
+<span id="cb8-13"><a href="" aria-hidden="true" tabindex="-1"></a>MPI_Win_free<span class="op">(&amp;</span>win<span class="op">);</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="mpi-and-multithreading" class="slide level2">
+<h2>MPI and multithreading</h2>
+<ul>
+<li>one-sided shared memory communication can become quite complex
+<ul>
+<li>there are alternatives: MPI+(OpenMP or <code>std::thread</code> or Pthreads or TBB or …)</li>
+<li>these are known as hybrid programming models</li>
+<li>both paradigms have their ups and downs (number of programming models, compiler support, compiler optimizations, interactions, side-effects, …)</li>
+</ul></li>
+<li>MPI+threads needs to be supported by MPI, indicated by one of four safety levels
+<ul>
+<li><code>MPI_THREAD_SINGLE</code>: only a single thread per rank</li>
+<li><code>MPI_THREAD_FUNNELED</code>: multithreaded ranks, but only the main thread calls MPI</li>
+<li><code>MPI_THREAD_SERIALIZED</code>: multithreaded, but only one per time calls MPI</li>
+<li><code>MPI_THREAD_MULTIPLE</code>: multithreaded, any thread can call MPI any time (with restrictions)</li>
+<li>MPI implementations are not required to support more than <code>MPI_THREAD_SINGLE</code>
+<ul>
+<li>always check beforehand with <code>MPI_Query_thread(…)</code> and call <code>MPI_Init_thread()</code> instead of <code>MPI_Init()</code></li>
+</ul></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="error-handling" class="title-slide slide level1 center">
+<h1>Error Handling</h1>
+
+</section>
+<section id="error-handling-1" class="slide level2">
+<h2>Error handling</h2>
+<ul>
+<li>MPI introduces additional hassle
+<ul>
+<li>imagine everything that can go wrong with a sequential process</li>
+<li>add the fact that multiple processes are interacting, across the network</li>
+</ul></li>
+<li>default behavior: communication errors cause abort of MPI operation
+<ul>
+<li>causes respective process to exit</li>
+<li>causes all other MPI processes of the same application to exit</li>
+</ul></li>
+<li>this only relates to halting crashes
+<ul>
+<li>also consider deadlocks or hangs</li>
+</ul></li>
+</ul>
+</section>
+<section id="error-handling-contd" class="slide level2">
+<h2>Error handling cont’d</h2>
+<ul>
+<li>all MPI routines return error codes
+<ul>
+<li><code>MPI_SUCCESS</code> if everything went well</li>
+</ul></li>
+<li>should always check and act accordingly
+<ul>
+<li>consider action to take when MPI calls fail</li>
+<li>compare to a failing <code>malloc</code> in sequential program</li>
+<li>make sure to free allocated resources (e.g.&nbsp;file handles)</li>
+<li>inform the user!!</li>
+</ul></li>
+</ul>
+</section>
+<section id="error-handling-contd-1" class="slide level2">
+<h2>Error handling cont’d</h2>
+<ul>
+<li>error behavior can be altered with <code>MPI_Comm_set_errhandler(…)</code>
+<ul>
+<li><code>MPI_ERRORS_ARE_FATAL</code>: abort if error detected (default)</li>
+<li><code>MPI_ERRORS_RETURN</code>: return error code to user program</li>
+</ul></li>
+<li>user-defined error handlers can be installed
+<ul>
+<li><code>MPI_Comm_create_errhandler(…)</code></li>
+<li><code>MPI_Comm_set_errhandler(…)</code></li>
+<li><code>MPI_Comm_get_errhandler(…)</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="additional-topics" class="slide level2">
+<h2>Additional topics</h2>
+<ul>
+<li>File I/O
+<ul>
+<li>data file partitioning among processes, strided file access (derived data types!)</li>
+<li>asynchronous data transfers</li>
+</ul></li>
+<li>process management
+<ul>
+<li>process spawning</li>
+<li>socket-style communication</li>
+</ul></li>
+<li>Fortran-specific issues
+<ul>
+<li>slight differences in MPI function signatures</li>
+</ul></li>
+<li>profiling support
+<ul>
+<li><code>MPI_...</code> vs.&nbsp;<code>PMPI_...</code></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="summary" class="title-slide slide level1 center">
+<h1>Summary</h1>
+
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<ul>
+<li>communicators and groups
+<ul>
+<li>offers high-level control over sets of ranks</li>
+</ul></li>
+<li>one-sided communication
+<ul>
+<li>can improve performance, but can be tricky to use</li>
+</ul></li>
+<li>error handling
+<ul>
+<li>graceful exits</li>
+</ul></li>
+</ul>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>703308 VO High-Performance Computing — MPI groups, communicators &amp; one-sided communication</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 8.0e-2,
+
+        maxScale: 5,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <!--
+      Dark / light theme switch, included at the end of every deck's body
+      (`include-after-body` in _quarto.yml).
+
+      There are two halves to a theme here:
+
+        the slide itself   shared/uibk.scss is the dark theme; shared/uibk-light.scss
+                           overlays it under html.theme-light and in @media print
+        the figures        every generated figure exists twice, as figs/out/<f>.svg
+                           and figs/out/light/<f>.svg (see tools/build_figs.py), so
+                           switching theme means rewriting the image paths
+
+      The theme is picked in this order:
+
+        ?theme=light|dark       explicit, and wins -- useful for decktape and for
+                                linking someone straight to one variant
+        print view              ?print-pdf / ?view=print, i.e. the E key: the
+                                handout is always light
+        localStorage            what the viewer chose last time, per browser
+        dark                    the deck as it is presented
+
+      Printing (Ctrl+P) from the dark theme swaps the figures for the duration of
+      the print job, so the PDF is light even if nobody switched the deck first.
+    -->
+    <button class="theme-toggle" type="button" title="Toggle light / dark theme (T)" aria-label="Toggle light / dark theme"></button>
+
+    <style>
+      /* the slot next to Quarto's menu button, which sits at left: 8px */
+      .theme-toggle {
+        position: fixed;
+        left: 54px;
+        bottom: 8px;
+        z-index: 30;
+        width: 2.2rem;
+        height: 2.2rem;
+        padding: 0;
+        line-height: 2.2rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+        background: none;
+        border: none;
+        opacity: 0.75;
+        color: var(--r-link-color);
+      }
+      .theme-toggle:hover { opacity: 1; }
+      /* it is a control, not content: never part of the handout */
+      @media print { .theme-toggle { display: none; } }
+      html.print-view .theme-toggle { display: none; }
+    </style>
+
+    <script>
+      (function () {
+        var KEY = 'uibk-deck-theme';
+        var root = document.documentElement;
+        var button = document.querySelector('.theme-toggle');
+
+        function stored(value) {
+          try {
+            if (value === undefined) return window.localStorage.getItem(KEY);
+            window.localStorage.setItem(KEY, value);
+          } catch (e) {
+            /* private mode, or a file:// URL with site data blocked */
+          }
+          return null;
+        }
+
+        // figs/out/<f>.svg  <->  figs/out/light/<f>.svg
+        var DARK = /(^|\/)figs\/out\/([^/]+\.svg)$/;
+        var LIGHT = /(^|\/)figs\/out\/light\/([^/]+\.svg)$/;
+
+        function retarget(theme) {
+          var from = theme === 'light' ? DARK : LIGHT;
+          var to = theme === 'light' ? '$1figs/out/light/$2' : '$1figs/out/$2';
+          var images = document.querySelectorAll('img[src], img[data-src]');
+          for (var i = 0; i < images.length; i++) {
+            // reveal.js lazy-loads: a slide that has not been shown yet still
+            // carries the path in data-src, so both attributes have to be moved
+            ['src', 'data-src'].forEach(function (attr) {
+              var path = images[i].getAttribute(attr);
+              if (path && from.test(path)) images[i].setAttribute(attr, path.replace(from, to));
+            });
+          }
+        }
+
+        function apply(theme) {
+          root.classList.toggle('theme-light', theme === 'light');
+          root.classList.toggle('theme-dark', theme !== 'light');
+          retarget(theme);
+          if (button) button.textContent = theme === 'light' ? '◑' : '◐';
+        }
+
+        var params = new URLSearchParams(window.location.search);
+        var printing = params.has('print-pdf') || params.get('view') === 'print';
+        if (printing) root.classList.add('print-view');
+
+        var requested = params.get('theme');
+        var current = requested === 'light' || requested === 'dark' ? requested
+                    : printing ? 'light'
+                    : stored() === 'light' ? 'light'
+                    : 'dark';
+        apply(current);
+
+        function toggle() {
+          current = current === 'light' ? 'dark' : 'light';
+          stored(current);
+          apply(current);
+        }
+
+        if (button) button.addEventListener('click', toggle);
+
+        // Printing from the dark theme: the stylesheet turns the slide white via
+        // @media print, and this turns the figures with it, then puts the deck
+        // back the way the viewer had it.
+        var beforePrint = null;
+        window.addEventListener('beforeprint', function () {
+          if (current === 'light') return;
+          beforePrint = current;
+          retarget('light');
+        });
+        window.addEventListener('afterprint', function () {
+          if (beforePrint === null) return;
+          retarget(beforePrint);
+          beforePrint = null;
+        });
+
+        // T toggles. Preferably registered with reveal.js, so that it shows up in
+        // the keyboard help overlay (?) alongside the built-in keys -- but this
+        // script may well run before Reveal exists, hence the retry and the plain
+        // listener as a last resort.
+        function bindKey() {
+          if (!window.Reveal || !Reveal.addKeyBinding) return false;
+          Reveal.addKeyBinding({ keyCode: 84, key: 'T',
+                                 description: 'Toggle light / dark theme' }, toggle);
+          return true;
+        }
+        if (!bindKey()) {
+          window.addEventListener('load', function () {
+            if (bindKey()) return;
+            window.addEventListener('keydown', function (e) {
+              if (e.key !== 't' && e.key !== 'T') return;
+              if (e.altKey || e.ctrlKey || e.metaKey) return;
+              if (e.target !== document.body) return;
+              toggle();
+            });
+          });
+        }
+      })();
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+                // target, if specified
+                link.setAttribute("target", "_blank");
+                if (link.getAttribute("rel") === null) {
+                  link.setAttribute("rel", "noopener");
+                }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
