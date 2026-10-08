@@ -1,0 +1,170 @@
+--- 1_ma_1_pa_1_co_2_th ---
+[n001.intern.lcc3.intra.uibk.ac.at:1944790] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944790] MCW rank 1 bound to socket 0[core 0[hwt 1]]: [.B/../../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1048576              9006.74
+[n001.intern.lcc3.intra.uibk.ac.at:1944808] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944808] MCW rank 1 bound to socket 0[core 0[hwt 1]]: [.B/../../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       0.21
+--- 1_ma_1_pa_2_co_1_th ---
+[n001.intern.lcc3.intra.uibk.ac.at:1944827] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944827] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [../B./../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1048576             11154.67
+[n001.intern.lcc3.intra.uibk.ac.at:1944848] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944848] MCW rank 1 bound to socket 0[core 1[hwt 0]]: [../B./../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       0.16
+--- 1_ma_1_pa_2_co_2_th ---
+[n001.intern.lcc3.intra.uibk.ac.at:1944867] MCW rank 0 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944867] MCW rank 1 bound to socket 0[core 1[hwt 0-1]]: [../BB/../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1048576             11289.06
+[n001.intern.lcc3.intra.uibk.ac.at:1944886] MCW rank 0 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944886] MCW rank 1 bound to socket 0[core 1[hwt 0-1]]: [../BB/../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       0.16
+--- 1_ma_2_pa_1_co_1_th ---
+[n001.intern.lcc3.intra.uibk.ac.at:1944905] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944905] MCW rank 1 bound to socket 1[core 6[hwt 0]]: [../../../../../..][B./../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1048576             11373.50
+[n001.intern.lcc3.intra.uibk.ac.at:1944924] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944924] MCW rank 1 bound to socket 1[core 6[hwt 0]]: [../../../../../..][B./../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       0.33
+--- 1_ma_2_pa_1_co_2_th ---
+[n001.intern.lcc3.intra.uibk.ac.at:1944943] MCW rank 0 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944943] MCW rank 1 bound to socket 1[core 6[hwt 0-1]]: [../../../../../..][BB/../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1048576             11373.97
+[n001.intern.lcc3.intra.uibk.ac.at:1944962] MCW rank 0 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+[n001.intern.lcc3.intra.uibk.ac.at:1944962] MCW rank 1 bound to socket 1[core 6[hwt 0-1]]: [../../../../../..][BB/../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       0.33
+--- 2_ma_1_pa_1_co_1_th ---
+[n001.intern.lcc3.intra.uibk.ac.at:1944981] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n002.intern.lcc3.intra.uibk.ac.at:2472020] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1048576              3393.88
+[n001.intern.lcc3.intra.uibk.ac.at:1944996] MCW rank 0 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+[n002.intern.lcc3.intra.uibk.ac.at:2472035] MCW rank 1 bound to socket 0[core 0[hwt 0]]: [B./../../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.70
+--- 2_ma_1_pa_1_co_2_th ---
+[n001.intern.lcc3.intra.uibk.ac.at:1945011] MCW rank 0 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+[n002.intern.lcc3.intra.uibk.ac.at:2472050] MCW rank 1 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Bandwidth Test v5.8
+# Size      Bandwidth (MB/s)
+1048576              3393.72
+[n001.intern.lcc3.intra.uibk.ac.at:1945026] MCW rank 0 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+[n002.intern.lcc3.intra.uibk.ac.at:2472066] MCW rank 1 bound to socket 0[core 0[hwt 0-1]]: [BB/../../../../..][../../../../../..]
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+libibcm: couldn't read ABI version
+# OSU MPI Latency Test v5.8
+# Size          Latency (us)
+0                       1.69
+/var/spool/slurm/slurmd/job395124/slurm_script: line 134: 
+Unified Communication X (UCX) is a set of network APIs and their
+implementations for high throughput computing.
+
+The initial focus is on supporting semantics such as point-to-point communications
+(one-sided and two-sided), collective communication, and remote atomic operations 
+required for popular parallel programming models.
+
+... support current network technologies such as:
+- Open Fabrics - InfiniBand (Mellanox, Qlogic, IBM), libfabrics, iWARP, RoCE
+- Cray GEMINI & ARIES
+- Shared memory (MMAP, Posix, CMA, KNEM, XPMEM, etc.)
+- Ethernet (TCP/UDP)
+
+UCX picks a protocol for each message based on its size.
+[cb761147@login.lcc3 2]$ ucx_info -c | grep THRES
+UCX_BCOPY_THRESH=0 #bcopy
+UCX_RNDV_THRESH=auto #rendezvous
+UCX_RNDV_SEND_NBR_THRESH=256K #rendezvous
+UCX_ZCOPY_THRESH=auto #zero copy
+
+[cb761147@login.lcc3 2]$ ucx_info -c | grep MM_SEG
+UCX_MM_SEG_SIZE=8256
+
+UCX makes two separate choices for every message.
+┌─────────────────────────────────────────┬────────────────────────────────┬─────────────────────────────────┐
+│             Env Var                     │   Default (lcc3)               │            Protocol             │
+├─────────────────────────────────────────┼────────────────────────────────┼─────────────────────────────────┤
+│ < UCX_MM_FIFO_ELEM_SIZE                 │ 128 B                          │ eager, short                    │
+├─────────────────────────────────────────┼────────────────────────────────┼─────────────────────────────────┤
+│ ≤ UCX_MM_SEG_SIZE                       │ 8256 B                         │ eager, bcopy                    │
+├─────────────────────────────────────────┼────────────────────────────────┼─────────────────────────────────┤
+│ < UCX_RNDV_THRESH                       │ auto (≈ 8–16 KB)               │ eager, bcopy, split into pieces │
+├─────────────────────────────────────────┼────────────────────────────────┼─────────────────────────────────┤
+│ ≥ UCX_RNDV_THRESH                       │ auto (≈ 8–16 KB)               │ rendezvous, get_zcopy via CMA   │
+└─────────────────────────────────────────┴────────────────────────────────┴─────────────────────────────────┘
+: File name too long
