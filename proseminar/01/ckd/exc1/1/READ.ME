@@ -1,0 +1,34 @@
+In your opionion, what are the 5 most important parameters available when submitting a job and why? 
+
+#SBATCH --nodes=2    --> This selects the number of nodes you want to use
+
+#SBATCH --ntasks-per-node=2     --> This sets the tasks per node
+
+#SBATCH --exclusive     --> If you omit this, you cannot chose the cores freely on the node, 
+                            they will be assigned to you!
+
+#SBATCH --nodelist n001   --> Not SO important but useful if you want to select specific nodes
+
+#SBATCH --array=1-5   --> If you want to run the job multiple time for reduncdance
+#SBATCH --output=osu-%A_%a.out    # %A = array job ID, %a = index
+
+
+What are possible settings of these parameters, and what effect do they have?
+#SBATCH --nodes=2   --> Natural Number (in our case 1-14)
+#SBATCH --ntasks-per-node=2   --> Natural Number (in our case 1-6)
+#SBATCH --exclusive   --> No parameters, if set, you have the full node to yourself
+#SBATCH --nodelist n001  --> n00[1-14], select specific nodes
+#SBATCH --array=1-5 --> Range with natural Numbers, set number of repititions
+#SBATCH --output=osu-%A_%a.out --> Sting with special characters, the name of the output file
+
+How do you run your program in parallel? What environment setup is required?
+
+-> Just run it, if it supports multiple processes in parallel, you yourself need to enable that.
+
+-> No special environment is required, just run it on any system supporting
+multiple processes in parallel. However, if you want to run it on a cluster like lcc3,
+you need to submit a slurm job to get the resources needed to run your program. But apart from 
+the allocation, you are free to go.
+
+Support for parallelization: OpenMP, pthreads, TBB, Java threads, Python MP, MPI, 
+see others on the slide
