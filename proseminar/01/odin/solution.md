@@ -97,7 +97,12 @@ L3 (12MB)
 #### Bandwidth
 
 In general it can be observed, that same socket has the highest bandwidth (obviously), but 2 sockets is pretty close, except there is a rather big discrepancy from $2⁷$ to $2^15$. The dip in bandwidth at 2⁷ is across all configurations, this could have something to do with the messaging protocol.
-The dip at $2^14$ only for single socket and is maybe due to the cache. This explains why it is not there for 2 sockets, since it is numa from the start and 2 nodes.
+The dip at $2^14$ only for single socket, this is probably due to a switch in messaging protocol which only is only viable for single socket communication.
+
+There are 2 main protocols that MPI uses to transfer data:
+
+- **Eager**: Sender transmits message immediately. Buffers Message for receiver. Used for small messages
+- **Rendezvous**: Handshake (RTS, CTS) between sender and receiver. Transfer possibly happens in multiple chunks 
 
 The results are pretty stable there is a relatively low stddev.
 
