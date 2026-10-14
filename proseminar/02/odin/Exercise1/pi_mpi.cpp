@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     double rand_x, rand_y, origin_dist;
 
     // Initializing rand()
-    srand(42);
+    srand(rank);
     long long n = atoll(argv[1]);
     long long individual_n;
     long long rest;
