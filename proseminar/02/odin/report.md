@@ -2,7 +2,9 @@
 
 ## Implementation
 
-The implementation is really simple. First the rank 0 calculates the number of samples every rank has to simulate and the rest, in case the number of samples is not divisible by the number of samples. Then it broadcasts that number to every rank. The 0 rank then adds the rest to its number of samples. Every rank does the sampling and at the end there is a sum reduction for the the number of samples in the circles.
+The implementation is really simple. First the rank 0 calculates the number of samples every rank has to simulate and the rest, in case the number of samples is not divisible by the number of samples. Then it broadcasts that number to every rank. The 0 rank then adds the rest to its number of samples. Every rank does the sampling and at the end there is a sum reduction for the the number of samples in the circles. 
+
+I realised a bit too late, that the first broadcast is completely useless, everybody can just calculate the samples own its own and only rank 0 adds the remainder. If i have time to implement I'll do that
 
 ## Results
 
