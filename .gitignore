@@ -26,3 +26,5 @@ __pycache__/
 /index.html
 
 old
+**/*.tgz
+**/tmp/

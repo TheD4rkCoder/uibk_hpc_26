@@ -44,10 +44,14 @@ Important to get the right resources (e.g. IFIgpu2070 or IFIAMD I used for GPU c
 `--exclusive`
 to not share nodes with other jobs (in order to get good comparisons)
 
+## interesting mpiexec parameters:
+
 `--map-by [node, socket, numa, core, hwthread] `
 spreads ranks/tasks evenly across available node/socket/package/core/hwthread 's
+
 `--bind-to [core, socket, numa, none]`
 specifies exactly what resource one rank/task gets. (further restricts the `--map-by` option)
+
 `--host`
 Says which nodes can be used and how many slots (processes) can be allocated with `:` E.g. 
 `--host node1,node2`
