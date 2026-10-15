@@ -1,6 +1,5 @@
 #!/bin/bash
 
-set -euo pipefail
 
 # Execute job in the partition "lva" unless you have special requirements.
 #SBATCH --partition=lva
@@ -12,6 +11,7 @@ set -euo pipefail
 #SBATCH --exclusive
 #SBATCH --time 2:00
 
+set -euo pipefail
 if [[ $# -ne 2 ]]; then
 	echo "Usage: $0 <samples> <result_csv>" >&2
 	exit 1
