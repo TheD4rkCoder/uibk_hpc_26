@@ -58,7 +58,7 @@ def apply_log_axes(ax, x_values=None):
         xticks = [2**k for k in range(0, int(np.floor(np.log2(xmax))) + 1)]
         if xmax not in xticks:
             xticks.append(int(xmax))
-        ax.set_xscale("log", basex=2)
+        ax.set_xscale("log", base=2)
         ax.set_xticks(xticks)
         ax.set_xticklabels([str(t) for t in xticks])
         ax.xaxis.set_minor_locator(NullLocator())
@@ -208,6 +208,35 @@ def make_seq_vs_96_plot(data, output_path: Path):
     plt.close(fig)
 
 
+def make_speedup_table(data, target_n, output_path: Path):
+    seq_times = [t for (name, _, n), times in data.items() if name == "heat_seq" and n == target_n for t in times]
+    if not seq_times:
+        raise ValueError(f"No sequential timings found for N={target_n} in the CSV")
+    seq = summarize_runs(seq_times)
+
+    mpi_runs = {
+        ranks: summarize_runs(times)
+        for (name, ranks, n), times in data.items()
+        if name == "heat_mpi" and n == target_n
+    }
+    if not mpi_runs:
+        raise ValueError(f"No MPI timings found for N={target_n} in the CSV")
+
+    lines = [
+        "| Ranks | Mean time (s) | Std (s) | Runs | Speedup |",
+        "|------:|--------------:|--------:|-----:|--------:|",
+        f"| sequential | {seq['mean']:.3f} | {seq['std']:.3f} | {seq['count']} | 1.00 |",
+    ]
+    for ranks in sorted(mpi_runs):
+        run = mpi_runs[ranks]
+        speedup = seq["mean"] / run["mean"]
+        lines.append(f"| {ranks} | {run['mean']:.3f} | {run['std']:.3f} | {run['count']} | {speedup:.2f} |")
+
+    table = f"### Heat stencil speedup for N={target_n}\n\n" + "\n".join(lines) + "\n"
+    output_path.write_text(table, encoding="utf-8")
+    return table
+
+
 def main():
     parser = argparse.ArgumentParser(description="Visualize the heat stencil benchmark CSV results")
     parser.add_argument("--csv", type=Path, default=Path(__file__).with_name("result.csv"), help="Path to the benchmark CSV")
@@ -228,10 +257,14 @@ def main():
 
     make_rank_vs_time_plot(data, args.target_n, output_dir / f"heat_runtime_vs_ranks_N{args.target_n}.png")
     make_seq_vs_96_plot(data, output_dir / "heat_runtime_seq_vs_96ranks.png")
+    table = make_speedup_table(data, args.target_n, output_dir / f"heat_speedup_N{args.target_n}.md")
 
     print(f"Saved plots to {output_dir}")
     print(f"- {output_dir / f'heat_runtime_vs_ranks_N{args.target_n}.png'}")
     print(f"- {output_dir / 'heat_runtime_seq_vs_96ranks.png'}")
+    print(f"- {output_dir / f'heat_speedup_N{args.target_n}.md'}")
+    print()
+    print(table)
 
 
 if __name__ == "__main__":

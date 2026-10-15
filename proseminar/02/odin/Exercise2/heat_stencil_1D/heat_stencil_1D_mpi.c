@@ -240,6 +240,9 @@ int main(int argc, char **argv) {
       }
     }
   }
+  
+  MPI_Gatherv(local_A, num_elements, MPI_DOUBLE, A, 
+        sendcounts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
   releaseVector(local_B);
   releaseVector(local_A);
