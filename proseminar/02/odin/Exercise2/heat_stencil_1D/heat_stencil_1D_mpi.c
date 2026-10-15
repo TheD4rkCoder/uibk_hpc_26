@@ -27,16 +27,16 @@ int from_global_index(int start, int global_index) {
   return global_index - start;
 }
 
-void Isend_and_Ireceive_right(int rank, value_t *outermost_cell_right_p, value_t *neighbor_cell_right_p,
+void Isend_and_Ireceive_right(int rank, int right_rank, value_t *outermost_cell_right_p, value_t *neighbor_cell_right_p,
                              MPI_Request *right_send_p, MPI_Request *right_recv_p) {
-      MPI_Isend(outermost_cell_right_p, 1, MPI_DOUBLE, rank+1, 42, MPI_COMM_WORLD, right_send_p);
-      MPI_Irecv(neighbor_cell_right_p, 1, MPI_DOUBLE, rank+1, 42, MPI_COMM_WORLD, right_recv_p);
+      MPI_Isend(outermost_cell_right_p, 1, MPI_DOUBLE, right_rank, 42, MPI_COMM_WORLD, right_send_p);
+      MPI_Irecv(neighbor_cell_right_p, 1, MPI_DOUBLE, right_rank, 42, MPI_COMM_WORLD, right_recv_p);
 }
 
-void Isend_and_Ireceive_left(int rank, value_t *outermost_cell_left_p, value_t *neighbor_cell_left_p,
+void Isend_and_Ireceive_left(int rank, int left_rank, value_t *outermost_cell_left_p, value_t *neighbor_cell_left_p,
                             MPI_Request *left_send_p, MPI_Request *left_recv_p) {
-      MPI_Isend(outermost_cell_left_p, 1, MPI_DOUBLE, rank-1, 42, MPI_COMM_WORLD, left_send_p);
-      MPI_Irecv(neighbor_cell_left_p, 1, MPI_DOUBLE, rank-1, 42, MPI_COMM_WORLD, left_recv_p);
+      MPI_Isend(outermost_cell_left_p, 1, MPI_DOUBLE, left_rank, 42, MPI_COMM_WORLD, left_send_p);
+      MPI_Irecv(neighbor_cell_left_p, 1, MPI_DOUBLE, left_rank, 42, MPI_COMM_WORLD, left_recv_p);
 }
 
 double new_temp(double tc, double tl, double tr) {
@@ -47,16 +47,16 @@ double new_temp(double tc, double tl, double tr) {
 
 int main(int argc, char **argv) {
   // 'parsing' optional input parameter = problem size
+  MPI_Init(&argc, &argv);
   int N = 2000;
   if (argc > 1) {
     N = atoi(argv[1]);
   }
   int T = N * 500;
-  printf("Computing heat-distribution for room size N=%d for T=%d timesteps\n", N, T);
+
 
   // ---------- setup ----------
 
-  MPI_Init(&argc, &argv);
 
   int size, rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -67,18 +67,21 @@ int main(int argc, char **argv) {
   int num_elements = N / size;
 
   if (num_elements < 4) {
-    fprintf(stderr, "Each rank has only %d elements, needs at least 4", num_elements);
+    fprintf(stderr, "Each rank has only %d elements, needs at least 4\n", num_elements);
+    MPI_Finalize();
     return EXIT_FAILURE;
   }
   int remainder = N % size;
   int source_x = N / 4;
   
-  int *sendcounts, *displs;
+  int *sendcounts = NULL;
+  int *displs = NULL;
 
   // create a buffer for storing temperature fields only for root rank
-  Vector A;
+  Vector A = NULL;
 
   if (rank == 0) {
+    printf("Computing heat-distribution for room size N=%d for T=%d timesteps\n", N, T);
     A = createVector(N);
 
     // set up initial conditions in A
@@ -105,7 +108,7 @@ int main(int argc, char **argv) {
   num_elements += rank < remainder;
   int start_index = get_global_index(num_elements, rank, remainder, 0);
   int end_index = start_index + num_elements;
-  int has_heat_source = start_index < source_x && source_x < end_index;
+  int has_heat_source = start_index <= source_x && source_x < end_index;
   int local_heat_source_x = from_global_index(start_index, source_x);
 
   // create a local buffer for storing temperature fields
@@ -127,28 +130,18 @@ int main(int argc, char **argv) {
 
   // create a second buffer for the computation
 
+  int left_rank = rank == 0 ? MPI_PROC_NULL : rank-1;
+  int right_rank = rank == size-1 ? MPI_PROC_NULL : rank+1;
   // for each time step ..
   for (int t = 0; t < T; t++) {
     // send and receive outermost cell value
     MPI_Request left_recv,right_recv, left_send, right_send;
-    value_t left_neighbor, right_neighbor;
-    if (rank == 0) {
-      // edging left, just send and receive right
-      Isend_and_Ireceive_right(rank, &local_A[num_elements-1], 
-        &right_neighbor, &right_send, &right_recv);
-    }
-    else if (rank == size-1) {
-      //edging right, just send and receive left
-      Isend_and_Ireceive_left(rank, &local_A[0],
-        &left_neighbor, &left_send, &left_recv);
-    }
-    else {
-      //not edging send and receive both sides
-      Isend_and_Ireceive_right(rank, &local_A[num_elements-1], 
-        &left_neighbor, &right_send, &right_recv);
-      Isend_and_Ireceive_left(rank, &local_A[0],
-        &left_neighbor, &left_send, &left_recv);
-    }
+    value_t left_neighbor_cell, right_neighbor_cell;
+    
+    Isend_and_Ireceive_right(rank, right_rank, &local_A[num_elements-1], 
+      &right_neighbor_cell, &right_send, &right_recv);
+    Isend_and_Ireceive_left(rank, left_rank, &local_A[0],
+        &left_neighbor_cell, &left_send, &left_recv);
 
     // .. we propagate the temperature
     // first 2 and last 2 cells have to be done outside the loop
@@ -174,34 +167,31 @@ int main(int argc, char **argv) {
     }
 
     // get right and left neighboor
+    MPI_Wait(&left_recv, MPI_STATUS_IGNORE);
+    MPI_Wait(&left_send, MPI_STATUS_IGNORE);
+    MPI_Wait(&right_recv, MPI_STATUS_IGNORE);
+    MPI_Wait(&right_send, MPI_STATUS_IGNORE);
+    // the second most boundary elements are always the same 
+    local_B[1] = new_temp(local_A[1], local_A[0], local_A[2]);
+    local_B[num_elements-2] = new_temp(local_A[num_elements-2], local_A[num_elements-3], local_A[num_elements-1]);
+    //calculate left and right boundary
     if (rank == 0) {
-      // Wait for rightmost neighboor message and calculate the 2 leftmost
       local_B[0] = new_temp(local_A[0], local_A[0], local_A[1]);
-      local_B[1] = new_temp(local_A[1], local_A[0], local_A[2]);
-      MPI_Wait(&right_recv, MPI_STATUS_IGNORE);
-      MPI_Wait(&right_send, MPI_STATUS_IGNORE);
-      local_B[num_elements-2] = new_temp(local_A[num_elements-2], local_A[num_elements-3], local_A[num_elements-1]);
-      local_B[num_elements-1] = new_temp(local_A[num_elements-1], local_A[num_elements-2], right_neighbor);
+      // if there is only 1 rank
+      if (size == 1) {
+        local_B[num_elements-1] = new_temp(local_A[num_elements-1], local_A[num_elements-2], local_A[num_elements-1]);
+      }
+      else {
+        local_B[num_elements-1] = new_temp(local_A[num_elements-1], local_A[num_elements-2], right_neighbor_cell);
+      }
     }
     else if (rank == size-1) {
-      // calculate the 2 rightmost and wait for the 2 leftmost
-      local_B[num_elements-2] = new_temp(local_A[num_elements-2], local_A[num_elements-3], local_A[num_elements-1]);
       local_B[num_elements-1] = new_temp(local_A[num_elements-1], local_A[num_elements-2], local_A[num_elements-1]);
-      MPI_Wait(&left_recv, MPI_STATUS_IGNORE);
-      MPI_Wait(&left_send, MPI_STATUS_IGNORE);
-      local_B[0] = new_temp(local_A[0], left_neighbor, local_A[1]);
-      local_B[1] = new_temp(local_A[1], local_A[0], local_A[2]);
+      local_B[0] = new_temp(local_A[0], left_neighbor_cell, local_A[1]);
     }
     else {
-      //wait for both sides and then calculate
-      MPI_Wait(&left_recv, MPI_STATUS_IGNORE);
-      MPI_Wait(&left_send, MPI_STATUS_IGNORE);
-      MPI_Wait(&right_recv, MPI_STATUS_IGNORE);
-      MPI_Wait(&right_send, MPI_STATUS_IGNORE);
-      local_B[0] = new_temp(local_A[0], left_neighbor, local_A[1]);
-      local_B[1] = new_temp(local_A[1], local_A[0], local_A[2]);
-      local_B[num_elements-2] = new_temp(local_A[num_elements-2], local_A[num_elements-3], local_A[num_elements-1]);
-      local_B[num_elements-1] = new_temp(local_A[num_elements-1], local_A[num_elements-2], right_neighbor);
+      local_B[0] = new_temp(local_A[0], left_neighbor_cell, local_A[1]);
+      local_B[num_elements-1] = new_temp(local_A[num_elements-1], local_A[num_elements-2], right_neighbor_cell);
     }
 
     // This is because with a lot of ranks it is not unlikely that the heat source falls exactly
@@ -213,9 +203,16 @@ int main(int argc, char **argv) {
       if (local_heat_source_x == 0) {
         local_B[0] = 273 + HEAT_SOURCE_TEMP;
       }
+      if (local_heat_source_x == 1) {
+        local_B[1] = 273 + HEAT_SOURCE_TEMP;
+      }
       if (local_heat_source_x == num_elements-1) {
         local_B[num_elements-1] = 273 + HEAT_SOURCE_TEMP;
       }
+      if (local_heat_source_x == num_elements-2) {
+        local_B[num_elements-2] = 273 + HEAT_SOURCE_TEMP;
+      }
+
     }
 
 
@@ -229,16 +226,18 @@ int main(int argc, char **argv) {
     local_A = local_B;
     local_B = local_H;
 
-    //The gatherv is basically the oposite of the scatterv
-    //just that the parameters are not in the same order
-    //sendcounts is the same as receivecounts
-    MPI_Gatherv(local_A, num_elements, MPI_DOUBLE, local_A, 
-      sendcounts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    // show intermediate step only rank 0
-    if (rank == 0 && !(t % 10000)) {
-      printf("Step t=%d:\t", t);
-      printTemperature(A, N);
-      printf("\n");
+    if (!(t % 10000)) {
+      //The gatherv is basically the oposite of the scatterv
+      //just that the parameters are not in the same order
+      //sendcounts is the same as receivecounts
+      MPI_Gatherv(local_A, num_elements, MPI_DOUBLE, A, 
+        sendcounts, displs, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+      // show intermediate step only rank 0
+      if (rank == 0) {
+        printf("Step t=%d:\t", t);
+        printTemperature(A, N);
+        printf("\n");
+      }
     }
   }
 
@@ -246,27 +245,35 @@ int main(int argc, char **argv) {
   releaseVector(local_A);
 
   // ---------- check ----------
+  int success = 1;
 
   if (rank == 0) {
     printf("Final:\t\t");
     printTemperature(A, N);
     printf("\n");
+
+    for (long long i = 0; i < N; i++) {
+      value_t temp = A[i];
+      if (273 <= temp && temp <= 273 + 60)
+        continue;
+      success = 0;
+      break;
+    }
+
+    printf("Verification: %s\n", (success) ? "OK" : "FAILED");
+
+    // ---------- cleanup ----------
+
+    releaseVector(A);
+    free(displs);
+    free(sendcounts);
   }
 
-  int success = 1;
-  for (long long i = 0; i < N; i++) {
-    value_t temp = A[i];
-    if (273 <= temp && temp <= 273 + 60)
-      continue;
-    success = 0;
-    break;
-  }
+  MPI_Bcast(&success, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-  printf("Verification: %s\n", (success) ? "OK" : "FAILED");
+  MPI_Finalize();
 
-  // ---------- cleanup ----------
 
-  releaseVector(A);
 
   // done
   return (success) ? EXIT_SUCCESS : EXIT_FAILURE;
