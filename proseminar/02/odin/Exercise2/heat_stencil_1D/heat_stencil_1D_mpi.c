@@ -27,13 +27,13 @@ int from_global_index(int start, int global_index) {
   return global_index - start;
 }
 
-void Isend_and_Ireceive_right(int rank, int right_rank, value_t *outermost_cell_right_p, value_t *neighbor_cell_right_p,
+void Isend_and_Ireceive_right(int right_rank, value_t *outermost_cell_right_p, value_t *neighbor_cell_right_p,
                              MPI_Request *right_send_p, MPI_Request *right_recv_p) {
       MPI_Isend(outermost_cell_right_p, 1, MPI_DOUBLE, right_rank, 42, MPI_COMM_WORLD, right_send_p);
       MPI_Irecv(neighbor_cell_right_p, 1, MPI_DOUBLE, right_rank, 42, MPI_COMM_WORLD, right_recv_p);
 }
 
-void Isend_and_Ireceive_left(int rank, int left_rank, value_t *outermost_cell_left_p, value_t *neighbor_cell_left_p,
+void Isend_and_Ireceive_left(int left_rank, value_t *outermost_cell_left_p, value_t *neighbor_cell_left_p,
                             MPI_Request *left_send_p, MPI_Request *left_recv_p) {
       MPI_Isend(outermost_cell_left_p, 1, MPI_DOUBLE, left_rank, 42, MPI_COMM_WORLD, left_send_p);
       MPI_Irecv(neighbor_cell_left_p, 1, MPI_DOUBLE, left_rank, 42, MPI_COMM_WORLD, left_recv_p);
@@ -138,9 +138,9 @@ int main(int argc, char **argv) {
     MPI_Request left_recv,right_recv, left_send, right_send;
     value_t left_neighbor_cell, right_neighbor_cell;
     
-    Isend_and_Ireceive_right(rank, right_rank, &local_A[num_elements-1], 
+    Isend_and_Ireceive_right(right_rank, &local_A[num_elements-1], 
       &right_neighbor_cell, &right_send, &right_recv);
-    Isend_and_Ireceive_left(rank, left_rank, &local_A[0],
+    Isend_and_Ireceive_left(left_rank, &local_A[0],
         &left_neighbor_cell, &left_send, &left_recv);
 
     // .. we propagate the temperature
