@@ -38,3 +38,43 @@ The python scripts as well as the parsing for the csv file in the slurm scripts 
 
 
 # Exercise 2
+
+## Parallelisation
+
+The main idea is:
+- the root rank initialises the main vector 
+- splits the array in equal chunks for each array
+- sends the chunks to each rank with scatter(v since the chunks might not be equal in size) 
+- each timestep each rank requests the left and right neighbor cell and sends its left and right boundary cell (both non blocking)
+- then does the computation for the inner cells
+- after the inner cells it waits for the send and receive for the boundary to be finished and does the boundary computation
+- every 10000 timesteps it prints the heat distribution so the root rank needs to gather all the parts and print it, this is also done at the very end
+  
+### Some Details
+
+- I used MPI_scatterv/gatherv, This is for the not so unlikely case that N is not divisible by number of ranks. for the loadbalancing I added 1 to every rank that is before the remainder
+- the first and last rank can't send their left and right boundary so I used to have an if else block for that, the problem was, that if the last rank was also the first rank I ran into some problems. The Goods (Claude Opus 5.5 that is) suggested that i use MPI_PROC_NULL instead, if the rank is the first and/or the last rank. This basically sends nothing and is done immedeately and helped to reduce the if else only after the inner computation
+- Because MPI_Isend semantics, the boundry values shouldn't be used so the second to last cell also can only be computed after the Wait
+- The heat source could also be on one of the 4 boundary cells, so this also has to be checked and set. One could actually save one send and receive that way, but this was a bit too annoying for probably little payoff
+
+## Results
+### N=6144 across different ranks
+It can be seen, that even for 1 ranks my MPI implementation is faster than the sequential version, which is really interesting. Then th time decreases dramatically until 8 ranks, where it begins to kind of plateou. For 16 ranks it is the fastest and it seems to kind of go up and down further on. I assume the biggest bottleneck is the MPI_Gatherv every 10000 timesteps for printing. If there were a way to do this better asynchronously I assume there would be an even better speedup.
+![](./Exercise2/heat_runtime_vs_ranks_N6144.png)
+| Ranks | Mean time (s) | Std (s) | Runs | Speedup |
+|------:|--------------:|--------:|-----:|--------:|
+| sequential | 43.788 | 0.244 | 5 | 1.00 |
+| 1 | 38.684 | 0.074 | 5 | 1.13 |
+| 2 | 22.754 | 4.554 | 5 | 1.92 |
+| 4 | 13.738 | 4.521 | 5 | 3.19 |
+| 8 | 7.158 | 0.070 | 5 | 6.12 |
+| 16 | 6.492 | 0.218 | 5 | 6.74 |
+| 32 | 6.834 | 0.114 | 5 | 6.41 |
+| 64 | 7.398 | 0.100 | 5 | 5.92 |
+| 96 | 7.098 | 0.143 | 5 | 6.17 |
+
+
+
+### Scaling across 96 ranks and increasing N
+It shows that the mpi implementation with 96 ranks clearly scales much better than the mpi implementation. The sequential version is faster till about N=1024 which is to be expected. Here every rank only has 10-11 cells and the communication overhead clearly outweighs the speedup from parallelization. For 2N=1536 they are pretty similar in execution time. After that the sequential implementation takes much longer.
+![](./Exercise2/heat_runtime_seq_vs_96ranks.png)
