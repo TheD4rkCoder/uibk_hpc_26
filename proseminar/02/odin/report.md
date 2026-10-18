@@ -4,7 +4,7 @@
 
 The implementation is really simple. First the rank 0 calculates the number of samples every rank has to simulate and the rest, in case the number of samples is not divisible by the number of samples. Then it broadcasts that number to every rank. The 0 rank then adds the rest to its number of samples. Every rank does the sampling and at the end there is a sum reduction for the the number of samples in the circles. 
 
-I realised a bit too late, that the first broadcast is completely useless, everybody can just calculate the samples own its own and only rank 0 adds the remainder. If i have time to implement I'll do that
+I realised a bit too late, that the first broadcast is completely useless, everybody can just calculate the samples own its own and only rank 0 adds the remainder. I don't know if it actually had an effect since the sequential version also was faster with that change. But regardless it appears to make a miniscule difference since the bottleneck is probably not the communication.
 
 ## Results
 
@@ -12,6 +12,23 @@ I realised a bit too late, that the first broadcast is completely useless, every
 So when looking at the time for samples=10⁹ we can see that for ranks=1 the sequential implementation is actually faster by almost a factor 2, because the mpi overhead. For 2 ranks the time is about the same and after that there is a nice linear decline in execution time. This is because the problem is embarassingly parallel. For n=96 we get a speedup of 19.3x.
 ![](./Exercise1/plots/mpi_time_vs_tasks.png)
 
+### new
+| ranks | sequential time [s] | mpi time [s] | speedup vs seq |
+| --- | ---: | ---: | ---: |
+| seq | 26.545000 | - | 1.000 |
+| 1 | 26.545000 | 45.602000 | 0.582 |
+| 2 | 26.545000 | 23.277000 | 1.140 |
+| 4 | 26.545000 | 11.924000 | 2.226 |
+| 8 | 26.545000 | 6.448000 | 4.117 |
+| 16 | 26.545000 | 3.877000 | 6.847 |
+| 32 | 26.545000 | 2.511000 | 10.571 |
+| 64 | 26.545000 | 1.680000 | 15.801 |
+| 96 | 26.545000 | 1.394000 | 19.042 |
+
+
+
+
+### old
 | ranks | sequential time [s] | mpi time [s] | speedup vs seq |
 | --- | ---: | ---: | ---: |
 | seq | 27.406000 | - | 1.000 |
@@ -23,6 +40,8 @@ So when looking at the time for samples=10⁹ we can see that for ranks=1 the se
 | 32 | 27.406000 | 2.371000 | 11.559 |
 | 64 | 27.406000 | 1.658000 | 16.530 |
 | 96 | 27.406000 | 1.420000 | 19.300 |
+
+
 
 ### comparing sequential to max ranks
 We can see that for smaller n the sequential implementation is faster. After 10⁷ samples the execution time rises dramatically, while the parallel version stays really stable and scales well.
