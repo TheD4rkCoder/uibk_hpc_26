@@ -26,16 +26,13 @@ int main(int argc, char *argv[])
     long long n = atoll(argv[1]);
     long long individual_n;
     long long rest;
+    individual_n = n / size;
+    rest = n % size;
 
-    if (rank == 0) {
-        individual_n = n / size;
-        rest = n % size;
+    if (rank < rest) {
+        individual_n++;
     }
-    MPI_Bcast(&individual_n, 1, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    if (rank == 0) {
-        individual_n += rest;
-    }
 
     // Total Random numbers generated = possible x
     // values * possible y values
