@@ -5,8 +5,9 @@
 
 // Defines precision for x and y values. More the
 // interval, more the number of significant digits
-#define INTERVAL 10000
 using namespace std;
+mt19937 rng(std::random_device{}());
+uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
 int main(int argc, char *argv[])
 {
@@ -39,8 +40,8 @@ int main(int argc, char *argv[])
     for (long long i = 0; i < individual_n; i++) {
 
         // Randomly generated x and y values
-        rand_x = double(rand() % (INTERVAL + 1)) / INTERVAL;
-        rand_y = double(rand() % (INTERVAL + 1)) / INTERVAL;
+        rand_x = dist(rng);
+        rand_y = dist(rng); 
 
         // Distance between (x, y) from the origin
         origin_dist = rand_x * rand_x + rand_y * rand_y;
