@@ -1,12 +1,13 @@
 #!/bin/bash
 
 #SBATCH --partition=lva
-#SBATCH --job-name test
+# #SBATCH --job-name test
 #SBATCH --output=output.log
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=2
 # for all tests I essentially need 4: 2 nodes with 2 tasks=rank=processes per node
 # #SBATCH --ntasks=2 
+# #SBATCH --cpus-per-task=2
 # do not share nodes with other jobs
 #SBATCH --exclusive
 
