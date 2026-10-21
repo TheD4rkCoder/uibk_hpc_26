@@ -44,6 +44,10 @@ Important to get the right resources (e.g. IFIgpu2070 or IFIAMD I used for GPU c
 `--exclusive`
 to not share nodes with other jobs (in order to get good comparisons)
 
+`--array=1-5`
+if you want to run the job multiple times (redundancy); here 5 times
+you can do `--output=job_%A_%a.out`, %A is the job id and %a the index
+
 ## interesting mpiexec parameters:
 
 `--map-by [node, socket, numa, core, hwthread] `
