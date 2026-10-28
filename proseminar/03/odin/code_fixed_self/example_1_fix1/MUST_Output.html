@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>MUST Outputfile</title>
+<style type="text/css">
+td,td,table {border:thin solid black}
+td.ie1, td.ie3, td.ie5, td.ie7 { background-color:#DDFFDD;}
+td.ie2, td.ie4, td.ie6 { background-color:#EEFFEE;}
+td.io1, td.io3, td.io5, td.io7 { background-color:#CCEECC;}
+td.io2, td.io4, td.io6 { background-color:#DDEEDD;}
+td.we1, td.we3, td.we5, td.we7 { background-color:#FFFFDD;}
+td.we2, td.we4, td.we6 { background-color:#FFFFEE;}
+td.wo1, td.wo3, td.wo5, td.wo7 { background-color:#EEEECC;}
+td.wo2, td.wo4, td.wo6{ background-color:#EEEEDD;}
+td.ee1, td.ee3, td.ee5, td.ee7 { background-color:#FFDDDD;}
+td.ee2, td.ee4, td.ee6 { background-color:#FFEEEE;}
+td.eo1, td.eo3, td.eo5, td.eo7{ background-color:#EECCCC;}
+td.eo2, td.eo4, td.eo6 { background-color:#EEDDDD;}
+td.c1{ text-align:center; vertical-align:middle;}
+td.c2{ text-align:center; vertical-align:middle; overflow:auto;}
+td.c3{ text-align:center; vertical-align:middle;}
+td.c4{ text-align:center; vertical-align:middle;}
+td.c5{ }
+td.c6{ text-align:left; vertical-align:middle;}
+td.c7{ text-align:center; vertical-align:middle;}
+div.shortmsg{ max-width:100%; text-overflow:ellipsis; display: inline-block; display: inline-block; white-space: nowrap; overflow:hidden; }
+div.shortmsg br { display: none; }
+.build-info label { font-weight: bold; }
+</style>
+</head>
+<body>
+<p> <b>MUST Output</b>, starting date: Thu Oct 22 15:39:54 2026.
+</p>
+<script type="text/javascript">
+function flagrow(obj)
+{
+ for( var i = 0; i < obj.cells.length; i++ )
+  obj.cells[i].style.borderColor="#ff0000";
+}
+
+function deflagrow(obj)
+{
+ for( var i = 0; i < obj.cells.length; i++ )
+  obj.cells[i].style.borderColor="";
+}
+
+function showdetail(me, name)
+{
+var obj = document.getElementById(name);
+if( obj )
+{
+var style = obj.style;
+var visible = String(style.visibility);
+if( visible == 'hidden' )
+{
+style.visibility = 'visible';
+style.display="";
+}
+else
+{
+style.visibility = 'hidden';
+style.display="none";
+}
+}
+}
+</script>
+<table border="0" cellspacing="0" cellpadding="0" style="table-layout: fixed; width: 100%">
+<tr>
+<td align="center" bgcolor="#9999DD" width="7%"><b>Rank(s)</b></td>
+<td align="center" bgcolor="#7777BB" width="28%"><b>Type</b></td>
+<td align="center" bgcolor="#9999DD"><b>Message</b></td>
+</tr>
+<tr onclick="showdetail(this, 'detail0');" onmouseover="flagrow(this);" onmouseout="deflagrow(this);"><td class=eo1 c1>&nbsp;</td><td class=eo2 c2><b>MUST_ERROR_DEADLOCK</b></td><td class=eo3 c3><div class="shortmsg">The application issued a set of MPI calls that can cause a deadlock! A graphical representation of this situation is available in a <a href="./MUST_Output-files/MUST_Deadlock.html" title="detailed deadlock view"> detailed deadlock view (./MUST_Output-files/MUST_Deadlock.html)</a>. References 1-1 list the involved calls (limited to the first 5 calls, further calls may be involved). The application still runs, if the deadlock manifested (e.g. caused a hang on this MPI implementation) you can attach to the involved ranks with a debugger or abort the application (if necessary).</div></td></tr><tr><td colspan="3" id="detail0" style="visibility:hidden; display:none"><div>Details:</div><table><tr><td align="center" bgcolor="#9999DD"><b>Message</b></td><td align="left" bgcolor="#7777BB"><b>From</b></td><td align="left" bgcolor="#9999DD"><b>References</b></td></tr><tr><td class=eo3 c3>The application issued a set of MPI calls that can cause a deadlock! A graphical representation of this situation is available in a <a href="./MUST_Output-files/MUST_Deadlock.html" title="detailed deadlock view"> detailed deadlock view (./MUST_Output-files/MUST_Deadlock.html)</a>. References 1-1 list the involved calls (limited to the first 5 calls, further calls may be involved). The application still runs, if the deadlock manifested (e.g. caused a hang on this MPI implementation) you can attach to the involved ranks with a debugger or abort the application (if necessary).</td><td class=eo4 c4>&nbsp;</td><td class=eo5 c5>References of a representative process:<br><br>
+reference 1 rank 0: <b>MPI_Send</b> (1st occurrence) called from: <br>
+#0  main@/scratch/cb761131/uibk_hpc_26/proseminar/03/odin/code_fixed_self/example_1.c:32&nbsp;</td></tr></table></td></tr>
+</table>
+<p><b>MUST has completed successfully</b>, end date: Thu Oct 22 15:39:55 2026.
+</p><div class="build-info">
+<p>
+<label for="must-version-string">MUST Version:</label> <span id="must-version-string">v1.9.1</span>
+</p>
+</div>
+</body></html>
