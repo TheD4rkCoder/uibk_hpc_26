@@ -1,0 +1,4 @@
+code_original/example_2.c: In function ‘main’:
+code_original/example_2.c:32:28: warning: operation on ‘rank’ may be undefined [-Wsequence-point]
+   32 |                      (rank = 1 + size) % size, 123, MPI_COMM_WORLD, &status);
+      |                      ~~~~~~^~~~~~~~~~~
