@@ -1,0 +1,4 @@
+code_original/example_1.c: In function ‘main’:
+code_original/example_1.c:13:9: warning: unused variable ‘i’ [-Wunused-variable]
+   13 |     int i;
+      |         ^

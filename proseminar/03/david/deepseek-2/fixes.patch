@@ -1,0 +1,145 @@
+--- code_original/example_1.c	2026-10-25 11:58:05.672147425 +0100
++++ code_fixed/example_1.c	2026-10-25 12:00:41.300087869 +0100
+@@ -2,6 +2,12 @@
+  * This program does the same operation as an MPI_Bcast() but
+  * does it using MPI_Send() and MPI_Recv().  We also time the
+  * operation.
++ *
++ * Fixed version:
++ *  - rank 0 no longer sends to itself (nobody would receive it and
++ *    rank 0 would then block in MPI_Barrier)
++ *  - send and receive use the same tag (was 42 vs. tag2 == 43)
++ *  - unused variable `i` removed
+  */
+ 
+ #include <mpi.h>
+@@ -10,19 +16,23 @@
+ int main(int argc, char** argv) {
+ 	int nprocs; /* the number of processes in the task */
+ 	int myrank; /* my rank */
+-    int i;
+ 	const int count = 10;
+-	int tag = 42;  /* tag used for all communication */
+-	int tag2 = tag + 1; /* extra tag used for what ever you want */
++	const int tag = 42; /* tag used for all communication */
+ 	int good_data = 1;
+-	int data[count];   /* data buffers */
+-	MPI_Status status; /* status of MPI_Recv() operation */
++	int data[count];    /* data buffers */
++	MPI_Status status;  /* status of MPI_Recv() operation */
+ 
+ 	MPI_Init(&argc, &argv);
+ 
+ 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
+ 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+ 
++	if(nprocs < 2) {
++		fprintf(stderr, "This test needs at least 2 processes!\n");
++		MPI_Finalize();
++		return 1;
++	}
++
+ 	for(int i = 0; i < count; i++)
+ 		if(myrank == 0) {
+ 			data[i] = 399; /* initialize the data for rank 0 process only.  */
+@@ -30,11 +40,13 @@
+ 			data[i] = i; /* initialize all other data buffers from 0 to count */
+ 
+ 	if(myrank == 0) {
+-		for(int i = 0; i < nprocs; i++) {
+-			MPI_Send(&data, count, MPI_INT, i, tag, MPI_COMM_WORLD);
++		/* Send to everybody except myself: rank 0 does not receive. */
++		for(int i = 1; i < nprocs; i++) {
++			MPI_Send(data, count, MPI_INT, i, tag, MPI_COMM_WORLD);
+ 		}
+ 	} else {
+-		MPI_Recv(&data, count, MPI_INT, 0, tag2, MPI_COMM_WORLD, &status);
++		/* Must use the same tag the sender used. */
++		MPI_Recv(data, count, MPI_INT, 0, tag, MPI_COMM_WORLD, &status);
+ 	}
+ 
+ 	MPI_Barrier(MPI_COMM_WORLD);
+--- code_original/example_2.c	2026-10-25 11:58:05.672147425 +0100
++++ code_fixed/example_2.c	2026-10-25 12:00:41.314447666 +0100
+@@ -1,3 +1,18 @@
++/*
++ * Fixed version:
++ *  - `(rank = 1 + size) % size` overwrote the local rank (undefined
++ *    behaviour: `rank` is read and written in the same expression) and
++ *    computed a bogus neighbour.  Use separate, read-only `dest` and
++ *    `source` variables: source is the left neighbour (rank - 1 + size) % size.
++ *  - send and receive datatypes now match: the receive side also uses
++ *    one element of the contiguous datatype instead of 8 bytes of MPI_BYTE.
++ *  - the blocking MPI_Send/MPI_Recv pair is replaced by a non-blocking
++ *    Irecv/Isend pair + Waitall, so the ring cannot deadlock for large
++ *    messages (classic ring deadlock).
++ *  - the received data is actually checked.
++ *  - the committed datatype is freed again.
++ */
++
+ #include <mpi.h>
+ #include <stdio.h>
+ 
+@@ -7,6 +22,7 @@
+ 	int sBuf[2] = { 1, 2 };
+ 	int rBuf[2];
+ 	MPI_Status status;
++	MPI_Request reqs[2];
+ 	MPI_Datatype newType;
+ 
+ 	MPI_Init(&argc, &argv);
+@@ -23,18 +39,33 @@
+ 	// Say hello
+ 	printf("Hello, I am rank %d of %d processes. \n", rank, size);
+ 
+-	//) Create a datatype
++	// 1) Create a datatype
+ 	MPI_Type_contiguous(2, MPI_INT, &newType);
+ 	MPI_Type_commit(&newType);
+ 
++	// Right and left neighbour in the ring.
++	const int dest = (rank + 1) % size;
++	const int source = (rank - 1 + size) % size;
++
+ 	// 2) Use MPI Sendrecv to perform a ring communication
+-	MPI_Sendrecv(sBuf, 1, newType, (rank + 1) % size, 123, rBuf, sizeof(int) * 2, MPI_BYTE,
+-	             (rank = 1 + size) % size, 123, MPI_COMM_WORLD, &status);
++	MPI_Sendrecv(sBuf, 1, newType, dest, 123, rBuf, 1, newType, source, 123,
++	             MPI_COMM_WORLD, &status);
++	if(rBuf[0] != 1 || rBuf[1] != 2) {
++		fprintf(stderr, "rank %d: MPI_Sendrecv received wrong data (%d, %d)\n",
++		        rank, rBuf[0], rBuf[1]);
++	}
+ 
+ 	// 3) Use MPI Send and MPI Recv to perform a ring communication
+-	MPI_Send(sBuf, 1, newType, (rank + 1) % size, 456, MPI_COMM_WORLD);
+-	MPI_Recv(rBuf, sizeof(int) * 2, MPI_BYTE, (rank = 1 + size) % size, 456, MPI_COMM_WORLD,
+-	         &status);
++	//    Non-blocking first, otherwise two ranks can deadlock on the send.
++	MPI_Irecv(rBuf, 1, newType, source, 456, MPI_COMM_WORLD, &reqs[0]);
++	MPI_Isend(sBuf, 1, newType, dest, 456, MPI_COMM_WORLD, &reqs[1]);
++	MPI_Waitall(2, reqs, MPI_STATUSES_IGNORE);
++	if(rBuf[0] != 1 || rBuf[1] != 2) {
++		fprintf(stderr, "rank %d: MPI_Send/MPI_Recv received wrong data (%d, %d)\n",
++		        rank, rBuf[0], rBuf[1]);
++	}
++
++	MPI_Type_free(&newType);
+ 
+ 	// Say bye bye
+ 	printf("Signing off, rank %d. \n", rank);
+--- code_original/Makefile	2026-10-25 11:58:05.672147425 +0100
++++ code_fixed/Makefile	2026-10-25 12:00:48.885259853 +0100
+@@ -1,5 +1,5 @@
+ CC=mpicc
+-CFLAGS=-std=gnu11
++CFLAGS=-std=gnu11 -Wall -Wextra -pedantic -g -O2
+ 
+ .PHONY: all
+ all: example_1 example_2
+@@ -12,4 +12,4 @@
+ 
+ .PHONY: clean
+ clean:
+-	@rm example_1 example_2
++	@rm -f example_1 example_2

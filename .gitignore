@@ -28,3 +28,6 @@ __pycache__/
 old
 **/*.tgz
 **/tmp/
+
+**/.*/
+proseminar/03/david/deepseek-2/tools
