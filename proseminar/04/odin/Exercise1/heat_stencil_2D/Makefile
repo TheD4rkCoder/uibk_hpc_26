@@ -1,4 +1,5 @@
 CC=g++
+MPICC=mpic++
 CFLAGS=-Ofast -std=c++11 -Wall -Wextra -pedantic -g
 
 # benchmark builds: tuned for the CPU they are compiled on, so build them on the compute node
@@ -33,9 +34,13 @@ $(BUILD_DIR)/heat_stencil_2D_ghost: heat_stencil_2D_seq.cpp
 $(BUILD_DIR)/heat_stencil_2D_current: heat_stencil_2D_seq.cpp
 	@$(CC) $(BENCH_FLAGS) $< -o $@
 
+# MPI version (2D block decomposition)
+$(BUILD_DIR)/heat_stencil_2D_mpi: heat_stencil_2D_mpi.cpp
+	@$(MPICC) $(BENCH_FLAGS) $< -o $@
+
 .PHONY: clean
 clean:
-	@rm -f heat_stencil_2D_seq $(addprefix heat_stencil_2D_,$(BENCH_VARIANTS))
+	@rm -f heat_stencil_2D_seq heat_stencil_2D_mpi $(addprefix heat_stencil_2D_,$(BENCH_VARIANTS))
 
 .PHONY: run
 run: all
