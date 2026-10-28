@@ -20,6 +20,7 @@ int main(int argc, char** argv) {
 
 	MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 	MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
+	
 
 	for(int i = 0; i < count; i++)
 		if(myrank == 0) {
@@ -28,7 +29,7 @@ int main(int argc, char** argv) {
 			data[i] = i; /* initialize all other data buffers from 0 to count */
 
 	if(myrank == 0) {
-		for(int i = 0; i < nprocs; i++) {
+		for(int i = 1; i < nprocs; i++) {
 			MPI_Send(&data, count, MPI_INT, i, tag, MPI_COMM_WORLD);
 		}
 	} else {

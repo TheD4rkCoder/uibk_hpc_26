@@ -1,0 +1,60 @@
+#include <mpi.h>
+#include <stdio.h>
+
+int main(int argc, char** argv) {
+	int rank;
+	int size;
+	int sBuf[2] = { 1, 2 };
+	int rBuf[2];
+	MPI_Status status;
+	MPI_Request request;
+	MPI_Datatype newType;
+
+	MPI_Init(&argc, &argv);
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+	// Enough tasks?
+	if(size < 2) {
+		printf("This test needs at least 2 processes ! \n");
+		MPI_Finalize();
+		return 1;
+	}
+
+	// Say hello
+	printf("Hello, I am rank %d of %d processes. \n", rank, size);
+
+	// Ring neighbours: send to the right, receive from the left
+	int dest = (rank + 1) % size;
+	int source = (rank - 1 + size) % size;
+
+	// 1) Create a datatype
+	MPI_Type_contiguous(2, MPI_INT, &newType);
+	MPI_Type_commit(&newType);
+
+	// 2) Use MPI Sendrecv to perform a ring communication
+	rBuf[0] = rBuf[1] = -1;
+	MPI_Sendrecv(sBuf, 1, newType, dest, 123, rBuf, 1, newType, source, 123, MPI_COMM_WORLD,
+	             &status);
+	if(rBuf[0] != 1 || rBuf[1] != 2)
+		printf("Rank %d: Sendrecv received wrong data {%d, %d}\n", rank, rBuf[0], rBuf[1]);
+
+	// 3) Use MPI Send and MPI Recv to perform a ring communication
+	// The send is non-blocking, otherwise every rank would block in its send
+	// (no one is receiving yet) as soon as MPI does not buffer the message.
+	rBuf[0] = rBuf[1] = -1;
+	MPI_Isend(sBuf, 1, newType, dest, 456, MPI_COMM_WORLD, &request);
+	MPI_Recv(rBuf, 1, newType, source, 456, MPI_COMM_WORLD, &status);
+	MPI_Wait(&request, MPI_STATUS_IGNORE);
+	if(rBuf[0] != 1 || rBuf[1] != 2)
+		printf("Rank %d: Send/Recv received wrong data {%d, %d}\n", rank, rBuf[0], rBuf[1]);
+
+	MPI_Type_free(&newType);
+
+	// Say bye bye
+	printf("Signing off, rank %d. \n", rank);
+
+	MPI_Finalize();
+
+	return 0;
+}

@@ -1,0 +1,32 @@
+digraph DeadlockLegend {
+graph [bgcolor=transparent]
+    box [label="Active MPI Call", shape=box];
+    dia [label="Sub Operation", shape=diamond];
+    A [label="A", shape=box];
+    B [label="B", shape=box];
+    C [label="C", shape=box];
+    A2 [label="A", shape=box];
+    B2 [label="B", shape=box];
+    C2 [label="C", shape=box];
+    
+    box->dia [style=invis];
+    dia->A [style=invis];
+    dia->B [style=invis];
+    
+    {rank=same; A ; B };
+    
+    A->B [label="A waits for B and C"];
+    A->C [label=""];
+    
+    B->C [style=invis, weight=10]
+    
+    C->B2 [style=invis];
+    A->A2 [style=invis];
+    
+    A2->C2 [style=dashed];
+    A2->B2 [label="A waits for B or C" style=dashed];
+    
+    B2->C2 [style=invis, weight=10]
+    
+    {rank=same; A2 ; B2 };
+}
