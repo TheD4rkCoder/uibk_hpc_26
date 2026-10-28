@@ -1,0 +1,6 @@
+digraph Deadlock {
+graph [bgcolor=transparent]
+0 [label="{0: MPI_Send}", shape=record];
+0->0[label=" comm=A, tag=42", style=solid];
+
+}

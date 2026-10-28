@@ -1,5 +1,5 @@
 CC=mpicc
-CFLAGS=-std=gnu11 -Wall -Wextra -Wundef -pedantic -g
+CFLAGS=-std=gnu11 -Wall -Wextra -Wundef -pedantic -fno-omit-frame-pointer -fsanitize=undefined -g
 
 .PHONY: all
 all: example_1 example_2

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>MUST Outputfile</title>
+<style type="text/css">
+td,td,table {border:thin solid black}
+td.ee1{ background-color:#FFDDDD; text-align:center; vertical-align:middle;}
+td.ee2{ background-color:#FFEEEE; text-align:center; vertical-align:middle;}
+</style>
+</head>
+<body>
+<p> <b>MUST Deadlock Details</b>, date: Thu Oct 22 15:44:47 2026.
+</p>
+<a href="../MUST_Output.html" title="MUST error report">Back to MUST error report</a><br>
+<table border="0" width="100%" cellspacing="0" cellpadding="0">
+<tr>
+<td align="center" bgcolor="#9999DD" colspan="2">
+<b>Message</b>
+</td>
+</tr>
+<tr>
+<td class="ee2" colspan="3" >
+The application issued a set of MPI calls that can cause a deadlock!
+ The graphs below show details on this situation.
+ This includes a wait-for graph that shows
+ active wait-for dependencies between the processes that cause the deadlock.
+ Note that this process set only includes processes that cause the deadlock and no further processes.
+ A legend details the wait-for graph components in addition
+ , while a parallel call stack view summarizes the locations of the MPI calls that cause the deadlock
+. Below these graphs, a message queue graph shows active and unmatched point-to-point communications.
+ This graph only includes operations that could have been intended to match a point-to-point operation that is relevant to the deadlock situation.  Finally, a parallel call stack shows the locations of any operation in the parallel call stack.
+ The leafs of this call stack graph show the components of the message queue graph that they span.
+ The application still runs, if the deadlock manifested
+ (e.g. caused a hang on this MPI implementation) you can attach to the involved ranks
+ with a debugger or abort the application (if necessary).
+</td>
+</tr>
+<!-- ACTIVE COMMS -->
+<tr>
+<td align="center" bgcolor="#7777BB" colspan="2">
+<b>Active Communicators</b>
+</td>
+</tr>
+<tr>
+<td class="ee1" colspan="2" >
+<!-- Embedded table for communicator overview -->
+<table class="em" border="0" cellspacing="0" cellpadding="0">
+<tr class="em" bgcolor="#9999DD">
+<td class="em">
+Comm:
+</td>
+<td class="em">
+A
+</td>
+</tr>
+<tr class="ee1">
+<td class="em" colspan="2">
+MPI_COMM_WORLD
+</td>
+</tr>
+</table>
+
+<!-- End embedded table -->
+</td>
+</tr>
+<tr>
+<td align="center" bgcolor="#7777BB"><b>Wait-for Graph</b></td>
+<td align="center" bgcolor="#9999DD"><b>Legend</b></td>
+</tr>
+<tr>
+<td class="ee2" ><img src="MUST_Deadlock.png" alt="deadlock"></td>
+<td class="ee1" rowspan="3" >
+<img src="MUST_DeadlockLegend.png" alt="legend"></td>
+</tr>
+<tr>
+<td align="center" bgcolor="#9999DD"><b>Call Stack</b></td>
+</tr>
+<tr>
+<td class="ee1" ><img src="MUST_DeadlockCallStack.png" alt="stack"></td>
+</tr>
+<!-- RELEVANT P2P: Overview -->
+<tr>
+<td align="center" bgcolor="#7777BB" colspan="2">
+<b>Active and Relevant Point-to-Point Messages: Overview</b>
+</td>
+</tr>
+<tr>
+<td class="ee2" colspan="2" ><img src="MUST_DeadlockMessageQueue.png" alt="Message queue"></td>
+</tr>
+<tr>
+<td align="center" bgcolor="#9999DD"><b>Active and Relevant Point-to-Point Messages: Callstack-view</b></td>
+</tr>
+<tr>
+<td class="ee1" ><img src="MUST_DeadlockMessageQueueStacked.png" alt="stack"></td>
+</tr>
+</table>
+</body>
+</html>

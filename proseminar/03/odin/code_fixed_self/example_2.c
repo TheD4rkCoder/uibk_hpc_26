@@ -30,13 +30,20 @@ int main(int argc, char** argv) {
 	// 2) Use MPI Sendrecv to perform a ring communication
 	int dest = (rank + 1) % size;
 	int source = (rank - 1 + size) % size;
-	MPI_Sendrecv(sBuf, 1, newType, dest, 123, rBuf, sizeof(int) * 2, MPI_BYTE,
+	MPI_Sendrecv(sBuf, 1, newType, dest, 123, rBuf, 1, newType,
 	             source, 123, MPI_COMM_WORLD, &status);
 
+	MPI_Request send_req, recv_req;
+
 	// 3) Use MPI Send and MPI Recv to perform a ring communication
-	MPI_Send(sBuf, 1, newType, dest, 456, MPI_COMM_WORLD);
-	MPI_Recv(rBuf, sizeof(int) * 2, MPI_BYTE, source, 456, MPI_COMM_WORLD,
-	         &status);
+	MPI_Isend(sBuf, 1, newType, dest, 456, MPI_COMM_WORLD, &send_req);
+	MPI_Irecv(rBuf, 1, newType, source, 456, MPI_COMM_WORLD,
+	    	&recv_req);
+
+	MPI_Wait(&send_req, &status);
+	MPI_Wait(&recv_req, &status);
+
+	MPI_Type_free(&newType);
 
 	// Say bye bye
 	printf("Signing off, rank %d. \n", rank);
