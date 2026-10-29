@@ -14,14 +14,15 @@
 
 set -euo pipefail
 
-if [[ $# -ne 3 ]]; then
-	echo "Usage: $0 <naive|tiling|ghost|current> <N> <result_csv>" >&2
+if [[ $# -ne 4 ]]; then
+	echo "Usage: $0 <naive|tiling|ghost|current> <N> <T> <result_csv>" >&2
 	exit 1
 fi
 
 variant=$1
 N=$2
-result_csv=$3
+T=$3
+result_csv=$4
 
 # sbatch is called from the heat_stencil_2D directory, the sources and Makefile live there
 src_dir=${SLURM_SUBMIT_DIR:-$(pwd)}
@@ -37,8 +38,8 @@ trap 'rm -rf "$build_dir" "$stdout_file" "$time_file"' EXIT
 program_path=$build_dir/heat_stencil_2D_$variant
 make -s -C "$src_dir" BUILD_DIR="$build_dir" "$program_path"
 
-/usr/bin/time -f "%e" -o "$time_file" "$program_path" "$N" >"$stdout_file" || true
+/usr/bin/time -f "%e" -o "$time_file" "$program_path" "$N" "$T" >"$stdout_file" || true
 elapsed=$(tail -n 1 "$time_file")
 verification=$(sed -n 's/^Verification: //p' "$stdout_file" | head -n 1)
 
-printf '%s,%s,%s,%s,%s\n' "$variant" 0 "$elapsed" "${verification:-MISSING}" "$N" >> "$result_csv"
+printf '%s,%s,%s,%s,%s,%s\n' "$variant" 0 "$elapsed" "${verification:-MISSING}" "$N" "$T" >> "$result_csv"

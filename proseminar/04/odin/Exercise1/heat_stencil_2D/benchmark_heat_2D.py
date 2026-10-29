@@ -31,6 +31,8 @@ WEAK_SCALING = {
 }
 # fixed number of timesteps, so the work per rank stays constant (T = N*100 would grow with N)
 MPI_TIMESTEPS = 768 * 100
+# fastest sequential variant, run at every weak-scaling N as the baseline for speedup/efficiency
+BASELINE_VARIANT = "ghost"
 
 
 def run_job(script: Path, args: list, result_csv: Path, tasks: int = None) -> None:
@@ -102,17 +104,19 @@ def main() -> int:
     result_csv.parent.mkdir(parents=True, exist_ok=True)
     with result_csv.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
-        writer.writerow(["name", "ranks", "time", "verification", "N"])
+        writer.writerow(["name", "ranks", "time", "verification", "N", "T"])
 
     for repetition in range(1, args.repetitions + 1):
         print(f"Starting repetition {repetition}/{args.repetitions}")
         if run_seq:
             for size in PROBLEM_SIZES:
                 for variant in VARIANTS:
-                    print(f"Submitting heat_stencil_2D {variant} for N={size}")
-                    run_job(seq_script, [variant, size], result_csv)
+                    print(f"Submitting heat_stencil_2D {variant} for N={size}, T={size * 100}")
+                    run_job(seq_script, [variant, size, size * 100], result_csv)
         if run_mpi:
             for tasks, size in WEAK_SCALING.items():
+                print(f"Submitting heat_stencil_2D {BASELINE_VARIANT} baseline for N={size}, T={MPI_TIMESTEPS}")
+                run_job(seq_script, [BASELINE_VARIANT, size, MPI_TIMESTEPS], result_csv)
                 print(f"Submitting heat_stencil_2D_mpi for N={size}, T={MPI_TIMESTEPS}, ntasks={tasks}")
                 run_job(mpi_script, [size, MPI_TIMESTEPS], result_csv, tasks=tasks)
 
