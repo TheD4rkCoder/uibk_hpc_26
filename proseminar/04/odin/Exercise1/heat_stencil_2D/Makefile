@@ -5,10 +5,10 @@ CFLAGS=-Ofast -std=c++11 -Wall -Wextra -pedantic -g
 # benchmark builds: tuned for the CPU they are compiled on, so build them on the compute node
 BENCH_FLAGS=-Ofast -march=native -std=c++11 -Wall -Wextra -pedantic
 BUILD_DIR?=.
-BENCH_VARIANTS=naive tiling ghost current
+BENCH_VARIANTS=naive tiling ghost current mpi
 
 .PHONY: all
-all: heat_stencil_2D_seq
+all: heat_stencil_2D_seq bench
 
 heat_stencil_2D_seq: heat_stencil_2D_seq.cpp
 	@$(CC) $(CFLAGS) $< -o heat_stencil_2D_seq
@@ -40,7 +40,8 @@ $(BUILD_DIR)/heat_stencil_2D_mpi: heat_stencil_2D_mpi.cpp
 
 .PHONY: clean
 clean:
-	@rm -f heat_stencil_2D_seq heat_stencil_2D_mpi $(addprefix heat_stencil_2D_,$(BENCH_VARIANTS))
+	@rm -f heat_stencil_2D_seq $(addprefix heat_stencil_2D_,$(BENCH_VARIANTS))
+	@rm -rf build_*
 
 .PHONY: run
 run: all
