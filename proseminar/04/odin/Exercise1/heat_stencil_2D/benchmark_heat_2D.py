@@ -31,6 +31,9 @@ WEAK_SCALING = {
 }
 # fixed number of timesteps, so the work per rank stays constant (T = N*100 would grow with N)
 MPI_TIMESTEPS = 768 * 100
+# perf counter columns appended by both job scripts (same order as PERF_COLUMNS in perf_events.sh)
+PERF_COLUMNS = ["cycles", "instructions", "fp_scalar", "fp_packed",
+                "l1d_misses", "llc_load_misses", "llc_store_misses"]
 # fastest sequential variant, run at every weak-scaling N as the baseline for speedup/efficiency
 BASELINE_VARIANT = "ghost"
 
@@ -104,7 +107,7 @@ def main() -> int:
     result_csv.parent.mkdir(parents=True, exist_ok=True)
     with result_csv.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.writer(handle)
-        writer.writerow(["name", "ranks", "time", "verification", "N", "T"])
+        writer.writerow(["name", "ranks", "time", "verification", "N", "T", *PERF_COLUMNS])
 
     for repetition in range(1, args.repetitions + 1):
         print(f"Starting repetition {repetition}/{args.repetitions}")
