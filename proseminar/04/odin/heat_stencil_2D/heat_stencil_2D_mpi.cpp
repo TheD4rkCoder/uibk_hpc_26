@@ -33,12 +33,6 @@ typedef double value_t;
 // -- matrix utilities --
 
 
-void Isend_and_Ireceive(int target_rank, value_t *outermost_cell_p, value_t *neighbor_cell_p,
-                             MPI_Request *req_send_p, MPI_Request *req_recv_p) {
-      MPI_Isend(neighbor_cell_p, 1, MPI_DOUBLE, target_rank, 42, MPI_COMM_WORLD, req_send_p);
-      MPI_Irecv(neighbor_cell_p, 1, MPI_DOUBLE, target_rank, 42, MPI_COMM_WORLD, req_recv_p);
-}
-
 // N x N matrix stored contiguously in row-major order: element (i,j) is at i*N+j
 typedef std::vector<value_t> Matrix;
 
