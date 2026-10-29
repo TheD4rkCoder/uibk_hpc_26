@@ -5,7 +5,7 @@ CFLAGS=-Ofast -std=c++11 -Wall -Wextra -pedantic -g
 # benchmark builds: tuned for the CPU they are compiled on, so build them on the compute node
 BENCH_FLAGS=-Ofast -march=native -std=c++11 -Wall -Wextra -pedantic
 BUILD_DIR?=.
-BENCH_VARIANTS=naive tiling ghost current mpi
+BENCH_VARIANTS=naive tiling ghost current mpi mpi_non_blocking
 
 .PHONY: all
 all: heat_stencil_2D_seq bench
@@ -34,8 +34,12 @@ $(BUILD_DIR)/heat_stencil_2D_ghost: heat_stencil_2D_seq.cpp
 $(BUILD_DIR)/heat_stencil_2D_current: heat_stencil_2D_seq.cpp
 	@$(CC) $(BENCH_FLAGS) $< -o $@
 
-# MPI version (2D block decomposition)
+# MPI version (2D block decomposition), blocking ghost cell exchange
 $(BUILD_DIR)/heat_stencil_2D_mpi: heat_stencil_2D_mpi.cpp
+	@$(MPICC) $(BENCH_FLAGS) $< -o $@
+
+# MPI version, non-blocking exchange overlapped with the inner cells
+$(BUILD_DIR)/heat_stencil_2D_mpi_non_blocking: heat_stencil_2D_mpi_non_blocking.cpp
 	@$(MPICC) $(BENCH_FLAGS) $< -o $@
 
 .PHONY: clean
