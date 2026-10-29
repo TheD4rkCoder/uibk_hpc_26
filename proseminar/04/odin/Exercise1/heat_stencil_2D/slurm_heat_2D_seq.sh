@@ -26,6 +26,7 @@ result_csv=$4
 
 # sbatch is called from the heat_stencil_2D directory, the sources and Makefile live there
 src_dir=${SLURM_SUBMIT_DIR:-$(pwd)}
+source "$src_dir/perf_events.sh"
 
 build_dir=$(mktemp -d)
 stdout_file=$(mktemp)
@@ -38,8 +39,13 @@ trap 'rm -rf "$build_dir" "$stdout_file" "$time_file"' EXIT
 program_path=$build_dir/heat_stencil_2D_$variant
 make -s -C "$src_dir" BUILD_DIR="$build_dir" "$program_path"
 
-/usr/bin/time -f "%e" -o "$time_file" "$program_path" "$N" "$T" >"$stdout_file" || true
+# perf stat in counting mode: negligible overhead, so time and counters come from the same run
+perf_file=$build_dir/perf.out
+/usr/bin/time -f "%e" -o "$time_file" \
+	perf stat -x, -o "$perf_file" -e "$PERF_EVENTS" -- "$program_path" "$N" "$T" >"$stdout_file" || true
 elapsed=$(tail -n 1 "$time_file")
 verification=$(sed -n 's/^Verification: //p' "$stdout_file" | head -n 1)
+perf_values=$(perf_sum "$perf_file")
 
-printf '%s,%s,%s,%s,%s,%s\n' "$variant" 0 "$elapsed" "${verification:-MISSING}" "$N" "$T" >> "$result_csv"
+# columns: name,ranks,time,verification,N,T,$PERF_COLUMNS
+printf '%s,%s,%s,%s,%s,%s,%s\n' "$variant" 0 "$elapsed" "${verification:-MISSING}" "$N" "$T" "$perf_values" >> "$result_csv"
