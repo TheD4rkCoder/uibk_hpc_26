@@ -1,0 +1,5 @@
+N,T,ranks,variant,stencil_s,total_s,verify
+768,76800,4,nonblocking,16.622195,16.628875,OK
+768,76800,4,blocking,17.628534,17.635965,OK
+768,76800,4,stripes,16.297700,16.303480,OK
+768,76800,4,float,9.806988,9.810047,OK
