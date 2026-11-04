@@ -1,0 +1,3 @@
+N,T,ranks,variant,stencil_s,total_s,verify
+768,76800,96,nocomm,0.702893,0.813711,OK
+768,76800,96,nonblocking,1.085393,1.195510,OK
