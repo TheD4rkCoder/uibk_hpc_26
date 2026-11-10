@@ -1,0 +1,15 @@
+BENCH solver=bh ic=cube n=5000 steps=20 theta=0.5000 quad=1 sim_s=1.897195 io_s=0.000002
+
+ Performance counter stats for './nbody_quad --solver bh --n 5000 --steps 20 --theta 0.5 --quiet':
+
+     5,759,426,050      cycles:u                                                    
+     6,226,210,189      instructions:u            #    1.08  insn per cycle         
+       485,673,320      branches:u                                                  
+        27,799,415      branch-misses:u           #    5.72% of all branches        
+
+       1.902180571 seconds time elapsed
+
+       1.892126000 seconds user
+       0.000987000 seconds sys
+
+

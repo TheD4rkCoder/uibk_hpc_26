@@ -1,0 +1,953 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 38.96      7.08     7.08 32158473     0.00     0.00  Octree::add_forces_from_leaf_particles(int, int, int, Vec3 const&, Vec3&) const
+ 20.47     10.80     3.72 175947102     0.00     0.00  Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const
+ 12.66     13.11     2.30   500000     0.00     0.04  Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const
+  8.03     14.57     1.46 937959121     0.00     0.00  __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >)
+  5.17     15.51     0.94 414760461     0.00     0.00  Vec3::operator-(Vec3 const&) const
+  4.82     16.38     0.88 414760461     0.00     0.00  Vec3::dot(Vec3 const&) const
+  4.68     17.23     0.85 593114149     0.00     0.00  Vec3::Vec3(double, double, double)
+  1.71     17.54     0.31 178208020     0.00     0.00  Vec3::operator*(double) const
+  1.24     17.77     0.23 414760461     0.00     0.00  Vec3::length_squared() const
+  0.99     17.95     0.18                             (anonymous namespace)::write_frames(_IO_FILE*, bool, std::vector<Particle, std::allocator<Particle> > const&, double&)
+  0.61     18.06     0.11 38327180     0.00     0.00  Octree::child_index_containing(Vec3 const&, Vec3 const&)
+  0.39     18.13     0.07                             std::__is_constant_evaluated()
+  0.22     18.17     0.04      100     0.40     0.46  Octree::compute_multipoles(int)
+  0.06     18.18     0.01  3515109     0.00     0.00  std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&)
+  0.06     18.19     0.01   286336     0.00     0.00  Vec3::Vec3()
+  0.00     18.19     0.00  2010402     0.00     0.00  __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::base() const
+  0.00     18.19     0.00  1500000     0.00     0.00  double const& std::max<double>(double const&, double const&)
+  0.00     18.19     0.00  1500000     0.00     0.00  double const& std::min<double>(double const&, double const&)
+  0.00     18.19     0.00  1005201     0.00     0.00  bool __gnu_cxx::operator!=<Particle*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&)
+  0.00     18.19     0.00  1000200     0.00     0.00  __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::base() const
+  0.00     18.19     0.00   543418     0.00     0.00  OctreeNode* std::__addressof<OctreeNode>(OctreeNode&)
+  0.00     18.19     0.00   500100     0.00     0.00  bool __gnu_cxx::operator!=<Particle const*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&)
+  0.00     18.19     0.00   203875     0.00     0.00  std::remove_reference<OctreeNode&>::type&& std::move<OctreeNode&>(OctreeNode&)
+  0.00     18.19     0.00   135668     0.00     0.00  OctreeNode::OctreeNode()
+  0.00     18.19     0.00   135668     0.00     0.00  void std::_Construct<OctreeNode>(OctreeNode*)
+  0.00     18.19     0.00   118622     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&)
+  0.00     18.19     0.00   101776     0.00     0.00  Octree::Octree(double, double, int)
+  0.00     18.19     0.00    70000     0.00     0.00  make_particles(Params const&)
+  0.00     18.19     0.00    67784     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const
+  0.00     18.19     0.00    67784     0.00     0.00  int* std::__niter_base<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00     18.19     0.00    51238     0.00     0.00  int* std::__niter_base<int*>(int*)
+  0.00     18.19     0.00    50838     0.00     0.00  std::vector<int, std::allocator<int> >::begin()
+  0.00     18.19     0.00    35000     0.00     0.00  std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::min()
+  0.00     18.19     0.00    35000     0.00     0.00  std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::operator()()
+  0.00     18.19     0.00    35000     0.00     0.00  double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&)
+  0.00     18.19     0.00    35000     0.00     0.00  std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&)
+  0.00     18.19     0.00    35000     0.00     0.00  double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&)
+  0.00     18.19     0.00    34092     0.00     0.00  OctreeNode* std::__uninitialized_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long)
+  0.00     18.19     0.00    33892     0.00     0.00  int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*)
+  0.00     18.19     0.00    33892     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__miter_base<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00     18.19     0.00    33892     0.00     0.00  int* std::__miter_base<int*>(int*)
+  0.00     18.19     0.00    33892     0.00     0.00  int* std::__copy_move_a1<false, int*, int*>(int*, int*, int*)
+  0.00     18.19     0.00    33892     0.00     0.00  int* std::__copy_move_a2<false, int*, int*>(int*, int*, int*)
+  0.00     18.19     0.00    18944     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*)
+  0.00     18.19     0.00    17046     0.00     0.00  OctreeNode* std::__uninitialized_default_n_1<false>::__uninit_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long)
+  0.00     18.19     0.00    17046     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long)
+  0.00     18.19     0.00    17046     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::resize(unsigned long)
+  0.00     18.19     0.00    16946     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00     18.19     0.00    16946     0.00     0.00  __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::copy<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  0.00     18.19     0.00     9493     0.00     1.88  compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&)
+  0.00     18.19     0.00     5000     0.00     0.00  Particle::Particle()
+  0.00     18.19     0.00     5000     0.00     0.00  void std::_Construct<Particle>(Particle*)
+  0.00     18.19     0.00     5000     0.00     0.00  Particle* std::__addressof<Particle>(Particle&)
+  0.00     18.19     0.00     2997     0.00     0.00  OctreeNode* std::__niter_base<OctreeNode*>(OctreeNode*)
+  0.00     18.19     0.00     2997     0.00     0.00  OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&)
+  0.00     18.19     0.00     2399     0.00     0.00  unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+  0.00     18.19     0.00     1998     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::max_size() const
+  0.00     18.19     0.00     1399     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const
+  0.00     18.19     0.00     1199     0.00     0.00  unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&)
+  0.00     18.19     0.00      513     0.00     0.00  (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&)
+  0.00     18.19     0.00      402     0.00     0.00  __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle* const&)
+  0.00     18.19     0.00      400     0.00     0.00  std::vector<int, std::allocator<int> >::max_size() const
+  0.00     18.19     0.00      400     0.00     0.00  int* std::__uninitialized_default_n<int*, unsigned long>(int*, unsigned long)
+  0.00     18.19     0.00      312     0.00     0.00  std::__detail::_Mod<unsigned long, 0ul, 1ul, 0ul, true, false>::__calc(unsigned long)
+  0.00     18.19     0.00      312     0.00     0.00  unsigned long std::__detail::__mod<unsigned long, 0ul, 1ul, 0ul>(unsigned long)
+  0.00     18.19     0.00      311     0.00     0.00  std::__detail::_Mod<unsigned long, 312ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  0.00     18.19     0.00      311     0.00     0.00  unsigned long std::__detail::__mod<unsigned long, 312ul, 1ul, 0ul>(unsigned long)
+  0.00     18.19     0.00      206     0.00     0.00  std::chrono::duration<double, std::ratio<1l, 1l> >::duration<double, void>(double const&)
+  0.00     18.19     0.00      201     0.00     0.00  std::vector<Particle, std::allocator<Particle> >::end()
+  0.00     18.19     0.00      201     0.00     0.00  std::vector<Particle, std::allocator<Particle> >::begin()
+  0.00     18.19     0.00      200     0.00     0.00  __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle const* const&)
+  0.00     18.19     0.00      200     0.00     0.00  std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const
+  0.00     18.19     0.00      200     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl()
+  0.00     18.19     0.00      200     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data()
+  0.00     18.19     0.00      200     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::_Vector_base()
+  0.00     18.19     0.00      200     0.00     0.00  std::_Vector_base<int, std::allocator<int> >::~_Vector_base()
+  0.00     18.19     0.00      200     0.00     0.00  int* std::__uninitialized_default_n_1<true>::__uninit_default_n<int*, unsigned long>(int*, unsigned long)
+  0.00     18.19     0.00      200     0.00     0.00  std::vector<int, std::allocator<int> >::_M_default_append(unsigned long)
+  0.00     18.19     0.00      200     0.00     0.00  std::vector<int, std::allocator<int> >::resize(unsigned long)
+  0.00     18.19     0.00      200     0.00     0.00  std::vector<int, std::allocator<int> >::vector()
+  0.00     18.19     0.00      200     0.00     0.00  std::vector<int, std::allocator<int> >::~vector()
+  0.00     18.19     0.00      200     0.00     0.00  void std::_Construct<int>(int*)
+  0.00     18.19     0.00      200     0.00     0.00  int* std::__addressof<int>(int&)
+  0.00     18.19     0.00      200     0.00     0.00  std::__size_to_integer(unsigned long)
+  0.00     18.19     0.00      200     0.00     0.00  int* std::fill_n<int*, unsigned long, int>(int*, unsigned long, int const&)
+  0.00     18.19     0.00      113     0.00     0.00  std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::_M_gen_rand()
+  0.00     18.19     0.00      101     0.00     0.00  (anonymous namespace)::seconds_since(std::chrono::time_point<std::chrono::_V2::steady_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >)
+  0.00     18.19     0.00      100     0.00     0.33  Octree::build_subtree(int, int, int, Vec3 const&, double, int)
+  0.00     18.19     0.00      100     0.00     0.48  Octree::build(std::vector<Particle, std::allocator<Particle> > const&)
+  0.00     18.19     0.00      100     0.00     0.00  Octree::~Octree()
+  0.00     18.19     0.00      100     0.00     0.00  Vec3::operator+(Vec3 const&) const
+  0.00     18.19     0.00      100     0.00   178.32  Octree::compute_accelerations(std::vector<Particle, std::allocator<Particle> >&) const
+  0.00     18.19     0.00      100     0.00     0.00  std::vector<Particle, std::allocator<Particle> >::end() const
+  0.00     18.19     0.00      100     0.00     0.00  std::vector<Particle, std::allocator<Particle> >::begin() const
+  0.00     18.19     0.00      100     0.00     0.00  std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl::_Vector_impl()
+  0.00     18.19     0.00      100     0.00     0.00  std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl_data::_Vector_impl_data()
+  0.00     18.19     0.00      100     0.00     0.00  std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_base()
+  0.00     18.19     0.00      100     0.00     0.00  std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::~_Vector_base()
+  0.00     18.19     0.00      100     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_erase_at_end(OctreeNode*)
+  0.00     18.19     0.00      100     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::clear()
+  0.00     18.19     0.00      100     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::vector()
+  0.00     18.19     0.00      100     0.00     0.00  std::vector<OctreeNode, std::allocator<OctreeNode> >::~vector()
+  0.00     18.19     0.00      100     0.00     0.00  double const* std::__max_element<double const*, __gnu_cxx::__ops::_Iter_less_iter>(double const*, double const*, __gnu_cxx::__ops::_Iter_less_iter)
+  0.00     18.19     0.00      100     0.00     0.00  double std::max<double>(std::initializer_list<double>)
+  0.00     18.19     0.00      100     0.00     0.00  int const& std::max<int>(int const&, int const&)
+  0.00     18.19     0.00        4     0.00     0.00  (anonymous namespace)::take_option_value(int&, int, char**, char const*&)
+  0.00     18.19     0.00        3     0.00     0.00  std::uniform_real_distribution<double>::param_type::param_type(double, double)
+  0.00     18.19     0.00        3     0.00     0.00  std::uniform_real_distribution<double>::uniform_real_distribution(double, double)
+  0.00     18.19     0.00        2     0.00     0.00  Particle* std::__uninitialized_default_n<Particle*, unsigned long>(Particle*, unsigned long)
+  0.00     18.19     0.00        1     0.00     0.00  write_particle_frame(_IO_FILE*, std::vector<Particle, std::allocator<Particle> > const&)
+  0.00     18.19     0.00        1     0.00     0.58  (anonymous namespace)::make_plummer(Params const&)
+  0.00     18.19     0.00        1     0.00     0.00  (anonymous namespace)::parse_solver(char const*, Solver&)
+  0.00     18.19     0.00        1     0.00     0.00  std::vector<Particle, std::allocator<Particle> >::max_size() const
+  0.00     18.19     0.00        1     0.00     0.00  std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl::_Vector_impl(std::allocator<Particle> const&)
+  0.00     18.19     0.00        1     0.00     0.00  std::_Vector_base<Particle, std::allocator<Particle> >::_M_create_storage(unsigned long)
+  0.00     18.19     0.00        1     0.00     0.00  std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl_data::_Vector_impl_data()
+  0.00     18.19     0.00        1     0.00     0.00  std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_base(unsigned long, std::allocator<Particle> const&)
+  0.00     18.19     0.00        1     0.00     0.00  std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long)
+  0.00     18.19     0.00        1     0.00     0.00  std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::mersenne_twister_engine(unsigned long)
+  0.00     18.19     0.00        1     0.00     0.54  Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long)
+  0.00     18.19     0.00        1     0.00     0.54  std::vector<Particle, std::allocator<Particle> >::_M_default_initialize(unsigned long)
+  0.00     18.19     0.00        1     0.00     0.00  std::vector<Particle, std::allocator<Particle> >::vector(unsigned long, std::allocator<Particle> const&)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.05% of 18.19 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     98.6    0.00   17.94                 leapfrog_step(std::vector<Particle, std::allocator<Particle> >&, Params const&) [1]
+                0.00   17.92     100/100         compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                0.01    0.00 3500000/3515109     std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+                0.00    0.00 1500000/178208020     Vec3::operator*(double) const [12]
+                0.00    0.00 1000200/1005201     bool __gnu_cxx::operator!=<Particle*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&) [57]
+                0.00    0.00     200/201         std::vector<Particle, std::allocator<Particle> >::end() [96]
+                0.00    0.00     200/201         std::vector<Particle, std::allocator<Particle> >::begin() [97]
+-----------------------------------------------
+[2]     98.5    0.00   17.92     100+47982   <cycle 2 as a whole> [2]
+                0.00   17.83    9493+600         compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                0.00    0.05     100             Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+                0.00    0.03     100+135568      Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.00    0.01   17046             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+                0.00    0.00   18944             __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+                0.00    0.00    1399             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+                0.00    0.00     200             std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+                0.00    0.00     200             std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const <cycle 2> [38]
+                0.00    0.00     200             int* std::__uninitialized_default_n_1<true>::__uninit_default_n<int*, unsigned long>(int*, unsigned long) <cycle 2> [103]
+                0.00    0.00     200             void std::_Construct<int>(int*) <cycle 2> [106]
+                0.00    0.00     100             double std::max<double>(std::initializer_list<double>) <cycle 2> [122]
+                0.00    0.00     100             double const* std::__max_element<double const*, __gnu_cxx::__ops::_Iter_less_iter>(double const*, double const*, __gnu_cxx::__ops::_Iter_less_iter) <cycle 2> [121]
+-----------------------------------------------
+                                 600             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                                 200             double const* std::__max_element<double const*, __gnu_cxx::__ops::_Iter_less_iter>(double const*, double const*, __gnu_cxx::__ops::_Iter_less_iter) <cycle 2> [121]
+                                 200             double std::max<double>(std::initializer_list<double>) <cycle 2> [122]
+                                 200             void std::_Construct<int>(int*) <cycle 2> [106]
+                                 800             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+                                1000             std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+                                2997             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+                                3996             __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+                0.00   17.92     100/100         leapfrog_step(std::vector<Particle, std::allocator<Particle> >&, Params const&) [1]
+[3]     98.0    0.00   17.83    9493+600     compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                0.00   17.83     100/100         Octree::compute_accelerations(std::vector<Particle, std::allocator<Particle> >&) const [4]
+                0.00    0.00    1499/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00     100/100         Octree::~Octree() [36]
+                0.00    0.00     100/101776      Octree::Octree(double, double, int) [63]
+                0.00    0.00     100/100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::~_Vector_base() [116]
+                0.00    0.00     100/100         std::vector<OctreeNode, std::allocator<OctreeNode> >::~vector() [120]
+                                 100             Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+                                 600             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+-----------------------------------------------
+                0.00   17.83     100/100         compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+[4]     98.0    0.00   17.83     100         Octree::compute_accelerations(std::vector<Particle, std::allocator<Particle> >&) const [4]
+                2.30   15.53  500000/500000      Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+                0.00    0.00  500100/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+-----------------------------------------------
+                             268647328             Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+                2.30   15.53  500000/500000      Octree::compute_accelerations(std::vector<Particle, std::allocator<Particle> >&) const [4]
+[5]     98.0    2.30   15.53  500000+268647328 Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+                7.08    0.64 32158473/32158473     Octree::add_forces_from_leaf_particles(int, int, int, Vec3 const&, Vec3&) const [6]
+                3.72    1.95 175947102/175947102     Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [7]
+                0.54    0.34 238813359/414760461     Vec3::operator-(Vec3 const&) const [8]
+                0.52    0.00 334886717/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.50    0.00 238813359/414760461     Vec3::dot(Vec3 const&) const [10]
+                0.13    0.00 238813359/414760461     Vec3::length_squared() const [13]
+                0.10    0.00 33580916/38327180     Octree::child_index_containing(Vec3 const&, Vec3 const&) [15]
+                             268647328             Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+-----------------------------------------------
+                7.08    0.64 32158473/32158473     Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+[6]     42.5    7.08    0.64 32158473         Octree::add_forces_from_leaf_particles(int, int, int, Vec3 const&, Vec3&) const [6]
+                0.64    0.00 410664582/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+-----------------------------------------------
+                3.72    1.95 175947102/175947102     Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+[7]     31.2    3.72    1.95 175947102         Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [7]
+                0.40    0.25 175947102/414760461     Vec3::operator-(Vec3 const&) const [8]
+                0.31    0.25 175947102/178208020     Vec3::operator*(double) const [12]
+                0.37    0.00 175947102/414760461     Vec3::dot(Vec3 const&) const [10]
+                0.27    0.00 175947102/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.10    0.00 175947102/414760461     Vec3::length_squared() const [13]
+-----------------------------------------------
+                0.40    0.25 175947102/414760461     Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [7]
+                0.54    0.34 238813359/414760461     Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+[8]      8.4    0.94    0.59 414760461         Vec3::operator-(Vec3 const&) const [8]
+                0.59    0.00 414760461/593114149     Vec3::Vec3(double, double, double) [11]
+-----------------------------------------------
+                0.00    0.00     200/937959121     std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const <cycle 2> [38]
+                0.00    0.00     200/937959121     std::vector<int, std::allocator<int> >::resize(unsigned long) [39]
+                0.00    0.00     400/937959121     std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+                0.00    0.00     600/937959121     Octree::~Octree() [36]
+                0.00    0.00    1399/937959121     std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+                0.00    0.00    1499/937959121     compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                0.00    0.00    1998/937959121     __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+                0.00    0.00   17046/937959121     std::vector<OctreeNode, std::allocator<OctreeNode> >::resize(unsigned long) [32]
+                0.00    0.00   19843/937959121     std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+                0.00    0.00  135668/937959121     void std::_Construct<OctreeNode>(OctreeNode*) [31]
+                0.00    0.00  203875/937959121     OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+                0.00    0.00  500100/937959121     Octree::compute_accelerations(std::vector<Particle, std::allocator<Particle> >&) const [4]
+                0.00    0.00 1500200/937959121     Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+                0.00    0.00 2042472/937959121     Octree::compute_multipoles(int) [18]
+                0.02    0.00 12035220/937959121     Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.27    0.00 175947102/937959121     Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [7]
+                0.52    0.00 334886717/937959121     Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+                0.64    0.00 410664582/937959121     Octree::add_forces_from_leaf_particles(int, int, int, Vec3 const&, Vec3&) const [6]
+[9]      8.0    1.46    0.00 937959121         __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+-----------------------------------------------
+                0.37    0.00 175947102/414760461     Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [7]
+                0.50    0.00 238813359/414760461     Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+[10]     4.8    0.88    0.00 414760461         Vec3::dot(Vec3 const&) const [10]
+-----------------------------------------------
+                0.00    0.00     100/593114149     Vec3::operator+(Vec3 const&) const [41]
+                0.00    0.00   10000/593114149     (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+                0.00    0.00  135568/593114149     Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.26    0.00 178208020/593114149     Vec3::operator*(double) const [12]
+                0.59    0.00 414760461/593114149     Vec3::operator-(Vec3 const&) const [8]
+[11]     4.7    0.85    0.00 593114149         Vec3::Vec3(double, double, double) [11]
+-----------------------------------------------
+                0.00    0.00     100/178208020     Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+                0.00    0.00  760818/178208020     Octree::compute_multipoles(int) [18]
+                0.00    0.00 1500000/178208020     leapfrog_step(std::vector<Particle, std::allocator<Particle> >&, Params const&) [1]
+                0.31    0.25 175947102/178208020     Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [7]
+[12]     3.1    0.31    0.26 178208020         Vec3::operator*(double) const [12]
+                0.26    0.00 178208020/593114149     Vec3::Vec3(double, double, double) [11]
+-----------------------------------------------
+                0.10    0.00 175947102/414760461     Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [7]
+                0.13    0.00 238813359/414760461     Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+[13]     1.2    0.23    0.00 414760461         Vec3::length_squared() const [13]
+-----------------------------------------------
+                                                 <spontaneous>
+[14]     1.0    0.18    0.00                 (anonymous namespace)::write_frames(_IO_FILE*, bool, std::vector<Particle, std::allocator<Particle> > const&, double&) [14]
+                0.00    0.00     101/101         (anonymous namespace)::seconds_since(std::chrono::time_point<std::chrono::_V2::steady_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >) [40]
+                0.00    0.00     101/513         (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+-----------------------------------------------
+                0.01    0.00 4746264/38327180     Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.10    0.00 33580916/38327180     Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [5]
+[15]     0.6    0.11    0.00 38327180         Octree::child_index_containing(Vec3 const&, Vec3 const&) [15]
+-----------------------------------------------
+                                                 <spontaneous>
+[16]     0.4    0.07    0.00                 std::__is_constant_evaluated() [16]
+-----------------------------------------------
+                                 100             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+[17]     0.3    0.00    0.05     100         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+                0.04    0.01     100/100         Octree::compute_multipoles(int) [18]
+                0.00    0.00 1500200/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00     100/178208020     Vec3::operator*(double) const [12]
+                0.00    0.00     200/200         std::vector<int, std::allocator<int> >::resize(unsigned long) [39]
+                0.00    0.00     100/17046       std::vector<OctreeNode, std::allocator<OctreeNode> >::resize(unsigned long) [32]
+                0.00    0.00     100/100         Vec3::operator+(Vec3 const&) const [41]
+                0.00    0.00 1500000/1500000     double const& std::min<double>(double const&, double const&) [56]
+                0.00    0.00 1500000/1500000     double const& std::max<double>(double const&, double const&) [55]
+                0.00    0.00  500100/500100      bool __gnu_cxx::operator!=<Particle const*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&) [60]
+                0.00    0.00     100/100         std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_erase_at_end(OctreeNode*) [117]
+                0.00    0.00     100/100         std::vector<OctreeNode, std::allocator<OctreeNode> >::clear() [118]
+                0.00    0.00     100/100         std::vector<Particle, std::allocator<Particle> >::begin() const [112]
+                0.00    0.00     100/100         std::vector<Particle, std::allocator<Particle> >::end() const [111]
+                                 200             std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+                                 100             double std::max<double>(std::initializer_list<double>) <cycle 2> [122]
+                                 100             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+                                 100             Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+-----------------------------------------------
+                              135568             Octree::compute_multipoles(int) [18]
+                0.04    0.01     100/100         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[18]     0.3    0.04    0.01     100+135568  Octree::compute_multipoles(int) [18]
+                0.00    0.00 2042472/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00  760818/178208020     Vec3::operator*(double) const [12]
+                              135568             Octree::compute_multipoles(int) [18]
+-----------------------------------------------
+                              135568             Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                                 100             Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[19]     0.2    0.00    0.03     100+135568  Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.02    0.00 12035220/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.01    0.00 4746264/38327180     Octree::child_index_containing(Vec3 const&, Vec3 const&) [15]
+                0.00    0.00  135568/593114149     Vec3::Vec3(double, double, double) [11]
+                0.00    0.00   16946/17046       std::vector<OctreeNode, std::allocator<OctreeNode> >::resize(unsigned long) [32]
+                0.00    0.00  101676/101776      Octree::Octree(double, double, int) [63]
+                0.00    0.00   50838/50838       std::vector<int, std::allocator<int> >::begin() [68]
+                0.00    0.00   16946/33892       int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*) [75]
+                0.00    0.00   16946/33892       int* std::__copy_move_a2<false, int*, int*>(int*, int*, int*) [79]
+                0.00    0.00   16946/33892       int* std::__copy_move_a1<false, int*, int*>(int*, int*, int*) [78]
+                0.00    0.00   16946/16946       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [80]
+                0.00    0.00   16946/16946       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::copy<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [81]
+                               16946             __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+                               16946             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+                              135568             Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+-----------------------------------------------
+                                 100             Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+                               16946             Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+[20]     0.1    0.00    0.01   17046         std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+                0.00    0.01   17046/17046       OctreeNode* std::__uninitialized_default_n_1<false>::__uninit_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [23]
+                0.00    0.00    2997/2997        OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+                0.00    0.00   19843/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00   34092/34092       OctreeNode* std::__uninitialized_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [74]
+                                2997             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                                 999             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+-----------------------------------------------
+                                   1             std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+                0.00    0.00       3/3515109     write_particle_frame(_IO_FILE*, std::vector<Particle, std::allocator<Particle> > const&) [43]
+                0.00    0.00       3/3515109     std::_Vector_base<Particle, std::allocator<Particle> >::_M_create_storage(unsigned long) [45]
+                0.00    0.00     103/3515109     (anonymous namespace)::seconds_since(std::chrono::time_point<std::chrono::_V2::steady_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >) [40]
+                0.00    0.00    5000/3515109     void std::_Construct<Particle>(Particle*) [33]
+                0.00    0.00   10000/3515109     (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+                0.01    0.00 3500000/3515109     leapfrog_step(std::vector<Particle, std::allocator<Particle> >&, Params const&) [1]
+[21]     0.1    0.01    0.00 3515109+1       std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+                0.00    0.00     206/206         std::chrono::duration<double, std::ratio<1l, 1l> >::duration<double, void>(double const&) [95]
+                0.00    0.00     103/513         (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+                                   1             std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+-----------------------------------------------
+                0.00    0.00    5000/286336      Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long) [27]
+                0.00    0.00   10000/286336      Particle::Particle() [29]
+                0.01    0.00  271336/286336      OctreeNode::OctreeNode() [24]
+[22]     0.1    0.01    0.00  286336         Vec3::Vec3() [22]
+-----------------------------------------------
+                0.00    0.01   17046/17046       std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+[23]     0.1    0.00    0.01   17046         OctreeNode* std::__uninitialized_default_n_1<false>::__uninit_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [23]
+                0.00    0.01  135668/135668      OctreeNode::OctreeNode() [24]
+                0.00    0.00  135668/135668      void std::_Construct<OctreeNode>(OctreeNode*) [31]
+                0.00    0.00  135668/543418      OctreeNode* std::__addressof<OctreeNode>(OctreeNode&) [59]
+-----------------------------------------------
+                0.00    0.01  135668/135668      OctreeNode* std::__uninitialized_default_n_1<false>::__uninit_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [23]
+[24]     0.1    0.00    0.01  135668         OctreeNode::OctreeNode() [24]
+                0.01    0.00  271336/286336      Vec3::Vec3() [22]
+-----------------------------------------------
+                                   1             make_particles(Params const&) <cycle 1> [64]
+[26]     0.0    0.00    0.00       1         (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+                0.00    0.00       1/1           std::vector<Particle, std::allocator<Particle> >::_M_default_initialize(unsigned long) [28]
+                0.00    0.00   10000/3515109     std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+                0.00    0.00   10000/593114149     Vec3::Vec3(double, double, double) [11]
+                0.00    0.00       1/1           std::vector<Particle, std::allocator<Particle> >::vector(unsigned long, std::allocator<Particle> const&) [42]
+                0.00    0.00   35000/35000       double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) [71]
+                0.00    0.00    5001/1005201     bool __gnu_cxx::operator!=<Particle*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&) [57]
+                0.00    0.00       3/3           std::uniform_real_distribution<double>::param_type::param_type(double, double) [125]
+                0.00    0.00       3/3           std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [126]
+                0.00    0.00       1/1           std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long) [131]
+                0.00    0.00       1/1           std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::mersenne_twister_engine(unsigned long) [132]
+                0.00    0.00       1/201         std::vector<Particle, std::allocator<Particle> >::begin() [97]
+                0.00    0.00       1/201         std::vector<Particle, std::allocator<Particle> >::end() [96]
+                               35000             double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<Particle, std::allocator<Particle> >::_M_default_initialize(unsigned long) [28]
+[27]     0.0    0.00    0.00       1         Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long) [27]
+                0.00    0.00    5000/5000        Particle::Particle() [29]
+                0.00    0.00    5000/286336      Vec3::Vec3() [22]
+                0.00    0.00    5000/5000        void std::_Construct<Particle>(Particle*) [33]
+                0.00    0.00    5000/5000        Particle* std::__addressof<Particle>(Particle&) [82]
+-----------------------------------------------
+                0.00    0.00       1/1           (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[28]     0.0    0.00    0.00       1         std::vector<Particle, std::allocator<Particle> >::_M_default_initialize(unsigned long) [28]
+                0.00    0.00       1/1           Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long) [27]
+                0.00    0.00       2/2           Particle* std::__uninitialized_default_n<Particle*, unsigned long>(Particle*, unsigned long) [127]
+-----------------------------------------------
+                0.00    0.00    5000/5000        Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long) [27]
+[29]     0.0    0.00    0.00    5000         Particle::Particle() [29]
+                0.00    0.00   10000/286336      Vec3::Vec3() [22]
+-----------------------------------------------
+                             1019375             OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+                0.00    0.00    2997/2997        std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+[30]     0.0    0.00    0.00    2997+1019375 OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+                0.00    0.00  203875/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00  407750/543418      OctreeNode* std::__addressof<OctreeNode>(OctreeNode&) [59]
+                0.00    0.00  203875/203875      std::remove_reference<OctreeNode&>::type&& std::move<OctreeNode&>(OctreeNode&) [61]
+                0.00    0.00    2997/2997        OctreeNode* std::__niter_base<OctreeNode*>(OctreeNode*) [83]
+                             1019375             OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+-----------------------------------------------
+                0.00    0.00  135668/135668      OctreeNode* std::__uninitialized_default_n_1<false>::__uninit_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [23]
+[31]     0.0    0.00    0.00  135668         void std::_Construct<OctreeNode>(OctreeNode*) [31]
+                0.00    0.00  135668/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+-----------------------------------------------
+                0.00    0.00     100/17046       Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+                0.00    0.00   16946/17046       Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+[32]     0.0    0.00    0.00   17046         std::vector<OctreeNode, std::allocator<OctreeNode> >::resize(unsigned long) [32]
+                0.00    0.00   17046/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+-----------------------------------------------
+                0.00    0.00    5000/5000        Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long) [27]
+[33]     0.0    0.00    0.00    5000         void std::_Construct<Particle>(Particle*) [33]
+                0.00    0.00    5000/3515109     std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+-----------------------------------------------
+                                1998             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+                               16946             Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+[34]     0.0    0.00    0.00   18944         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+                0.00    0.00    1998/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00   16946/67784       int* std::__niter_base<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [66]
+                0.00    0.00    1998/2399        unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [84]
+                                3996             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+-----------------------------------------------
+                                 400             std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const <cycle 2> [38]
+                                 999             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+[35]     0.0    0.00    0.00    1399         std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+                0.00    0.00    1399/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00    1998/1998        std::vector<OctreeNode, std::allocator<OctreeNode> >::max_size() const [85]
+                0.00    0.00     999/1199        unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&) [86]
+                0.00    0.00     400/2399        unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [84]
+                                1998             __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+                                 800             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+-----------------------------------------------
+                0.00    0.00     100/100         compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+[36]     0.0    0.00    0.00     100         Octree::~Octree() [36]
+                0.00    0.00     600/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00     200/200         std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [102]
+                0.00    0.00     200/200         std::vector<int, std::allocator<int> >::~vector() [105]
+-----------------------------------------------
+                                 200             Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[37]     0.0    0.00    0.00     200         std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+                0.00    0.00     400/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00     400/400         int* std::__uninitialized_default_n<int*, unsigned long>(int*, unsigned long) [90]
+                0.00    0.00     400/51238       int* std::__niter_base<int*>(int*) [67]
+                0.00    0.00     200/200         int* std::fill_n<int*, unsigned long, int>(int*, unsigned long, int const&) [109]
+                                1000             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                                 200             std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const <cycle 2> [38]
+                                 200             int* std::__uninitialized_default_n_1<true>::__uninit_default_n<int*, unsigned long>(int*, unsigned long) <cycle 2> [103]
+-----------------------------------------------
+                                 200             std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+[38]     0.0    0.00    0.00     200         std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const <cycle 2> [38]
+                0.00    0.00     200/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+                0.00    0.00     400/400         std::vector<int, std::allocator<int> >::max_size() const [89]
+                0.00    0.00     200/1199        unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&) [86]
+                                 400             std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+-----------------------------------------------
+                0.00    0.00     200/200         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[39]     0.0    0.00    0.00     200         std::vector<int, std::allocator<int> >::resize(unsigned long) [39]
+                0.00    0.00     200/937959121     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [9]
+-----------------------------------------------
+                0.00    0.00     101/101         (anonymous namespace)::write_frames(_IO_FILE*, bool, std::vector<Particle, std::allocator<Particle> > const&, double&) [14]
+[40]     0.0    0.00    0.00     101         (anonymous namespace)::seconds_since(std::chrono::time_point<std::chrono::_V2::steady_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >) [40]
+                0.00    0.00     103/3515109     std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+                0.00    0.00     206/513         (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[41]     0.0    0.00    0.00     100         Vec3::operator+(Vec3 const&) const [41]
+                0.00    0.00     100/593114149     Vec3::Vec3(double, double, double) [11]
+-----------------------------------------------
+                0.00    0.00       1/1           (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[42]     0.0    0.00    0.00       1         std::vector<Particle, std::allocator<Particle> >::vector(unsigned long, std::allocator<Particle> const&) [42]
+                0.00    0.00       1/1           std::vector<Particle, std::allocator<Particle> >::max_size() const [44]
+                0.00    0.00       1/1           std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_base(unsigned long, std::allocator<Particle> const&) [46]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<Particle, std::allocator<Particle> >::max_size() const [44]
+[43]     0.0    0.00    0.00       1         write_particle_frame(_IO_FILE*, std::vector<Particle, std::allocator<Particle> > const&) [43]
+                0.00    0.00       3/3515109     std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+                0.00    0.00       1/2399        unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [84]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<Particle, std::allocator<Particle> >::vector(unsigned long, std::allocator<Particle> const&) [42]
+[44]     0.0    0.00    0.00       1         std::vector<Particle, std::allocator<Particle> >::max_size() const [44]
+                0.00    0.00       1/1           write_particle_frame(_IO_FILE*, std::vector<Particle, std::allocator<Particle> > const&) [43]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_base(unsigned long, std::allocator<Particle> const&) [46]
+[45]     0.0    0.00    0.00       1         std::_Vector_base<Particle, std::allocator<Particle> >::_M_create_storage(unsigned long) [45]
+                0.00    0.00       3/3515109     std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<Particle, std::allocator<Particle> >::vector(unsigned long, std::allocator<Particle> const&) [42]
+[46]     0.0    0.00    0.00       1         std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_base(unsigned long, std::allocator<Particle> const&) [46]
+                0.00    0.00       1/1           std::_Vector_base<Particle, std::allocator<Particle> >::_M_create_storage(unsigned long) [45]
+                0.00    0.00       1/1           std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl_data::_Vector_impl_data() [130]
+                0.00    0.00       1/1           std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl::_Vector_impl(std::allocator<Particle> const&) [129]
+-----------------------------------------------
+                0.00    0.00 2010402/2010402     bool __gnu_cxx::operator!=<Particle*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&) [57]
+[54]     0.0    0.00    0.00 2010402         __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::base() const [54]
+-----------------------------------------------
+                0.00    0.00 1500000/1500000     Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[55]     0.0    0.00    0.00 1500000         double const& std::max<double>(double const&, double const&) [55]
+-----------------------------------------------
+                0.00    0.00 1500000/1500000     Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[56]     0.0    0.00    0.00 1500000         double const& std::min<double>(double const&, double const&) [56]
+-----------------------------------------------
+                0.00    0.00    5001/1005201     (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+                0.00    0.00 1000200/1005201     leapfrog_step(std::vector<Particle, std::allocator<Particle> >&, Params const&) [1]
+[57]     0.0    0.00    0.00 1005201         bool __gnu_cxx::operator!=<Particle*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&) [57]
+                0.00    0.00 2010402/2010402     __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::base() const [54]
+-----------------------------------------------
+                0.00    0.00 1000200/1000200     bool __gnu_cxx::operator!=<Particle const*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&) [60]
+[58]     0.0    0.00    0.00 1000200         __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::base() const [58]
+-----------------------------------------------
+                0.00    0.00  135668/543418      OctreeNode* std::__uninitialized_default_n_1<false>::__uninit_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [23]
+                0.00    0.00  407750/543418      OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+[59]     0.0    0.00    0.00  543418         OctreeNode* std::__addressof<OctreeNode>(OctreeNode&) [59]
+-----------------------------------------------
+                0.00    0.00  500100/500100      Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[60]     0.0    0.00    0.00  500100         bool __gnu_cxx::operator!=<Particle const*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&) [60]
+                0.00    0.00 1000200/1000200     __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::base() const [58]
+-----------------------------------------------
+                0.00    0.00  203875/203875      OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+[61]     0.0    0.00    0.00  203875         std::remove_reference<OctreeNode&>::type&& std::move<OctreeNode&>(OctreeNode&) [61]
+-----------------------------------------------
+                0.00    0.00   50838/118622      std::vector<int, std::allocator<int> >::begin() [68]
+                0.00    0.00   67784/118622      Octree::Octree(double, double, int) [63]
+[62]     0.0    0.00    0.00  118622         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [62]
+-----------------------------------------------
+                0.00    0.00     100/101776      compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                0.00    0.00  101676/101776      Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+[63]     0.0    0.00    0.00  101776         Octree::Octree(double, double, int) [63]
+                0.00    0.00   67784/118622      __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [62]
+                0.00    0.00   50838/51238       int* std::__niter_base<int*>(int*) [67]
+                0.00    0.00   33892/33892       int* std::__miter_base<int*>(int*) [77]
+                0.00    0.00     200/200         std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data() [100]
+                0.00    0.00     200/200         std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [99]
+                0.00    0.00     200/200         std::_Vector_base<int, std::allocator<int> >::_Vector_base() [101]
+                0.00    0.00     200/200         std::vector<int, std::allocator<int> >::vector() [104]
+                0.00    0.00     100/100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl_data::_Vector_impl_data() [114]
+                0.00    0.00     100/100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl::_Vector_impl() [113]
+                0.00    0.00     100/100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_base() [115]
+                0.00    0.00     100/100         std::vector<OctreeNode, std::allocator<OctreeNode> >::vector() [119]
+                0.00    0.00     100/100         int const& std::max<int>(int const&, int const&) [123]
+-----------------------------------------------
+                               70000             double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+[64]     0.0    0.00    0.00   70000         make_particles(Params const&) <cycle 1> [64]
+                                   1             (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+-----------------------------------------------
+                0.00    0.00   67784/67784       int* std::__niter_base<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [66]
+[65]     0.0    0.00    0.00   67784         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [65]
+-----------------------------------------------
+                0.00    0.00   16946/67784       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+                0.00    0.00   50838/67784       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [80]
+[66]     0.0    0.00    0.00   67784         int* std::__niter_base<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [66]
+                0.00    0.00   67784/67784       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [65]
+-----------------------------------------------
+                                 600             int* std::__niter_base<int*>(int*) [67]
+                0.00    0.00     400/51238       std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+                0.00    0.00   50838/51238       Octree::Octree(double, double, int) [63]
+[67]     0.0    0.00    0.00   51238+600     int* std::__niter_base<int*>(int*) [67]
+                                 600             int* std::__niter_base<int*>(int*) [67]
+-----------------------------------------------
+                0.00    0.00   50838/50838       Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+[68]     0.0    0.00    0.00   50838         std::vector<int, std::allocator<int> >::begin() [68]
+                0.00    0.00   50838/118622      __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [62]
+-----------------------------------------------
+                0.00    0.00   35000/35000       double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+[69]     0.0    0.00    0.00   35000         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::min() [69]
+-----------------------------------------------
+                0.00    0.00   35000/35000       double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+[70]     0.0    0.00    0.00   35000         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::operator()() [70]
+                0.00    0.00     113/113         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::_M_gen_rand() [110]
+-----------------------------------------------
+                0.00    0.00   35000/35000       (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[71]     0.0    0.00    0.00   35000         double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) [71]
+-----------------------------------------------
+                0.00    0.00   35000/35000       double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+[72]     0.0    0.00    0.00   35000         std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) [72]
+-----------------------------------------------
+                               70000             double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+                               35000             (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[73]     0.0    0.00    0.00   35000+70000   double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+                0.00    0.00   35000/35000       std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::min() [69]
+                0.00    0.00   35000/35000       std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::operator()() [70]
+                0.00    0.00   35000/35000       std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) [72]
+                               70000             make_particles(Params const&) <cycle 1> [64]
+                               70000             double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) <cycle 1> [73]
+-----------------------------------------------
+                0.00    0.00   34092/34092       std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) <cycle 2> [20]
+[74]     0.0    0.00    0.00   34092         OctreeNode* std::__uninitialized_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [74]
+-----------------------------------------------
+                0.00    0.00   16946/33892       Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.00    0.00   16946/33892       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [80]
+[75]     0.0    0.00    0.00   33892         int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*) [75]
+-----------------------------------------------
+                0.00    0.00   33892/33892       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::copy<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [81]
+[76]     0.0    0.00    0.00   33892         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__miter_base<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [76]
+-----------------------------------------------
+                0.00    0.00   33892/33892       Octree::Octree(double, double, int) [63]
+[77]     0.0    0.00    0.00   33892         int* std::__miter_base<int*>(int*) [77]
+-----------------------------------------------
+                0.00    0.00   16946/33892       Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.00    0.00   16946/33892       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [80]
+[78]     0.0    0.00    0.00   33892         int* std::__copy_move_a1<false, int*, int*>(int*, int*, int*) [78]
+-----------------------------------------------
+                0.00    0.00   16946/33892       Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+                0.00    0.00   16946/33892       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [80]
+[79]     0.0    0.00    0.00   33892         int* std::__copy_move_a2<false, int*, int*>(int*, int*, int*) [79]
+-----------------------------------------------
+                0.00    0.00   16946/16946       Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+[80]     0.0    0.00    0.00   16946         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [80]
+                0.00    0.00   50838/67784       int* std::__niter_base<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [66]
+                0.00    0.00   16946/33892       int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*) [75]
+                0.00    0.00   16946/33892       int* std::__copy_move_a2<false, int*, int*>(int*, int*, int*) [79]
+                0.00    0.00   16946/33892       int* std::__copy_move_a1<false, int*, int*>(int*, int*, int*) [78]
+-----------------------------------------------
+                0.00    0.00   16946/16946       Octree::build_subtree(int, int, int, Vec3 const&, double, int) <cycle 2> [19]
+[81]     0.0    0.00    0.00   16946         __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::copy<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [81]
+                0.00    0.00   33892/33892       __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__miter_base<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >) [76]
+-----------------------------------------------
+                0.00    0.00    5000/5000        Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long) [27]
+[82]     0.0    0.00    0.00    5000         Particle* std::__addressof<Particle>(Particle&) [82]
+-----------------------------------------------
+                0.00    0.00    2997/2997        OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&) [30]
+[83]     0.0    0.00    0.00    2997         OctreeNode* std::__niter_base<OctreeNode*>(OctreeNode*) [83]
+-----------------------------------------------
+                0.00    0.00       1/2399        write_particle_frame(_IO_FILE*, std::vector<Particle, std::allocator<Particle> > const&) [43]
+                0.00    0.00     400/2399        std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+                0.00    0.00    1998/2399        __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*) <cycle 2> [34]
+[84]     0.0    0.00    0.00    2399         unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&) [84]
+-----------------------------------------------
+                0.00    0.00    1998/1998        std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+[85]     0.0    0.00    0.00    1998         std::vector<OctreeNode, std::allocator<OctreeNode> >::max_size() const [85]
+-----------------------------------------------
+                0.00    0.00     200/1199        std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const <cycle 2> [38]
+                0.00    0.00     999/1199        std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const <cycle 2> [35]
+[86]     0.0    0.00    0.00    1199         unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&) [86]
+-----------------------------------------------
+                                 515             (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+                0.00    0.00     101/513         (anonymous namespace)::write_frames(_IO_FILE*, bool, std::vector<Particle, std::allocator<Particle> > const&, double&) [14]
+                0.00    0.00     103/513         std::chrono::duration<double, std::ratio<1l, 1l> >::duration<double, void>(double const&) [95]
+                0.00    0.00     103/513         std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+                0.00    0.00     206/513         (anonymous namespace)::seconds_since(std::chrono::time_point<std::chrono::_V2::steady_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >) [40]
+[87]     0.0    0.00    0.00     513+515     (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+                0.00    0.00       4/4           (anonymous namespace)::take_option_value(int&, int, char**, char const*&) [124]
+                0.00    0.00       1/1           (anonymous namespace)::parse_solver(char const*, Solver&) [128]
+                                 515             (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+-----------------------------------------------
+                0.00    0.00     201/402         std::vector<Particle, std::allocator<Particle> >::begin() [97]
+                0.00    0.00     201/402         std::vector<Particle, std::allocator<Particle> >::end() [96]
+[88]     0.0    0.00    0.00     402         __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle* const&) [88]
+-----------------------------------------------
+                0.00    0.00     400/400         std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const <cycle 2> [38]
+[89]     0.0    0.00    0.00     400         std::vector<int, std::allocator<int> >::max_size() const [89]
+-----------------------------------------------
+                0.00    0.00     400/400         std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+[90]     0.0    0.00    0.00     400         int* std::__uninitialized_default_n<int*, unsigned long>(int*, unsigned long) [90]
+-----------------------------------------------
+                0.00    0.00     312/312         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long) [131]
+[91]     0.0    0.00    0.00     312         std::__detail::_Mod<unsigned long, 0ul, 1ul, 0ul, true, false>::__calc(unsigned long) [91]
+-----------------------------------------------
+                0.00    0.00     312/312         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long) [131]
+[92]     0.0    0.00    0.00     312         unsigned long std::__detail::__mod<unsigned long, 0ul, 1ul, 0ul>(unsigned long) [92]
+-----------------------------------------------
+                0.00    0.00     311/311         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long) [131]
+[93]     0.0    0.00    0.00     311         std::__detail::_Mod<unsigned long, 312ul, 1ul, 0ul, true, true>::__calc(unsigned long) [93]
+-----------------------------------------------
+                0.00    0.00     311/311         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long) [131]
+[94]     0.0    0.00    0.00     311         unsigned long std::__detail::__mod<unsigned long, 312ul, 1ul, 0ul>(unsigned long) [94]
+-----------------------------------------------
+                                 103             std::chrono::duration<double, std::ratio<1l, 1l> >::duration<double, void>(double const&) [95]
+                0.00    0.00     206/206         std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [21]
+[95]     0.0    0.00    0.00     206+103     std::chrono::duration<double, std::ratio<1l, 1l> >::duration<double, void>(double const&) [95]
+                0.00    0.00     103/513         (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+                                 103             std::chrono::duration<double, std::ratio<1l, 1l> >::duration<double, void>(double const&) [95]
+-----------------------------------------------
+                0.00    0.00       1/201         (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+                0.00    0.00     200/201         leapfrog_step(std::vector<Particle, std::allocator<Particle> >&, Params const&) [1]
+[96]     0.0    0.00    0.00     201         std::vector<Particle, std::allocator<Particle> >::end() [96]
+                0.00    0.00     201/402         __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle* const&) [88]
+-----------------------------------------------
+                0.00    0.00       1/201         (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+                0.00    0.00     200/201         leapfrog_step(std::vector<Particle, std::allocator<Particle> >&, Params const&) [1]
+[97]     0.0    0.00    0.00     201         std::vector<Particle, std::allocator<Particle> >::begin() [97]
+                0.00    0.00     201/402         __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle* const&) [88]
+-----------------------------------------------
+                0.00    0.00     100/200         std::vector<Particle, std::allocator<Particle> >::begin() const [112]
+                0.00    0.00     100/200         std::vector<Particle, std::allocator<Particle> >::end() const [111]
+[98]     0.0    0.00    0.00     200         __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle const* const&) [98]
+-----------------------------------------------
+                0.00    0.00     200/200         Octree::Octree(double, double, int) [63]
+[99]     0.0    0.00    0.00     200         std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [99]
+-----------------------------------------------
+                0.00    0.00     200/200         Octree::Octree(double, double, int) [63]
+[100]    0.0    0.00    0.00     200         std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data() [100]
+-----------------------------------------------
+                0.00    0.00     200/200         Octree::Octree(double, double, int) [63]
+[101]    0.0    0.00    0.00     200         std::_Vector_base<int, std::allocator<int> >::_Vector_base() [101]
+-----------------------------------------------
+                0.00    0.00     200/200         Octree::~Octree() [36]
+[102]    0.0    0.00    0.00     200         std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [102]
+-----------------------------------------------
+                                 200             std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+[103]    0.0    0.00    0.00     200         int* std::__uninitialized_default_n_1<true>::__uninit_default_n<int*, unsigned long>(int*, unsigned long) <cycle 2> [103]
+                0.00    0.00     200/200         int* std::__addressof<int>(int&) [107]
+                                 200             void std::_Construct<int>(int*) <cycle 2> [106]
+-----------------------------------------------
+                0.00    0.00     200/200         Octree::Octree(double, double, int) [63]
+[104]    0.0    0.00    0.00     200         std::vector<int, std::allocator<int> >::vector() [104]
+-----------------------------------------------
+                0.00    0.00     200/200         Octree::~Octree() [36]
+[105]    0.0    0.00    0.00     200         std::vector<int, std::allocator<int> >::~vector() [105]
+-----------------------------------------------
+                                 200             int* std::__uninitialized_default_n_1<true>::__uninit_default_n<int*, unsigned long>(int*, unsigned long) <cycle 2> [103]
+[106]    0.0    0.00    0.00     200         void std::_Construct<int>(int*) <cycle 2> [106]
+                                 200             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+-----------------------------------------------
+                0.00    0.00     200/200         int* std::__uninitialized_default_n_1<true>::__uninit_default_n<int*, unsigned long>(int*, unsigned long) <cycle 2> [103]
+[107]    0.0    0.00    0.00     200         int* std::__addressof<int>(int&) [107]
+-----------------------------------------------
+                0.00    0.00     200/200         int* std::fill_n<int*, unsigned long, int>(int*, unsigned long, int const&) [109]
+[108]    0.0    0.00    0.00     200         std::__size_to_integer(unsigned long) [108]
+-----------------------------------------------
+                0.00    0.00     200/200         std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) <cycle 2> [37]
+[109]    0.0    0.00    0.00     200         int* std::fill_n<int*, unsigned long, int>(int*, unsigned long, int const&) [109]
+                0.00    0.00     200/200         std::__size_to_integer(unsigned long) [108]
+-----------------------------------------------
+                0.00    0.00     113/113         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::operator()() [70]
+[110]    0.0    0.00    0.00     113         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::_M_gen_rand() [110]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[111]    0.0    0.00    0.00     100         std::vector<Particle, std::allocator<Particle> >::end() const [111]
+                0.00    0.00     100/200         __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle const* const&) [98]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[112]    0.0    0.00    0.00     100         std::vector<Particle, std::allocator<Particle> >::begin() const [112]
+                0.00    0.00     100/200         __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle const* const&) [98]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::Octree(double, double, int) [63]
+[113]    0.0    0.00    0.00     100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl::_Vector_impl() [113]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::Octree(double, double, int) [63]
+[114]    0.0    0.00    0.00     100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl_data::_Vector_impl_data() [114]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::Octree(double, double, int) [63]
+[115]    0.0    0.00    0.00     100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_base() [115]
+-----------------------------------------------
+                0.00    0.00     100/100         compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+[116]    0.0    0.00    0.00     100         std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::~_Vector_base() [116]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[117]    0.0    0.00    0.00     100         std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_erase_at_end(OctreeNode*) [117]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[118]    0.0    0.00    0.00     100         std::vector<OctreeNode, std::allocator<OctreeNode> >::clear() [118]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::Octree(double, double, int) [63]
+[119]    0.0    0.00    0.00     100         std::vector<OctreeNode, std::allocator<OctreeNode> >::vector() [119]
+-----------------------------------------------
+                0.00    0.00     100/100         compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+[120]    0.0    0.00    0.00     100         std::vector<OctreeNode, std::allocator<OctreeNode> >::~vector() [120]
+-----------------------------------------------
+                                 100             double std::max<double>(std::initializer_list<double>) <cycle 2> [122]
+[121]    0.0    0.00    0.00     100         double const* std::__max_element<double const*, __gnu_cxx::__ops::_Iter_less_iter>(double const*, double const*, __gnu_cxx::__ops::_Iter_less_iter) <cycle 2> [121]
+                                 200             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+-----------------------------------------------
+                                 100             Octree::build(std::vector<Particle, std::allocator<Particle> > const&) <cycle 2> [17]
+[122]    0.0    0.00    0.00     100         double std::max<double>(std::initializer_list<double>) <cycle 2> [122]
+                                 200             compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) <cycle 2> [3]
+                                 100             double const* std::__max_element<double const*, __gnu_cxx::__ops::_Iter_less_iter>(double const*, double const*, __gnu_cxx::__ops::_Iter_less_iter) <cycle 2> [121]
+-----------------------------------------------
+                0.00    0.00     100/100         Octree::Octree(double, double, int) [63]
+[123]    0.0    0.00    0.00     100         int const& std::max<int>(int const&, int const&) [123]
+-----------------------------------------------
+                0.00    0.00       4/4           (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+[124]    0.0    0.00    0.00       4         (anonymous namespace)::take_option_value(int&, int, char**, char const*&) [124]
+-----------------------------------------------
+                0.00    0.00       3/3           (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[125]    0.0    0.00    0.00       3         std::uniform_real_distribution<double>::param_type::param_type(double, double) [125]
+-----------------------------------------------
+                0.00    0.00       3/3           (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[126]    0.0    0.00    0.00       3         std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [126]
+-----------------------------------------------
+                0.00    0.00       2/2           std::vector<Particle, std::allocator<Particle> >::_M_default_initialize(unsigned long) [28]
+[127]    0.0    0.00    0.00       2         Particle* std::__uninitialized_default_n<Particle*, unsigned long>(Particle*, unsigned long) [127]
+-----------------------------------------------
+                0.00    0.00       1/1           (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) [87]
+[128]    0.0    0.00    0.00       1         (anonymous namespace)::parse_solver(char const*, Solver&) [128]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_base(unsigned long, std::allocator<Particle> const&) [46]
+[129]    0.0    0.00    0.00       1         std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl::_Vector_impl(std::allocator<Particle> const&) [129]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_base(unsigned long, std::allocator<Particle> const&) [46]
+[130]    0.0    0.00    0.00       1         std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl_data::_Vector_impl_data() [130]
+-----------------------------------------------
+                0.00    0.00       1/1           (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[131]    0.0    0.00    0.00       1         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long) [131]
+                0.00    0.00     312/312         std::__detail::_Mod<unsigned long, 0ul, 1ul, 0ul, true, false>::__calc(unsigned long) [91]
+                0.00    0.00     312/312         unsigned long std::__detail::__mod<unsigned long, 0ul, 1ul, 0ul>(unsigned long) [92]
+                0.00    0.00     311/311         std::__detail::_Mod<unsigned long, 312ul, 1ul, 0ul, true, true>::__calc(unsigned long) [93]
+                0.00    0.00     311/311         unsigned long std::__detail::__mod<unsigned long, 312ul, 1ul, 0ul>(unsigned long) [94]
+-----------------------------------------------
+                0.00    0.00       1/1           (anonymous namespace)::make_plummer(Params const&) <cycle 1> [26]
+[132]    0.0    0.00    0.00       1         std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::mersenne_twister_engine(unsigned long) [132]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [64] make_particles(Params const&) [89] std::vector<int, std::allocator<int> >::max_size() const [105] std::vector<int, std::allocator<int> >::~vector()
+  [43] write_particle_frame(_IO_FILE*, std::vector<Particle, std::allocator<Particle> > const&) [75] int* std::__copy_move<false, true, std::random_access_iterator_tag>::__copy_m<int>(int const*, int const*, int*) [91] std::__detail::_Mod<unsigned long, 0ul, 1ul, 0ul, true, false>::__calc(unsigned long)
+   [3] compute_tree_accelerations(std::vector<Particle, std::allocator<Particle> >&, Params const&) [113] std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl::_Vector_impl() [93] std::__detail::_Mod<unsigned long, 312ul, 1ul, 0ul, true, true>::__calc(unsigned long)
+  [24] OctreeNode::OctreeNode() [114] std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_impl_data::_Vector_impl_data() [92] unsigned long std::__detail::__mod<unsigned long, 0ul, 1ul, 0ul>(unsigned long)
+  [26] (anonymous namespace)::make_plummer(Params const&) (nbody.cpp) [115] std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::_Vector_base() [94] unsigned long std::__detail::__mod<unsigned long, 312ul, 1ul, 0ul>(unsigned long)
+ [128] (anonymous namespace)::parse_solver(char const*, Solver&) (main.cpp) [116] std::_Vector_base<OctreeNode, std::allocator<OctreeNode> >::~_Vector_base() [72] std::__detail::_Adaptor<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>, double>::_Adaptor(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&)
+  [14] (anonymous namespace)::write_frames(_IO_FILE*, bool, std::vector<Particle, std::allocator<Particle> > const&, double&) (main.cpp) [129] std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl::_Vector_impl(std::allocator<Particle> const&) [31] void std::_Construct<OctreeNode>(OctreeNode*)
+  [40] (anonymous namespace)::seconds_since(std::chrono::time_point<std::chrono::_V2::steady_clock, std::chrono::duration<long, std::ratio<1l, 1000000000l> > >) (main.cpp) [45] std::_Vector_base<Particle, std::allocator<Particle> >::_M_create_storage(unsigned long) [33] void std::_Construct<Particle>(Particle*)
+ [124] (anonymous namespace)::take_option_value(int&, int, char**, char const*&) (main.cpp) [130] std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_impl_data::_Vector_impl_data() [106] void std::_Construct<int>(int*)
+  [87] (anonymous namespace)::parse_initial_condition(char const*, InitialCondition&) (main.cpp) [46] std::_Vector_base<Particle, std::allocator<Particle> >::_Vector_base(unsigned long, std::allocator<Particle> const&) [59] OctreeNode* std::__addressof<OctreeNode>(OctreeNode&)
+  [11] Vec3::Vec3(double, double, double) [99] std::_Vector_base<int, std::allocator<int> >::_Vector_impl::_Vector_impl() [82] Particle* std::__addressof<Particle>(Particle&)
+  [22] Vec3::Vec3()          [100] std::_Vector_base<int, std::allocator<int> >::_Vector_impl_data::_Vector_impl_data() [107] int* std::__addressof<int>(int&)
+  [19] Octree::build_subtree(int, int, int, Vec3 const&, double, int) [101] std::_Vector_base<int, std::allocator<int> >::_Vector_base() [76] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__miter_base<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [18] Octree::compute_multipoles(int) [102] std::_Vector_base<int, std::allocator<int> >::~_Vector_base() [77] int* std::__miter_base<int*>(int*)
+  [15] Octree::child_index_containing(Vec3 const&, Vec3 const&) [110] std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::_M_gen_rand() [83] OctreeNode* std::__niter_base<OctreeNode*>(OctreeNode*)
+  [17] Octree::build(std::vector<Particle, std::allocator<Particle> > const&) [69] std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::min() [67] int* std::__niter_base<int*>(int*)
+  [63] Octree::Octree(double, double, int) [131] std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::seed(unsigned long) [66] int* std::__niter_base<int*, std::vector<int, std::allocator<int> > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [36] Octree::~Octree()     [132] std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::mersenne_twister_engine(unsigned long) [34] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__niter_wrap<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*>(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, int*)
+  [29] Particle::Particle()   [70] std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>::operator()() [80] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::__copy_move_a<false, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [88] __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle* const&) [125] std::uniform_real_distribution<double>::param_type::param_type(double, double) [121] double const* std::__max_element<double const*, __gnu_cxx::__ops::_Iter_less_iter>(double const*, double const*, __gnu_cxx::__ops::_Iter_less_iter)
+  [98] __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::__normal_iterator(Particle const* const&) [126] std::uniform_real_distribution<double>::uniform_real_distribution(double, double) [78] int* std::__copy_move_a1<false, int*, int*>(int*, int*, int*)
+  [62] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::__normal_iterator(int* const&) [71] double std::uniform_real_distribution<double>::operator()<std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&) [79] int* std::__copy_move_a2<false, int*, int*>(int*, int*, int*)
+  [57] bool __gnu_cxx::operator!=<Particle*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > const&) [23] OctreeNode* std::__uninitialized_default_n_1<false>::__uninit_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long) [108] std::__size_to_integer(unsigned long)
+  [60] bool __gnu_cxx::operator!=<Particle const*, std::vector<Particle, std::allocator<Particle> > >(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&, __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > > const&) [27] Particle* std::__uninitialized_default_n_1<false>::__uninit_default_n<Particle*, unsigned long>(Particle*, unsigned long) [73] double std::generate_canonical<double, 53ul, std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul> >(std::mersenne_twister_engine<unsigned long, 64ul, 312ul, 156ul, 31ul, 13043109905998158313ul, 29ul, 6148914691236517205ul, 17ul, 8202884508482404352ul, 37ul, 18444473444759240704ul, 43ul, 6364136223846793005ul>&)
+  [13] Vec3::length_squared() const [103] int* std::__uninitialized_default_n_1<true>::__uninit_default_n<int*, unsigned long>(int*, unsigned long) [16] std::__is_constant_evaluated()
+  [10] Vec3::dot(Vec3 const&) const [21] std::chrono::duration<double, std::ratio<1l, 1l> >::duration<long, std::ratio<1l, 1000000000l>, void>(std::chrono::duration<long, std::ratio<1l, 1000000000l> > const&) [74] OctreeNode* std::__uninitialized_default_n<OctreeNode*, unsigned long>(OctreeNode*, unsigned long)
+   [8] Vec3::operator-(Vec3 const&) const [95] std::chrono::duration<double, std::ratio<1l, 1l> >::duration<double, void>(double const&) [127] Particle* std::__uninitialized_default_n<Particle*, unsigned long>(Particle*, unsigned long)
+  [12] Vec3::operator*(double) const [117] std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_erase_at_end(OctreeNode*) [90] int* std::__uninitialized_default_n<int*, unsigned long>(int*, unsigned long)
+  [41] Vec3::operator+(Vec3 const&) const [20] std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_default_append(unsigned long) [55] double const& std::max<double>(double const&, double const&)
+   [7] Octree::add_approximate_force(Vec3&, OctreeNode const&, Vec3 const&) const [118] std::vector<OctreeNode, std::allocator<OctreeNode> >::clear() [122] double std::max<double>(std::initializer_list<double>)
+   [4] Octree::compute_accelerations(std::vector<Particle, std::allocator<Particle> >&) const [32] std::vector<OctreeNode, std::allocator<OctreeNode> >::resize(unsigned long) [123] int const& std::max<int>(int const&, int const&)
+   [5] Octree::add_forces_from_subtree(int, int, Vec3 const&, Vec3&, bool) const [119] std::vector<OctreeNode, std::allocator<OctreeNode> >::vector() [86] unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&)
+   [6] Octree::add_forces_from_leaf_particles(int, int, int, Vec3 const&, Vec3&) const [120] std::vector<OctreeNode, std::allocator<OctreeNode> >::~vector() [56] double const& std::min<double>(double const&, double const&)
+  [54] __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >::base() const [28] std::vector<Particle, std::allocator<Particle> >::_M_default_initialize(unsigned long) [84] unsigned long const& std::min<unsigned long>(unsigned long const&, unsigned long const&)
+  [58] __gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >::base() const [96] std::vector<Particle, std::allocator<Particle> >::end() [81] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > std::copy<__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > > >(__gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >, __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >)
+  [65] __gnu_cxx::__normal_iterator<int*, std::vector<int, std::allocator<int> > >::base() const [97] std::vector<Particle, std::allocator<Particle> >::begin() [61] std::remove_reference<OctreeNode&>::type&& std::move<OctreeNode&>(OctreeNode&)
+  [35] std::vector<OctreeNode, std::allocator<OctreeNode> >::_M_check_len(unsigned long, char const*) const [9] __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > > std::vector<Particle, std::allocator<Particle> >::insert<__gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, void>(__gnu_cxx::__normal_iterator<Particle const*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >, __gnu_cxx::__normal_iterator<Particle*, std::vector<Particle, std::allocator<Particle> > >) [109] int* std::fill_n<int*, unsigned long, int>(int*, unsigned long, int const&)
+  [85] std::vector<OctreeNode, std::allocator<OctreeNode> >::max_size() const [42] std::vector<Particle, std::allocator<Particle> >::vector(unsigned long, std::allocator<Particle> const&) [30] OctreeNode&& std::forward<OctreeNode>(std::remove_reference<OctreeNode>::type&)
+ [111] std::vector<Particle, std::allocator<Particle> >::end() const [37] std::vector<int, std::allocator<int> >::_M_default_append(unsigned long) (25) <cycle 1>
+ [112] std::vector<Particle, std::allocator<Particle> >::begin() const [68] std::vector<int, std::allocator<int> >::begin() [2] <cycle 2>
+  [44] std::vector<Particle, std::allocator<Particle> >::max_size() const [39] std::vector<int, std::allocator<int> >::resize(unsigned long)
+  [38] std::vector<int, std::allocator<int> >::_M_check_len(unsigned long, char const*) const [104] std::vector<int, std::allocator<int> >::vector()
