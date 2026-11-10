@@ -1,0 +1,12 @@
+Barnes-Hut force error, N=2000, softening=0
+  theta   L2 rel. error   max rel. error   interactions/particle
+  0.2     1.032e-04        4.740e-03         1151.3
+  0.5     2.087e-03        8.823e-02         255.1
+  0.8     9.318e-03        3.002e-01         92.3
+  1.0     1.930e-02        1.230e+00         56.8
+  2.0     9.419e-02        7.694e+00         24.9
+  100.0     1.025e-01        7.694e+00         24.8
+Plummer, eps=0.2, theta=0.5 L2 rel. error 3.048e-03
+two-body circular orbit, dt=0.01, 10000 steps
+  energy drift 2.498e-09, worst radius error 5.000e-05
+all checks passed

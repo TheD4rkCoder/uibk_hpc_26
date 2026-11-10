@@ -1,0 +1,15 @@
+BENCH solver=direct ic=cube n=5000 steps=20 theta=100.0000 quad=0 sim_s=4.500878 io_s=0.000001
+
+ Performance counter stats for './nbody --solver direct --n 5000 --steps 20 --quiet':
+
+    13,695,241,101      cycles:u                                                    
+    12,756,554,182      instructions:u            #    0.93  insn per cycle         
+       500,701,836      branches:u                                                  
+           131,139      branch-misses:u           #    0.03% of all branches        
+
+       4.506705434 seconds time elapsed
+
+       4.488333000 seconds user
+       0.000982000 seconds sys
+
+
